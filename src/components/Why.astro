@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import { flexible } from '../data/home';
+---
+
+<section class="section section--soft why">
+  <div class="container why__inner">
+    <div>
+      <span class="pill" data-reveal>Why Payfuture</span>
+      <h2 class="h2 h2--xl" data-split>Connecting emerging markets with the world</h2>
+      <p data-reveal>
+        Payfuture supports online and cross-border payment solutions across key international markets including India,
+        Nigeria, Brazil, Egypt, Pakistan, Kenya, and South Africa—enabling businesses to scale payments globally while
+        offering local payment methods.
+      </p>
+      <p data-reveal>
+        Our focus is on high-population, underbanked regions where governments are driving financial inclusion and
+        reducing cash dependency. By bridging the gap between global merchants and local markets, we fuel rapid growth
+        in online payments and empower businesses to thrive in these dynamic economies.
+      </p>
+    </div>
+    <div class="why__visual" data-reveal="right">
+      <canvas data-lottie="/img/why.lottie" aria-label="Payfuture connecting merchants to local markets" role="img"
+      ></canvas>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="solutions">
+  <div class="container">
+    <header class="section__head">
+      <h2 class="h2" data-split>Flexible payment solutions for B2B and enterprise models</h2>
+      <p class="lead" data-reveal>
+        Payfuture delivers B2B payment solutions and enterprise payment infrastructure that help businesses collect,
+        move, and manage funds across local and international markets.
+      </p>
+    </header>
+    <div class="grid grid--3">
+      {
+        flexible.map((f) => (
+          <article class="card" data-reveal>
+            <span class="icon-tile">
+              <Icon name={f.icon} size={22} />
+            </span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+            <a class="btn" href="#solutions">
+              Learn more
+              <Icon name="arrow" size={18} />
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

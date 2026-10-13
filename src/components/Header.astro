@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { nav } from '../data/home';
+---
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<div class="announce" data-announce>
+  <p>
+    <a href="#solutions">Explore mass payouts to emerging markets <strong>here</strong></a>
+  </p>
+  <button class="announce__close" type="button" aria-label="Dismiss announcement" data-announce-close>
+    <Icon name="close" size={14} />
+  </button>
+</div>
+
+<header class="header" data-header>
+  <div class="container header__inner">
+    <a class="header__logo" href="#top" aria-label="Payfuture home">
+      <img src="/img/logo.svg" alt="Payfuture" width="190" height="50" />
+    </a>
+
+    <nav class="nav" aria-label="Main" data-nav>
+      <ul class="nav__list">
+        {
+          nav.map((item) => (
+            <li class="nav__item">
+              <a class="nav__link" href={item.href}>
+                {item.label}
+                <Icon name="down" size={16} />
+              </a>
+              <div class={`nav__panel${item.links.length > 8 ? ' nav__panel--wide' : ''}`}>
+                <ul>
+                  {item.links.map((link) => (
+                    <li>
+                      <a href={item.href}>{link}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn" href="#contact">Contact sales</a>
+    </nav>
+
+    <button class="header__toggle" type="button" aria-label="Toggle menu" aria-expanded="false" data-nav-toggle>
+      <Icon name="menu" size={26} class="icon-open" />
+      <Icon name="close" size={26} class="icon-close" />
+    </button>
+  </div>
+</header>

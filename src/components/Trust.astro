@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { trustLogos, features } from '../data/home';
+---
+
+<section class="trust">
+  <p class="trust__title" data-reveal>Trusted by businesses that move money at scale</p>
+  <div class="marquee" data-reveal>
+    <div class="marquee__track">
+      {
+        [0, 1].map((set) =>
+          trustLogos.map((logo) => (
+            <div class="marquee__item" aria-hidden={set === 1 ? 'true' : undefined}>
+              <img src={logo.src} alt={set === 0 ? logo.name : ''} loading="lazy" />
+            </div>
+          )),
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container grid grid--4">
+    {
+      features.map((f) => (
+        <article class="card" data-reveal>
+          <span class="icon-tile">
+            <Icon name={f.icon} size={22} />
+          </span>
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+          <a class="btn" href="#solutions">
+            Learn more
+            <Icon name="arrow" size={18} />
+          </a>
+        </article>
+      ))
+    }
+  </div>
+</section>

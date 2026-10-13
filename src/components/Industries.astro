@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+import { industries, partners, stats, highlights } from '../data/home';
+---
+
+<section class="section section--soft" id="industries">
+  <div class="container">
+    <header class="section__head">
+      <h2 class="h2" data-split>Businesses we empower</h2>
+      <p class="lead" data-reveal>
+        We support businesses across e-commerce, platforms, travel, and regulated industries that require reliable
+        online and international payment solutions like payment processing and payment gateways.
+      </p>
+    </header>
+
+    <div class="grid grid--5">
+      {
+        industries.map((item) => (
+          <a class="industry" href="#industries" data-reveal>
+            <span class="industry__img">
+              <img src={item.img} alt="" loading="lazy" />
+            </span>
+            <span class="industry__name">
+              {item.name}
+              <span class="industry__arrow">
+                <Icon name="arrow" size={16} />
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="partners__title" data-reveal>
+      We collaborate with industry partners to extend our reach and enhance payment solutions
+    </p>
+    <ul class="partners" data-reveal>
+      {
+        partners.map((p) => (
+          <li>
+            <img src={p.icon} alt="" width="40" height="40" loading="lazy" />
+            {p.name}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <header class="section__head section__head--narrow">
+      <h2 class="h2" data-split>Turn complex markets into growth opportunities</h2>
+      <p data-reveal>
+        Our payment solution connects you to popular payment options in each region. Leverage our local expertise to
+        enter emerging markets with the most popular payment methods
+      </p>
+    </header>
+
+    <ul class="stats">
+      {
+        stats.map((s) => (
+          <li data-reveal>
+            <strong>
+              <span data-count={s.value} data-decimals={s.decimals}>
+                {s.value}
+              </span>
+              {s.suffix}
+            </strong>
+            <span>{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="ticker" aria-label="Platform highlights">
+    <div class="ticker__track">
+      {
+        [0, 1, 2].map((set) =>
+          highlights.map((h) => (
+            <span class="ticker__item" aria-hidden={set > 0 ? 'true' : undefined}>
+              <Icon name="check" size={16} />
+              {h}
+            </span>
+          )),
+        )
+      }
+    </div>
+  </div>
+</section>
