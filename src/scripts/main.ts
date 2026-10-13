@@ -309,17 +309,46 @@ function initPointerEffects() {
     gsap.set(float, { xPercent: -50, yPercent: -50, scale: 0.6 });
     const xTo = gsap.quickTo(float, 'x', { duration: 0.6, ease: 'power3.out' });
     const yTo = gsap.quickTo(float, 'y', { duration: 0.6, ease: 'power3.out' });
-    list.addEventListener('pointermove', (e) => {
+    const rows = $$('[data-row]', list);
+    let activeRow: HTMLElement | null = null;
+    let pointer = { x: -1, y: -1 };
+
+    const setRow = (row: HTMLElement | null) => {
+      if (row === activeRow) return;
+      activeRow = row;
+      if (!row) {
+        gsap.to(float, { opacity: 0, scale: 0.6, duration: 0.3, overwrite: 'auto' });
+        return;
+      }
+      img.src = row.dataset.row!;
+      gsap.to(float, {
+        opacity: 1,
+        scale: 1,
+        rotate: rows.indexOf(row) % 2 ? 5 : -5,
+        duration: 0.5,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      });
+    };
+
+    // Resolve the row from the pointer position, so the photo also clears when the page
+    // scrolls out from under a still pointer (no pointerleave fires in that case).
+    const sync = () => {
+      const under = pointer.x < 0 ? null : document.elementFromPoint(pointer.x, pointer.y);
+      setRow(under?.closest<HTMLElement>('[data-row]') ?? null);
+    };
+
+    window.addEventListener('pointermove', (e) => {
+      pointer = { x: e.clientX, y: e.clientY };
       xTo(e.clientX + 200);
       yTo(e.clientY);
+      sync();
     });
-    $$('[data-row]', list).forEach((row, i) =>
-      row.addEventListener('pointerenter', () => {
-        img.src = row.dataset.row!;
-        gsap.to(float, { opacity: 1, scale: 1, rotate: i % 2 ? 5 : -5, duration: 0.5, ease: 'power3.out' });
-      }),
-    );
-    list.addEventListener('pointerleave', () => gsap.to(float, { opacity: 0, scale: 0.6, duration: 0.4 }));
+    window.addEventListener('scroll', sync, { passive: true });
+    document.addEventListener('pointerleave', () => {
+      pointer = { x: -1, y: -1 };
+      setRow(null);
+    });
   }
 }
 
