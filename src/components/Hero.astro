@@ -1,90 +1,129 @@
 ---
 import Icon from './Icon.astro';
-import { heroSlides } from '../data/home';
+import { heroSlides, trustLogos } from '../data/home';
+
+// Each headline pill cycles through the hero photos, starting on a different one.
+const pillA = heroSlides;
+const pillB = [...heroSlides.slice(2), ...heroSlides.slice(0, 2)];
 ---
 
-<section class="hero" id="top">
-  <div class="hero__panel">
-    <svg class="hero__rails" viewBox="0 0 960 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g class="rails-base">
-        <path d="M-40 520 C 220 420, 420 560, 1000 300" />
-        <path d="M-40 140 C 260 260, 520 20, 1000 160" />
-        <path d="M-40 360 C 300 200, 620 460, 1000 440" />
-        <path d="M180 -40 C 260 220, 560 340, 620 640" />
-      </g>
-      <g class="rails-pulse">
-        <path pathLength="1000" d="M-40 520 C 220 420, 420 560, 1000 300" />
-        <path pathLength="1000" d="M-40 140 C 260 260, 520 20, 1000 160" />
-        <path pathLength="1000" d="M-40 360 C 300 200, 620 460, 1000 440" />
-        <path pathLength="1000" d="M180 -40 C 260 220, 560 340, 620 640" />
-      </g>
-    </svg>
+<section class="hero" id="top" data-hero>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true" data-hero-glow></div>
+  <svg class="hero__rails" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="rails-base">
+      <path d="M-60 700 C 300 560, 520 780, 1500 380"></path>
+      <path d="M-60 180 C 380 340, 760 20, 1500 220"></path>
+      <path d="M-60 460 C 420 260, 900 620, 1500 600"></path>
+    </g>
+    <g class="rails-pulse">
+      <path pathLength="1000" d="M-60 700 C 300 560, 520 780, 1500 380"></path>
+      <path pathLength="1000" d="M-60 180 C 380 340, 760 20, 1500 220"></path>
+      <path pathLength="1000" d="M-60 460 C 420 260, 900 620, 1500 600"></path>
+    </g>
+  </svg>
 
-    <div class="hero__content">
-      <h1 class="hero__title">
-        <span class="line"><span data-hero-line>Reach billions in</span></span>
-        <span class="line">
-          <span data-hero-line>
-            emerging markets
-            <svg class="hero__underline" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
-              <path pathLength="1" d="M2 8 C 60 2, 130 2, 180 6 S 270 9, 298 4" />
-            </svg>
-          </span>
+  <div class="container hero__inner">
+    <a class="announce" href="#solutions" data-hero-fade>
+      <span class="announce__dot"></span>
+      Explore mass payouts to emerging markets <strong>here</strong>
+      <Icon name="arrow" size={15} />
+    </a>
+
+    <h1 class="hero__title" aria-label="Reach billions in emerging markets">
+      <span class="hero__line" aria-hidden="true">
+        <span class="mask"><span data-hero-word>Reach</span></span>
+        <span class="photo-pill" data-pill>
+          {pillA.map((s) => <img src={s.src} alt="" />)}
         </span>
-      </h1>
-      <p class="hero__text" data-hero>
-        Payfuture provides business and enterprise payment solutions that help companies accept local payment methods,
-        manage online payments, and support international and cross-border transactions across high-growth markets.
-      </p>
-      <div data-hero>
-        <a class="btn btn--lg" href="#contact" data-magnetic>
-          Get started
-          <Icon name="arrow" size={18} />
-        </a>
-      </div>
+        <span class="mask"><span class="accent" data-hero-word>billions</span></span>
+        <span class="mask"><span data-hero-word>in</span></span>
+      </span>
+      <span class="hero__line" aria-hidden="true">
+        <span class="mask"><span data-hero-word>emerging</span></span>
+        <span class="photo-pill" data-pill>
+          {pillB.map((s) => <img src={s.src} alt="" />)}
+        </span>
+        <span class="mask"><span data-hero-word>markets</span></span>
+      </span>
+    </h1>
+
+    <p class="hero__text" data-hero-fade>
+      Payfuture provides business and enterprise payment solutions that help companies accept local payment methods,
+      manage online payments, and support international and cross-border transactions across high-growth markets.
+    </p>
+
+    <div class="hero__actions" data-hero-fade>
+      <a class="btn btn--lg" href="#contact" data-magnetic>
+        Get started
+        <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+      </a>
+      <a class="link-arrow link-arrow--light" href="#global-reach">
+        Explore our global reach
+        <Icon name="arrow" size={16} />
+      </a>
     </div>
   </div>
 
-  <div class="hero__media" data-hero-media>
-    {
-      heroSlides.map((slide, i) => (
-        <div class="hero__slide">
-          <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} width="1269" height="777" />
-        </div>
-      ))
-    }
-    <div class="hero__shade" aria-hidden="true"></div>
-
-    <div class="chip chip--approved" data-hero-chip aria-hidden="true">
-      <span class="chip__icon"><Icon name="check" size={18} /></span>
-      <span>
-        <strong>Payment approved</strong>
-        <small>UPI · INR 3,246</small>
-      </span>
-    </div>
-    <div class="chip chip--methods" data-hero-chip aria-hidden="true">
-      <span class="chip__flags">
-        <img src="/img/flags/india.svg" alt="" />
-        <img src="/img/flags/nigeria.svg" alt="" />
-        <img src="/img/flags/egypt.svg" alt="" />
-      </span>
-      <span>
-        <strong>Local payment methods</strong>
-        <small>One API integration</small>
-      </span>
-    </div>
-
-    <div class="hero__dots" role="tablist" aria-label="Hero images">
+  <div class="stage" data-stage>
+    <div class="stage__frame" data-stage-frame>
       {
-        heroSlides.map((_, i) => (
-          <button
-            class={`hero__dot${i === 0 ? ' is-active' : ''}`}
-            type="button"
-            role="tab"
-            aria-label={`Show image ${i + 1}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-          />
+        heroSlides.map((slide, i) => (
+          <div class="stage__slide">
+            <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} width="1269" height="777" />
+          </div>
         ))
+      }
+      <div class="stage__shade" aria-hidden="true"></div>
+
+      <div class="chip chip--approved" aria-hidden="true">
+        <span class="chip__icon"><Icon name="check" size={18} /></span>
+        <span>
+          <strong>Payment approved</strong>
+          <small>UPI · INR 3,246</small>
+        </span>
+      </div>
+      <div class="chip chip--methods" aria-hidden="true">
+        <span class="chip__flags">
+          <img src="/img/flags/india.svg" alt="" />
+          <img src="/img/flags/nigeria.svg" alt="" />
+          <img src="/img/flags/egypt.svg" alt="" />
+        </span>
+        <span>
+          <strong>Local payment methods</strong>
+          <small>One API integration</small>
+        </span>
+      </div>
+
+      <div class="stage__dots" role="tablist" aria-label="Hero images">
+        {
+          heroSlides.map((_, i) => (
+            <button
+              class={`stage__dot${i === 0 ? ' is-active' : ''}`}
+              type="button"
+              role="tab"
+              aria-label={`Show image ${i + 1}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <p class="trust__title" data-reveal>Trusted by businesses that move money at scale</p>
+  <div class="marquee" data-reveal>
+    <div class="marquee__track">
+      {
+        [0, 1].map((set) =>
+          trustLogos.map((logo) => (
+            <div class="marquee__item" aria-hidden={set === 1 ? 'true' : undefined}>
+              <img src={logo.src} alt={set === 0 ? logo.name : ''} loading="lazy" />
+            </div>
+          )),
+        )
       }
     </div>
   </div>

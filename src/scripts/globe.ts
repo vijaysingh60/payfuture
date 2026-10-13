@@ -15,11 +15,10 @@ interface Arc {
   start: number;
 }
 
-const NAVY = '22, 58, 77';
 const YELLOW = '#f7eb01';
-const ARC_MS = 2600;
-// Only the top of the sphere is on screen, so tilt it to bring the markets into that dome.
-const TILT = 32;
+const NAVY = '#163a4d';
+const ARC_MS = 2400;
+const REST_LAT = 14;
 
 export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedMotion: boolean) {
   const ctx = canvas.getContext('2d')!;
@@ -28,7 +27,7 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
   const projection = geoOrthographic().clipAngle(90).precision(0.6);
   const path = geoPath(projection, ctx);
 
-  const view = { lon: 55, lat: -TILT + 12 };
+  const view = { lon: 55, lat: REST_LAT };
   let active: Market | null = null;
   let auto = true;
   let autoClock = 0;
@@ -39,21 +38,22 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
   let arcs: Arc[] = [];
   let resume: gsap.core.Tween | null = null;
 
-  const autoLon = () => 55 + 42 * Math.sin(autoClock / 9000);
+  // Sway across the longitudes where the markets are, rather than a full spin past empty ocean.
+  const autoLon = () => 55 + 48 * Math.sin(autoClock / 8000);
 
   function resize() {
     size = canvas.clientWidth;
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = canvas.height = Math.round(size * dpr);
-    projection.scale(size / 2 - 2).translate([size / 2, size / 2]);
+    projection.scale(size / 2 - 4).translate([size / 2, size / 2]);
   }
 
-  const onFront = (m: Market) => geoDistance([m.lon, m.lat], [view.lon, view.lat]) < Math.PI / 2 - 0.06;
+  const onFront = (m: Market) => geoDistance([m.lon, m.lat], [view.lon, view.lat]) < Math.PI / 2 - 0.08;
 
   function spawnArc(now: number) {
     const front = markets.filter(onFront);
     if (front.length < 2) return;
-    const from = front[Math.floor(Math.random() * front.length)];
+    const from = active && onFront(active) ? active : front[Math.floor(Math.random() * front.length)];
     const others = front.filter((m) => m !== from);
     arcs.push({ from, to: others[Math.floor(Math.random() * others.length)], start: now });
   }
@@ -61,27 +61,44 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
   function drawArc(arc: Arc, now: number) {
     const t = (now - arc.start) / ARC_MS;
     const head = Math.min(1, t * 1.25);
-    const tail = Math.max(0, t * 1.25 - 0.45);
+    const tail = Math.max(0, t * 1.25 - 0.5);
     const lerp = geoInterpolate([arc.from.lon, arc.from.lat], [arc.to.lon, arc.to.lat]);
     const coords = [];
     for (let i = 0; i <= 24; i++) coords.push(lerp(tail + ((head - tail) * i) / 24));
 
     ctx.beginPath();
     path({ type: 'LineString', coordinates: coords });
-    ctx.strokeStyle = `rgba(${NAVY}, ${0.55 * (1 - Math.max(0, t - 0.8) * 5)})`;
-    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = `rgba(247, 235, 1, ${0.85 * (1 - Math.max(0, t - 0.8) * 5)})`;
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     const p = projection(lerp(head));
     if (p && t < 0.8) {
       ctx.beginPath();
-      ctx.arc(p[0], p[1], 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = YELLOW;
+      ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
       ctx.fill();
-      ctx.strokeStyle = `rgb(${NAVY})`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
     }
+  }
+
+  function drawLabel(x: number, y: number, text: string) {
+    ctx.font = '700 14px "Montserrat Variable", Montserrat, sans-serif';
+    const w = ctx.measureText(text).width + 28;
+    const h = 32;
+    const top = y - 58;
+    ctx.beginPath();
+    ctx.roundRect(x - w / 2, top, w, h, h / 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x - 6, top + h - 1);
+    ctx.lineTo(x, top + h + 7);
+    ctx.lineTo(x + 6, top + h - 1);
+    ctx.fill();
+    ctx.fillStyle = NAVY;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, x, top + h / 2 + 1);
   }
 
   function draw(now: number) {
@@ -90,28 +107,35 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
     projection.rotate([-view.lon, -view.lat]);
 
     const r = size / 2;
-    const fill = ctx.createRadialGradient(r, r * 0.5, r * 0.1, r, r, r);
-    fill.addColorStop(0, '#fbfcfd');
-    fill.addColorStop(1, '#eff3f6');
+    const fill = ctx.createRadialGradient(r * 0.7, r * 0.6, r * 0.05, r, r, r);
+    fill.addColorStop(0, '#0d6079');
+    fill.addColorStop(1, '#012b38');
     ctx.beginPath();
     path({ type: 'Sphere' });
     ctx.fillStyle = fill;
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
     ctx.beginPath();
     path(graticule);
-    ctx.strokeStyle = `rgba(${NAVY}, 0.045)`;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
     ctx.lineWidth = 1;
     ctx.stroke();
 
     ctx.beginPath();
     path(land);
-    ctx.fillStyle = '#e2e9ed';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.13)';
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
 
     arcs = arcs.filter((a) => now - a.start < ARC_MS);
     arcs.forEach((a) => drawArc(a, now));
 
+    let label: [number, number] | null = null;
     markets.forEach((m, i) => {
       if (!onFront(m)) return;
       const p = projection([m.lon, m.lat]);
@@ -120,19 +144,23 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
       const pulse = (now / 1800 + i * 0.37) % 1;
 
       ctx.beginPath();
-      ctx.arc(p[0], p[1], 6 + pulse * (isActive ? 34 : 18), 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${NAVY}, ${(1 - pulse) * (isActive ? 0.7 : 0.35)})`;
+      ctx.arc(p[0], p[1], 6 + pulse * (isActive ? 40 : 20), 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(247, 235, 1, ${(1 - pulse) * (isActive ? 0.9 : 0.5)})`;
       ctx.lineWidth = isActive ? 2 : 1.2;
       ctx.stroke();
 
+      ctx.save();
+      ctx.shadowColor = YELLOW;
+      ctx.shadowBlur = isActive ? 26 : 14;
       ctx.beginPath();
-      ctx.arc(p[0], p[1], isActive ? 8 : 5, 0, Math.PI * 2);
+      ctx.arc(p[0], p[1], isActive ? 9 : 5.5, 0, Math.PI * 2);
       ctx.fillStyle = YELLOW;
       ctx.fill();
-      ctx.strokeStyle = `rgb(${NAVY})`;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.restore();
+
+      if (isActive) label = [p[0], p[1]];
     });
+    if (label && active) drawLabel(label[0], label[1], (active as Market).name);
   }
 
   function frame(now: number) {
@@ -143,7 +171,7 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
       autoClock += dt;
       view.lon = autoLon();
     }
-    if (arcs.length < 3 && Math.random() < 0.02) spawnArc(now);
+    if (arcs.length < 4 && Math.random() < 0.03) spawnArc(now);
     draw(now);
     requestAnimationFrame(frame);
   }
@@ -154,16 +182,16 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
     resume?.kill();
     auto = false;
     active = m;
-    gsap.to(view, { lon: m.lon, lat: Math.max(-62, m.lat - TILT), duration: 1.1, ease: 'power3.inOut', overwrite: true });
+    gsap.to(view, { lon: m.lon, lat: m.lat - 8, duration: 1.1, ease: 'power3.inOut', overwrite: true });
   }
 
   function blur() {
     active = null;
     resume = gsap.to(view, {
       lon: autoLon(),
-      lat: -TILT + 12,
+      lat: REST_LAT,
       duration: 1.4,
-      delay: 0.5,
+      delay: 0.6,
       ease: 'power2.inOut',
       overwrite: true,
       onComplete: () => (auto = true),
@@ -171,7 +199,7 @@ export function initGlobe(canvas: HTMLCanvasElement, markets: Market[], reducedM
   }
 
   resize();
-  window.addEventListener('resize', resize);
+  new ResizeObserver(resize).observe(canvas);
 
   if (reducedMotion) {
     draw(0);

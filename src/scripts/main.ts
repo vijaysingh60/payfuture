@@ -5,25 +5,22 @@ import Lenis from 'lenis';
 gsap.registerPlugin(ScrollTrigger);
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canHover = window.matchMedia('(hover: hover)').matches;
 const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector<T>(sel);
 const $$ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => [...root.querySelectorAll<T>(sel)];
 
 /* ---------- Smooth scroll ---------- */
 function initSmoothScroll() {
   if (reducedMotion) return;
-  const lenis = new Lenis({ lerp: 0.11, anchors: { offset: -80 } });
+  const lenis = new Lenis({ lerp: 0.1, anchors: { offset: -90 } });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 }
 
-/* ---------- Header, announcement bar, progress ---------- */
+/* ---------- Header ---------- */
 function initHeader() {
   const header = $('[data-header]')!;
-  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 60);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
   const toggle = $('[data-nav-toggle]')!;
   const setOpen = (open: boolean) => {
     header.classList.toggle('is-open', open);
@@ -32,34 +29,41 @@ function initHeader() {
   toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
   $$('[data-nav] a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
 
-  const bar = $('[data-announce]');
-  $('[data-announce-close]')?.addEventListener('click', () => {
-    if (!bar) return;
-    gsap.to(bar, {
-      height: 0,
-      minHeight: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
-      duration: 0.5,
-      ease: 'power3.inOut',
-      onComplete: () => {
-        bar.remove();
-        ScrollTrigger.refresh();
-      },
-    });
+  // Tuck the bar away while reading down the page; bring it back on the way up.
+  ScrollTrigger.create({
+    start: 400,
+    end: 'max',
+    onUpdate: (self) => {
+      if (header.classList.contains('is-open')) return;
+      header.classList.toggle('is-hidden', self.direction === 1);
+    },
+    onLeaveBack: () => header.classList.remove('is-hidden'),
   });
 
-  gsap.to('.scroll-progress', {
-    scaleX: 1,
-    ease: 'none',
-    scrollTrigger: { start: 0, end: 'max', scrub: 0.3 },
-  });
+  gsap.to('.progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
 }
 
 /* ---------- Hero ---------- */
-function initHero() {
-  const slides = $$('.hero__slide');
-  const dots = $$('.hero__dot');
+function initPhotoPills() {
+  $$('[data-pill]').forEach((pill, p) => {
+    const imgs = $$<HTMLImageElement>('img', pill);
+    gsap.set(imgs, { y: 0, yPercent: (i) => (i === 0 ? 0 : 101) });
+    if (reducedMotion) return;
+    let current = 0;
+    const next = () => {
+      const from = imgs[current];
+      current = (current + 1) % imgs.length;
+      gsap.to(from, { yPercent: -101, duration: 0.9, ease: 'power4.inOut' });
+      gsap.fromTo(imgs[current], { yPercent: 101 }, { yPercent: 0, duration: 0.9, ease: 'power4.inOut' });
+      gsap.delayedCall(2.8, next);
+    };
+    gsap.delayedCall(3 + p * 1.4, next);
+  });
+}
+
+function initStage() {
+  const slides = $$('.stage__slide');
+  const dots = $$('.stage__dot');
   let current = 0;
   let z = 1;
   let autoplay: gsap.core.Tween | null = null;
@@ -78,10 +82,10 @@ function initHero() {
     gsap.fromTo(
       slide,
       { clipPath: 'inset(0% 0% 0% 100%)' },
-      { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.25, ease: 'power4.inOut' },
+      { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power4.inOut' },
     );
-    gsap.fromTo(img, { scale: 1.3, xPercent: 8 }, { scale: 1.05, xPercent: 0, duration: 1.7, ease: 'power3.out' });
-    drift(img, 1.7);
+    gsap.fromTo(img, { scale: 1.3, xPercent: 8 }, { scale: 1.05, xPercent: 0, duration: 1.8, ease: 'power3.out' });
+    drift(img, 1.8);
 
     dots.forEach((dot, i) => {
       dot.classList.toggle('is-active', i === next);
@@ -90,13 +94,13 @@ function initHero() {
     current = next;
   }
 
-  function queue() {
+  const queue = () => {
     autoplay?.kill();
     autoplay = gsap.delayedCall(5.5, () => {
       show(current + 1);
       queue();
     });
-  }
+  };
 
   dots.forEach((dot, i) =>
     dot.addEventListener('click', () => {
@@ -106,28 +110,58 @@ function initHero() {
   );
 
   if (reducedMotion) return;
+  drift(slides[0].querySelector('img')!, 1);
+  queue();
 
-  const firstImg = slides[0].querySelector('img')!;
-  gsap
-    .timeline({ defaults: { ease: 'power4.out' }, onComplete: queue })
-    .fromTo('.hero__media', { clipPath: 'inset(0% 0% 0% 100%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'power4.inOut' }, 0)
-    .fromTo(firstImg, { scale: 1.35 }, { scale: 1.05, duration: 2 }, 0)
-    .fromTo('[data-hero-line]', { yPercent: 115, y: 0 }, { yPercent: 0, duration: 1.1, stagger: 0.12 }, 0.25)
-    .to('.hero__underline path', { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, 1)
-    .fromTo('[data-hero]', { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.12 }, 0.7)
-    .fromTo('[data-hero-chip]', { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, stagger: 0.18, ease: 'back.out(1.7)' }, 1.3);
-  drift(firstImg, 2);
-
-  // Image drifts slower than the page as the hero scrolls away.
-  gsap.to('.hero__slide', {
-    yPercent: 7,
+  // The framed photo opens out to the full width of the page as it scrolls up.
+  gsap.fromTo(
+    '[data-stage-frame]',
+    { clipPath: 'inset(0% 7% 0% 7% round 40px)' },
+    {
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
+      ease: 'none',
+      scrollTrigger: { trigger: '[data-stage]', start: 'top 80%', end: 'top 12%', scrub: 0.5 },
+    },
+  );
+  gsap.to('.stage__slide', {
+    yPercent: 8,
     ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+    scrollTrigger: { trigger: '[data-stage]', start: 'top bottom', end: 'bottom top', scrub: true },
   });
 }
 
+function initHeroIntro() {
+  if (reducedMotion) return;
+
+  const intro = gsap
+    .timeline({ paused: true, defaults: { ease: 'power4.out' } })
+    .to('[data-loader]', { yPercent: -100, duration: 0.9, ease: 'power4.inOut' })
+    .set('[data-loader]', { display: 'none' })
+    .fromTo('[data-hero-word]', { yPercent: 120, y: 0 }, { yPercent: 0, duration: 1.2, stagger: 0.09 }, 0.45)
+    .to('.photo-pill', { width: '1.5em', duration: 1.2, stagger: 0.15, ease: 'power4.inOut' }, 0.75)
+    .fromTo('[data-hero-fade]', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, 1.05)
+    .fromTo('.stage', { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 1.3 }, 1.2)
+    .fromTo('.chip', { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, stagger: 0.18, ease: 'back.out(1.7)' }, 2);
+
+  // Let the loader bar finish, but never hold the page for slow assets.
+  gsap.delayedCall(0.95, () => intro.play());
+
+  const glow = $('[data-hero-glow]');
+  const hero = $('[data-hero]');
+  if (glow && hero && canHover) {
+    const xTo = gsap.quickTo(glow, 'x', { duration: 1.2, ease: 'power3.out' });
+    const yTo = gsap.quickTo(glow, 'y', { duration: 1.2, ease: 'power3.out' });
+    hero.addEventListener('pointermove', (e) => {
+      const box = hero.getBoundingClientRect();
+      xTo(e.clientX - box.left);
+      yTo(e.clientY - box.top);
+    });
+  }
+}
+
 /* ---------- Scroll reveals ---------- */
-function splitWords(el: HTMLElement) {
+function splitWords(el: HTMLElement, masked = true) {
+  const words: HTMLElement[] = [];
   const walk = (node: Node) => {
     [...node.childNodes].forEach((child) => {
       if (child.nodeType === Node.TEXT_NODE) {
@@ -135,11 +169,13 @@ function splitWords(el: HTMLElement) {
         (child.textContent ?? '').split(/(\s+)/).forEach((part) => {
           if (!part) return;
           if (/^\s+$/.test(part)) return frag.append(' ');
-          const mask = document.createElement('span');
-          mask.className = 'w-mask';
           const word = document.createElement('span');
           word.className = 'w';
           word.textContent = part;
+          words.push(word);
+          if (!masked) return frag.append(word);
+          const mask = document.createElement('span');
+          mask.className = 'w-mask';
           mask.append(word);
           frag.append(mask);
         });
@@ -150,33 +186,46 @@ function splitWords(el: HTMLElement) {
     });
   };
   walk(el);
-  return $$('.w', el);
+  return words;
 }
 
 function initReveals() {
   if (reducedMotion) return;
 
   $$('[data-split]').forEach((el) => {
-    const words = splitWords(el);
-    gsap.from(words, {
-      yPercent: 115,
-      duration: 1,
+    gsap.from(splitWords(el), {
+      yPercent: 120,
+      duration: 1.1,
       ease: 'power4.out',
-      stagger: 0.045,
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      stagger: 0.05,
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
     });
   });
 
+  // Statement text lights up word by word as it is read.
+  $$('[data-highlight]').forEach((el) => {
+    gsap.fromTo(
+      splitWords(el, false),
+      { opacity: 0.14 },
+      {
+        opacity: 1,
+        ease: 'none',
+        stagger: 0.1,
+        scrollTrigger: { trigger: el, start: 'top 82%', end: 'bottom 55%', scrub: 0.4 },
+      },
+    );
+  });
+
   const from: Record<string, gsap.TweenVars> = {
-    left: { x: -56 },
-    right: { x: 56 },
-    scale: { scale: 0.88, y: 20 },
-    up: { y: 44 },
+    left: { x: -60 },
+    right: { x: 60 },
+    scale: { scale: 0.9, y: 24 },
+    up: { y: 50 },
   };
   $$('[data-reveal]').forEach((el) => gsap.set(el, { opacity: 0, ...from[el.dataset.reveal || 'up'] }));
 
   ScrollTrigger.batch('[data-reveal]', {
-    start: 'top 90%',
+    start: 'top 92%',
     once: true,
     onEnter: (batch) =>
       gsap.to(batch, {
@@ -184,7 +233,7 @@ function initReveals() {
         x: 0,
         y: 0,
         scale: 1,
-        duration: 1,
+        duration: 1.1,
         ease: 'power3.out',
         stagger: 0.08,
         // Hand transforms back to CSS so hover states work.
@@ -192,17 +241,10 @@ function initReveals() {
       }),
   });
 
-  $$('[data-parallax]').forEach((el) => {
-    gsap.fromTo(
-      el,
-      { yPercent: -Number(el.dataset.parallax) },
-      {
-        yPercent: Number(el.dataset.parallax),
-        ease: 'none',
-        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: 0.6 },
-      },
-    );
-  });
+  // CSS-driven visuals (typed code, bars) start when they come into view.
+  $$('[data-inview]').forEach((el) =>
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => el.classList.add('is-in') }),
+  );
 
   // Phones rise into their panels as the panel scrolls in.
   $$('[data-phone]').forEach((phone) => {
@@ -212,20 +254,30 @@ function initReveals() {
       scrollTrigger: { trigger: phone.parentElement, start: 'top 95%', end: 'top 30%', scrub: 0.8 },
     });
   });
+
+  // Each stacked card eases back as the next one slides over it.
+  const cards = $$('.stack__card');
+  cards.slice(0, -1).forEach((card, i) => {
+    gsap.to(card, {
+      scale: 0.92 + i * 0.02,
+      ease: 'none',
+      scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top 20%', scrub: true },
+    });
+  });
 }
 
 function initCounters() {
+  if (reducedMotion) return;
   $$('[data-count]').forEach((el) => {
     const target = Number(el.dataset.count);
     const decimals = Number(el.dataset.decimals || 0);
-    if (reducedMotion) return;
     const state = { value: 0 };
     el.textContent = (0).toFixed(decimals);
     gsap.to(state, {
       value: target,
-      duration: 2.2,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      duration: 2.4,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 92%', once: true },
       onUpdate: () => (el.textContent = state.value.toFixed(decimals)),
     });
   });
@@ -233,15 +285,7 @@ function initCounters() {
 
 /* ---------- Pointer effects ---------- */
 function initPointerEffects() {
-  if (reducedMotion || !window.matchMedia('(hover: hover)').matches) return;
-
-  $$('.card').forEach((card) =>
-    card.addEventListener('pointermove', (e) => {
-      const box = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - box.left}px`);
-      card.style.setProperty('--my', `${e.clientY - box.top}px`);
-    }),
-  );
+  if (reducedMotion || !canHover) return;
 
   $$('[data-magnetic]').forEach((btn) => {
     const xTo = gsap.quickTo(btn, 'x', { duration: 0.5, ease: 'power3.out' });
@@ -256,6 +300,27 @@ function initPointerEffects() {
       yTo(0);
     });
   });
+
+  // Industry rows: a photo trails the pointer and swaps with the hovered row.
+  const float = $('[data-rows-float]');
+  const list = $('[data-rows]');
+  if (float && list) {
+    const img = $<HTMLImageElement>('img', float)!;
+    gsap.set(float, { xPercent: -50, yPercent: -50, scale: 0.6 });
+    const xTo = gsap.quickTo(float, 'x', { duration: 0.6, ease: 'power3.out' });
+    const yTo = gsap.quickTo(float, 'y', { duration: 0.6, ease: 'power3.out' });
+    list.addEventListener('pointermove', (e) => {
+      xTo(e.clientX + 200);
+      yTo(e.clientY);
+    });
+    $$('[data-row]', list).forEach((row, i) =>
+      row.addEventListener('pointerenter', () => {
+        img.src = row.dataset.row!;
+        gsap.to(float, { opacity: 1, scale: 1, rotate: i % 2 ? 5 : -5, duration: 0.5, ease: 'power3.out' });
+      }),
+    );
+    list.addEventListener('pointerleave', () => gsap.to(float, { opacity: 0, scale: 0.6, duration: 0.4 }));
+  }
 }
 
 /* ---------- Global reach: globe + country search ---------- */
@@ -275,6 +340,15 @@ function initGlobalReach() {
       { rootMargin: '600px' },
     );
     io.observe(canvas);
+
+    if (!reducedMotion) {
+      gsap.from('.reach__visual', {
+        scale: 0.8,
+        rotate: -12,
+        ease: 'none',
+        scrollTrigger: { trigger: '.reach', start: 'top bottom', end: 'top 20%', scrub: 0.6 },
+      });
+    }
   }
 
   links.forEach((link) => {
@@ -283,7 +357,10 @@ function initGlobalReach() {
     link.addEventListener('focus', () => globe?.focus(name));
     link.addEventListener('pointerleave', () => globe?.blur());
     link.addEventListener('blur', () => globe?.blur());
-    link.addEventListener('click', (e) => e.preventDefault());
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      globe?.focus(name);
+    });
   });
 
   const input = $<HTMLInputElement>('[data-market-search]');
@@ -333,8 +410,7 @@ function initFaq() {
   requestAnimationFrame(() => requestAnimationFrame(() => faq.classList.add('is-ready')));
   const items = $$('.faq__item', faq);
   items.forEach((item) => {
-    const button = $('.faq__q', item)!;
-    button.addEventListener('click', () => {
+    $('.faq__q', item)!.addEventListener('click', () => {
       const open = !item.classList.contains('is-open');
       items.forEach((other) => {
         other.classList.toggle('is-open', other === item && open);
@@ -361,7 +437,9 @@ function initNewsletter() {
 
 initSmoothScroll();
 initHeader();
-initHero();
+initPhotoPills();
+initStage();
+initHeroIntro();
 initReveals();
 initCounters();
 initPointerEffects();

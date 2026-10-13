@@ -1,0 +1,55 @@
+---
+import '@fontsource-variable/montserrat';
+import 'lenis/dist/lenis.css';
+import '../styles/classic.css';
+
+import Header from '../components/classic/Header.astro';
+import Hero from '../components/classic/Hero.astro';
+import Trust from '../components/classic/Trust.astro';
+import GlobalReach from '../components/classic/GlobalReach.astro';
+import Why from '../components/classic/Why.astro';
+import Industries from '../components/classic/Industries.astro';
+import Challenges from '../components/classic/Challenges.astro';
+import Footer from '../components/classic/Footer.astro';
+
+const title = 'Cross-border & stablecoin payments for emerging markets';
+const description =
+  "Payfuture's multi-rail infrastructure connects cross-border and stablecoin payments to local methods across emerging markets. One integration, global reach.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="preload" as="image" href="/img/hero/2.webp" />
+    <script is:inline>
+      // Hide the hero until its intro runs; fall back to visible if the main script never loads.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('anim-ready');
+        setTimeout(function () {
+          if (!window.__pfReady) document.documentElement.classList.remove('anim-ready');
+        }, 3000);
+      }
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <Hero />
+      <Trust />
+      <GlobalReach />
+      <Why />
+      <Industries />
+      <Challenges />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/classic/main.ts';
+    </script>
+  </body>
+</html>

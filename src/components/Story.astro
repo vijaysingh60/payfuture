@@ -1,0 +1,126 @@
+---
+import Icon from './Icon.astro';
+import { flexible } from '../data/home';
+
+// Hub diagram: one integration fanning out to local payment methods.
+const methods = ['UPI', 'PIX', 'Wallets', 'Net banking', 'Bank deposit', 'Card'];
+const hub = methods.map((label, i) => {
+  const angle = (Math.PI * 2 * i) / methods.length - Math.PI / 2;
+  return { label, x: 210 + Math.cos(angle) * 150, y: 170 + Math.sin(angle) * 120 };
+});
+
+// Flow diagram: local markets settling into one currency.
+const sources = [
+  { name: 'India', flag: '/img/flags/india.svg' },
+  { name: 'Nigeria', flag: '/img/flags/nigeria.svg' },
+  { name: 'Egypt', flag: '/img/flags/egypt.svg' },
+  { name: 'Pakistan', flag: '/img/flags/pakistan.svg' },
+].map((s, i) => ({ ...s, y: 50 + i * 80 }));
+---
+
+<section class="section why">
+  <div class="container why__inner">
+    <div class="why__copy">
+      <span class="pill" data-reveal>Why Payfuture</span>
+      <h2 class="display display--dark" data-split>Connecting emerging markets with the world</h2>
+      <p class="why__statement" data-highlight>
+        Payfuture supports online and cross-border payment solutions across key international markets including India,
+        Nigeria, Brazil, Egypt, Pakistan, Kenya, and South Africa—enabling businesses to scale payments globally while
+        offering local payment methods.
+      </p>
+      <p class="why__note" data-reveal>
+        Our focus is on high-population, underbanked regions where governments are driving financial inclusion and
+        reducing cash dependency. By bridging the gap between global merchants and local markets, we fuel rapid growth
+        in online payments and empower businesses to thrive in these dynamic economies.
+      </p>
+    </div>
+    <div class="why__visual">
+      <canvas data-lottie="/img/why.lottie" aria-label="Payfuture connecting merchants to local markets" role="img"
+      ></canvas>
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft flex-section" id="solutions">
+  <div class="container">
+    <header class="section__head">
+      <h2 class="display display--dark" data-split>Flexible payment solutions for B2B and enterprise models</h2>
+      <p class="lead" data-reveal>
+        Payfuture delivers B2B payment solutions and enterprise payment infrastructure that help businesses collect,
+        move, and manage funds across local and international markets.
+      </p>
+    </header>
+
+    <div class="stack" data-stack>
+      <article class="stack__card" style="--i:0">
+        <div class="stack__copy">
+          <span class="stack__num">01</span>
+          <h3>{flexible[0].title}</h3>
+          <p>{flexible[0].text}</p>
+          <a class="btn" href="#solutions">Learn more <span class="btn__arrow"><Icon name="arrow" size={16} /></span></a>
+        </div>
+        <div class="stack__visual stack__visual--image">
+          <img src="/img/emerging-markets.webp" alt="Payfuture checkout showing local payment methods" loading="lazy" />
+        </div>
+      </article>
+
+      <article class="stack__card stack__card--yellow" style="--i:1">
+        <div class="stack__copy">
+          <span class="stack__num">02</span>
+          <h3>{flexible[1].title}</h3>
+          <p>{flexible[1].text}</p>
+          <a class="btn btn--dark" href="#solutions"
+            >Learn more <span class="btn__arrow"><Icon name="arrow" size={16} /></span></a
+          >
+        </div>
+        <div class="stack__visual" aria-hidden="true">
+          <svg class="diagram" viewBox="0 0 420 340">
+            {hub.map((n) => <line class="diagram__link" x1="210" y1="170" x2={n.x} y2={n.y} pathLength="100" />)}
+            {
+              hub.map((n) => (
+                <g transform={`translate(${n.x} ${n.y})`}>
+                  <rect class="diagram__node" x="-56" y="-19" width="112" height="38" rx="19" />
+                  <text class="diagram__label" y="5">{n.label}</text>
+                </g>
+              ))
+            }
+            <circle class="diagram__pulse" cx="210" cy="170" r="46"></circle>
+            <circle class="diagram__hub" cx="210" cy="170" r="46"></circle>
+            <text class="diagram__hub-label" x="210" y="177">API</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="stack__card stack__card--dark" style="--i:2">
+        <div class="stack__copy">
+          <span class="stack__num">03</span>
+          <h3>{flexible[2].title}</h3>
+          <p>{flexible[2].text}</p>
+          <a class="btn" href="#solutions">Learn more <span class="btn__arrow"><Icon name="arrow" size={16} /></span></a>
+        </div>
+        <div class="stack__visual" aria-hidden="true">
+          <svg class="diagram diagram--dark" viewBox="0 0 420 340">
+            {
+              sources.map((s) => (
+                <path class="diagram__link" d={`M150 ${s.y} C 240 ${s.y}, 220 170, 300 170`} pathLength="100" />
+              ))
+            }
+            {
+              sources.map((s) => (
+                <g transform={`translate(20 ${s.y})`}>
+                  <rect class="diagram__node" x="0" y="-21" width="130" height="42" rx="21" />
+                  <image href={s.flag} x="10" y="-12" width="24" height="24" />
+                  <text class="diagram__label diagram__label--start" x="44" y="5">{s.name}</text>
+                </g>
+              ))
+            }
+            <circle class="diagram__pulse" cx="340" cy="170" r="52"></circle>
+            <circle class="diagram__hub" cx="340" cy="170" r="52"></circle>
+            <text class="diagram__hub-label diagram__hub-label--sm" x="340" y="166">Your</text>
+            <text class="diagram__hub-label diagram__hub-label--sm" x="340" y="184">currency</text>
+          </svg>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

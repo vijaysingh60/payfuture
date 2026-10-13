@@ -3,57 +3,49 @@ import Icon from './Icon.astro';
 import { challenges, solutionsLeft, solutionsRight } from '../data/home';
 ---
 
-<section class="section section--soft challenges">
+<section class="section challenges">
   <div class="container challenges__inner">
-    <div class="challenges__visual" data-reveal="left">
-      <img
-        src="/img/emerging-markets.webp"
-        alt="Payfuture checkout showing local payment methods"
-        width="1578"
-        height="1297"
-        loading="lazy"
-        data-parallax="-8"
-      />
-    </div>
-    <div>
+    <div class="challenges__intro">
       <span class="pill" data-reveal>Why Payfuture</span>
-      <h2 class="h2" data-split>Challenges in emerging markets</h2>
-      <p data-reveal>
+      <h2 class="display display--dark" data-split>Challenges in emerging markets</h2>
+      <p class="lead" data-reveal>
         Payfuture operates only in emerging markets. We have the technology, experience and expertise to help
         businesses thrive as they grow in these markets.
       </p>
-      <ul class="checklist">
-        {
-          challenges.map((c) => (
-            <li data-reveal="right">
-              <span class="checklist__icon">
-                <Icon name="check" size={14} />
-              </span>
-              {c}
-            </li>
-          ))
-        }
-      </ul>
       <div data-reveal>
-        <a class="btn" href="#global-reach">Overcome challenges in emerging markets</a>
+        <a class="btn" href="#global-reach">
+          Overcome challenges in emerging markets
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
       </div>
     </div>
-  </div>
 
+    <ol class="challenge-list">
+      {
+        challenges.map((c, i) => (
+          <li data-reveal="right">
+            <span class="challenge-list__num">{String(i + 1).padStart(2, '0')}</span>
+            <p>{c}</p>
+            <span class="challenge-list__check"><Icon name="check" size={16} /></span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section solutions-section">
   <div class="container">
-    <hr class="rule" />
     <header class="section__head">
-      <h2 class="h2" data-split>The Payfuture solutions</h2>
+      <h2 class="display" data-split>The Payfuture solutions</h2>
     </header>
 
     <div class="solutions">
       <div class="solutions__col">
         {
           solutionsLeft.map((s) => (
-            <a class="card card--link" href="#solutions" data-reveal="left">
-              <span class="icon-tile">
-                <Icon name={s.icon} size={22} />
-              </span>
+            <a class="glass" href="#solutions" data-reveal="left">
+              <span class="icon-tile icon-tile--yellow"><Icon name={s.icon} size={22} /></span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </a>
@@ -64,21 +56,14 @@ import { challenges, solutionsLeft, solutionsRight } from '../data/home';
       <div class="solutions__phone" data-reveal="scale">
         <span class="solutions__ring" aria-hidden="true"></span>
         <span class="solutions__ring solutions__ring--2" aria-hidden="true"></span>
-        <img
-          src="/img/phone.svg"
-          alt="Payfuture checkout on a phone, paying by UPI"
-          loading="lazy"
-          data-phone
-        />
+        <img src="/img/phone.svg" alt="Payfuture checkout on a phone, paying by UPI" loading="lazy" data-phone />
       </div>
 
       <div class="solutions__col">
         {
           solutionsRight.map((s) => (
-            <a class="card card--link" href="#solutions" data-reveal="right">
-              <span class="icon-tile">
-                <Icon name={s.icon} size={22} />
-              </span>
+            <a class="glass" href="#solutions" data-reveal="right">
+              <span class="icon-tile icon-tile--yellow"><Icon name={s.icon} size={22} /></span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </a>

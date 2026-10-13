@@ -1,0 +1,93 @@
+---
+import Icon from './Icon.astro';
+import { features, markets } from '../data/home';
+
+const [local, api, processing, support] = features;
+const inner = markets.slice(0, 5);
+const outer = markets.slice(5);
+const bars = [38, 52, 44, 63, 58, 72, 66, 81, 76, 90, 86, 100];
+---
+
+<section class="section bento-section">
+  <div class="container bento">
+    <article class="tile tile--dark tile--wide" data-reveal>
+      <div class="tile__body">
+        <span class="icon-tile icon-tile--yellow"><Icon name={local.icon} size={22} /></span>
+        <h3>{local.title}</h3>
+        <p>{local.text}</p>
+        <a class="link-arrow link-arrow--light" href="#global-reach">Learn more <Icon name="arrow" size={16} /></a>
+      </div>
+      <div class="orbit" aria-hidden="true">
+        <span class="orbit__core"><img src="/img/favicon.png" alt="" /></span>
+        <div class="orbit__ring orbit__ring--inner">
+          {
+            inner.map((m, i) => (
+              <span class="orbit__coin" style={`--a:${(360 / inner.length) * i}deg`}>
+                <span><img src={m.flag} alt="" /></span>
+              </span>
+            ))
+          }
+        </div>
+        <div class="orbit__ring orbit__ring--outer">
+          {
+            outer.map((m, i) => (
+              <span class="orbit__coin" style={`--a:${(360 / outer.length) * i}deg`}>
+                <span><img src={m.flag} alt="" /></span>
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </article>
+
+    <article class="tile tile--narrow" data-reveal>
+      <div class="tile__body">
+        <span class="icon-tile"><Icon name={api.icon} size={22} /></span>
+        <h3>{api.title}</h3>
+        <p>{api.text}</p>
+      </div>
+      <div class="code" aria-hidden="true" data-inview>
+        <div class="code__bar"><i></i><i></i><i></i></div>
+        <div class="code__body">
+          <span class="code__line"><b>await</b> payfuture.payments.create({'{'}</span>
+          <span class="code__line code__line--in">amount: <em>3246</em>,</span>
+          <span class="code__line code__line--in">currency: <em>"INR"</em>,</span>
+          <span class="code__line code__line--in">method: <em>"upi"</em>,</span>
+          <span class="code__line">{'}'});</span>
+          <span class="code__line code__line--ok">✓ approved</span>
+        </div>
+      </div>
+      <a class="link-arrow" href="#solutions">Learn more <Icon name="arrow" size={16} /></a>
+    </article>
+
+    <article class="tile tile--yellow tile--narrow" data-reveal>
+      <div class="tile__body">
+        <span class="icon-tile"><Icon name={processing.icon} size={22} /></span>
+        <h3>{processing.title}</h3>
+        <p>{processing.text}</p>
+      </div>
+      <div class="bars" aria-hidden="true" data-inview>
+        {bars.map((h, i) => <span style={`--h:${h}%;--i:${i}`} />)}
+      </div>
+      <a class="link-arrow" href="#solutions">Learn more <Icon name="arrow" size={16} /></a>
+    </article>
+
+    <article class="tile tile--wide tile--support" data-reveal>
+      <div class="tile__body">
+        <span class="icon-tile"><Icon name={support.icon} size={22} /></span>
+        <h3>{support.title}</h3>
+        <p>{support.text}</p>
+        <a class="link-arrow" href="#contact">Learn more <Icon name="arrow" size={16} /></a>
+      </div>
+      <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 240 240">
+          <circle class="dial__ticks" cx="120" cy="120" r="104"></circle>
+          <circle class="dial__track" cx="120" cy="120" r="84"></circle>
+          <circle class="dial__sweep" cx="120" cy="120" r="84" pathLength="100"></circle>
+        </svg>
+        <strong>24/7</strong>
+        <span class="dial__dot"></span>
+      </div>
+    </article>
+  </div>
+</section>

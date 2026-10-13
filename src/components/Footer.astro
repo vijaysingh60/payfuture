@@ -3,25 +3,24 @@ import Icon from './Icon.astro';
 import { faqs, footer } from '../data/home';
 ---
 
-<section class="section" id="faq">
-  <div class="container">
-    <h2 class="h2 h2--left" data-split>FAQ</h2>
+<section class="section faq-section" id="faq">
+  <div class="container faq-section__inner">
+    <div class="faq-section__title">
+      <h2 class="display display--dark display--xl" data-split>FAQ</h2>
+    </div>
     <div class="faq" data-faq>
       {
         faqs.map((item, i) => (
           <div class={`faq__item${i === 0 ? ' is-open' : ''}`} data-reveal>
             <h3>
               <button type="button" class="faq__q" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="faq__num">{String(i + 1).padStart(2, '0')}</span>
                 {item.q}
-                <span class="faq__icon">
-                  <Icon name="plus" size={14} />
-                </span>
+                <span class="faq__icon"><Icon name="plus" size={16} /></span>
               </button>
             </h3>
             <div class="faq__panel">
-              <div>
-                <p>{item.a}</p>
-              </div>
+              <div><p>{item.a}</p></div>
             </div>
           </div>
         ))
@@ -30,41 +29,47 @@ import { faqs, footer } from '../data/home';
   </div>
 </section>
 
-<section class="section section--soft newsletter" id="contact">
-  <div class="container newsletter__inner">
-    <div>
-      <h2 class="h2 h2--left" data-split>Don’t miss a thing!</h2>
-      <p data-reveal>
-        Stay ahead of the curve! Subscribe to our newsletter for the latest news, tips, and updates from Payfuture.
-      </p>
-    </div>
-
-    <div class="newsletter__phone" data-reveal>
-      <img src="/img/logo-phone.svg" alt="" loading="lazy" data-phone />
-    </div>
-
-    <form class="form" data-newsletter data-reveal="right" novalidate>
-      <div class="form__row">
-        <label>
-          <span class="sr-only">First name</span>
-          <input type="text" name="first" placeholder="First Name*" required autocomplete="given-name" />
-        </label>
-        <label>
-          <span class="sr-only">Last name</span>
-          <input type="text" name="last" placeholder="Last Name*" required autocomplete="family-name" />
-        </label>
+<section class="newsletter-section" id="contact">
+  <div class="container">
+    <div class="newsletter" data-reveal="scale">
+      <div class="newsletter__copy">
+        <h2 class="display" data-split>Don’t miss a thing!</h2>
+        <p>
+          Stay ahead of the curve! Subscribe to our newsletter for the latest news, tips, and updates from Payfuture.
+        </p>
       </div>
-      <label>
-        <span class="sr-only">Email</span>
-        <input type="email" name="email" placeholder="Enter your Email*" required autocomplete="email" />
-      </label>
-      <p class="form__note">
-        By Submitting your information you confirm that you have read Payfuture’s <a href="#contact">Privacy Policy</a>
-        and agree to the use of your data in all Payfuture communications.
-      </p>
-      <button class="btn" type="submit">Sign up now</button>
-      <p class="form__status" role="status" data-newsletter-status></p>
-    </form>
+
+      <div class="newsletter__phone">
+        <img src="/img/logo-phone.svg" alt="" loading="lazy" data-phone />
+      </div>
+
+      <form class="form" data-newsletter novalidate>
+        <div class="form__row">
+          <label>
+            <span class="sr-only">First name</span>
+            <input type="text" name="first" placeholder="First Name*" required autocomplete="given-name" />
+          </label>
+          <label>
+            <span class="sr-only">Last name</span>
+            <input type="text" name="last" placeholder="Last Name*" required autocomplete="family-name" />
+          </label>
+        </div>
+        <label>
+          <span class="sr-only">Email</span>
+          <input type="email" name="email" placeholder="Enter your Email*" required autocomplete="email" />
+        </label>
+        <p class="form__note">
+          By Submitting your information you confirm that you have read Payfuture’s <a href="#contact"
+            >Privacy Policy</a
+          > and agree to the use of your data in all Payfuture communications.
+        </p>
+        <button class="btn" type="submit">
+          Sign up now
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </button>
+        <p class="form__status" role="status" data-newsletter-status></p>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -75,7 +80,7 @@ import { faqs, footer } from '../data/home';
       <div data-reveal>
         <a class="btn btn--lg" href="#contact" data-magnetic>
           Get started
-          <Icon name="arrow" size={18} />
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
         </a>
       </div>
     </div>

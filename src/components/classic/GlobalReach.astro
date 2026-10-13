@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+import { markets } from '../../data/home';
+---
+
+<section class="reach" id="global-reach">
+  <canvas class="reach__globe" data-globe data-markets={JSON.stringify(markets)} aria-hidden="true"></canvas>
+
+  <div class="container reach__inner">
+    <h2 class="h2" data-split>Explore our global reach</h2>
+    <p class="lead" data-reveal>Payfuture connects you to the most trusted payment methods across emerging markets</p>
+
+    <label class="reach__search" data-reveal>
+      <span class="sr-only">Search for a country</span>
+      <input type="search" placeholder="Search for a country" autocomplete="off" data-market-search />
+      <Icon name="search" size={20} />
+    </label>
+
+    <ul class="reach__grid" data-market-grid>
+      {
+        markets.map((m) => (
+          <li data-reveal="scale">
+            <a class="market" href="#global-reach" data-market={m.name}>
+              <img src={m.flag} alt="" width="26" height="26" loading="lazy" />
+              {m.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="reach__empty" data-market-empty hidden>No market matches that search yet.</p>
+  </div>
+</section>
