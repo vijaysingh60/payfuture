@@ -229,12 +229,22 @@ function initReveals() {
     );
   });
 
-  const from: Record<string, gsap.TweenVars> = {
-    left: { x: -60 },
-    right: { x: 60 },
-    scale: { scale: 0.9, y: 24 },
-    up: { y: 50 },
-  };
+  // Horizontal offsets widen the page on a phone, which shows up as a blank
+  // strip and a sideways scroll. Small screens rise into place instead.
+  const compact = window.matchMedia('(max-width: 900px)').matches;
+  const from: Record<string, gsap.TweenVars> = compact
+    ? {
+        left: { y: 36 },
+        right: { y: 36 },
+        scale: { scale: 0.96, y: 24 },
+        up: { y: 36 },
+      }
+    : {
+        left: { x: -60 },
+        right: { x: 60 },
+        scale: { scale: 0.9, y: 24 },
+        up: { y: 50 },
+      };
   $$('[data-reveal]').forEach((el) => gsap.set(el, { opacity: 0, ...from[el.dataset.reveal || 'up'] }));
 
   ScrollTrigger.batch('[data-reveal]', {

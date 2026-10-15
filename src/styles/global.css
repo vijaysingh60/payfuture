@@ -1367,6 +1367,10 @@ input {
   transition: transform 0.45s var(--ease);
 }
 
+.market__name {
+  min-width: 0;
+}
+
 .market:hover,
 .market:focus-visible {
   border-color: var(--yellow);
@@ -3103,11 +3107,29 @@ input {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --gutter: 16px;
+  }
+
   .reach,
   .stats-section,
   .solutions-section {
     margin-inline: 8px;
     border-radius: 28px;
+  }
+
+  .announce {
+    max-width: 100%;
+    font-size: 13px;
+  }
+
+  .header {
+    padding-inline: 10px;
+  }
+
+  .header__bar {
+    max-width: 100%;
+    padding-left: 16px;
   }
 
   .hero__title {
@@ -3180,6 +3202,25 @@ input {
     grid-template-columns: 1fr 1fr;
   }
 
+  .reach__grid > li,
+  .market,
+  .faq__q,
+  .row__name,
+  .glass,
+  .footer__col {
+    min-width: 0;
+  }
+
+  .market {
+    gap: 8px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+  }
+
+  .reach__visual {
+    width: min(100%, 340px);
+  }
+
   .stats {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -3190,7 +3231,7 @@ input {
   }
 
   .stats strong {
-    font-size: 24vw;
+    font-size: clamp(56px, 16vw, 88px);
   }
 
   .challenge-list li {
@@ -3217,8 +3258,23 @@ input {
     grid-template-columns: 1fr;
   }
 
+  .solutions__phone {
+    min-height: 500px;
+  }
+
+  .newsletter {
+    min-height: 0;
+    padding: 32px 20px;
+  }
+
   .glass {
     min-height: 0;
+    padding: 24px;
+  }
+
+  .form input {
+    /* 16px keeps iOS from zooming the page when a field is focused. */
+    font-size: 16px;
   }
 
   .faq__q {

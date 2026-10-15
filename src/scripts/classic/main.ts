@@ -167,12 +167,20 @@ function initReveals() {
     });
   });
 
-  const from: Record<string, gsap.TweenVars> = {
-    left: { x: -56 },
-    right: { x: 56 },
-    scale: { scale: 0.88, y: 20 },
-    up: { y: 44 },
-  };
+  const compact = window.matchMedia('(max-width: 900px)').matches;
+  const from: Record<string, gsap.TweenVars> = compact
+    ? {
+        left: { y: 32 },
+        right: { y: 32 },
+        scale: { scale: 0.96, y: 20 },
+        up: { y: 32 },
+      }
+    : {
+        left: { x: -56 },
+        right: { x: 56 },
+        scale: { scale: 0.88, y: 20 },
+        up: { y: 44 },
+      };
   $$('[data-reveal]').forEach((el) => gsap.set(el, { opacity: 0, ...from[el.dataset.reveal || 'up'] }));
 
   ScrollTrigger.batch('[data-reveal]', {

@@ -35,7 +35,7 @@ const { id = 'corridors', title, text, markets } = Astro.props;
             <li data-reveal="scale">
               <a class="market" href={`#${id}`} data-market={m.name}>
                 <img src={m.flag} alt="" width="26" height="26" loading="lazy" />
-                {m.name}
+                <span class="market__name">{m.name}</span>
                 {m.currency && <span class="market__code">{m.currency}</span>}
               </a>
             </li>
