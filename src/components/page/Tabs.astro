@@ -1,0 +1,60 @@
+---
+interface Tab {
+  label: string;
+  title?: string;
+  text: string;
+  img: string;
+}
+interface Props {
+  id: string;
+  tabs: Tab[];
+}
+const { id, tabs } = Astro.props;
+---
+
+<!-- Tabs advance on their own while in view; the bar under the active tab shows the time left. -->
+<div class="tabs" data-tabs>
+  <div class="tabs__list" role="tablist">
+    {
+      tabs.map((tab, i) => (
+        <button
+          class={`tabs__tab${i === 0 ? ' is-active' : ''}`}
+          type="button"
+          role="tab"
+          id={`${id}-tab-${i}`}
+          aria-controls={`${id}-panel-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {tab.label}
+          <span class="tabs__bar" aria-hidden="true">
+            <i />
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="tabs__panels">
+    {
+      tabs.map((tab, i) => (
+        <div
+          class={`tabs__panel${i === 0 ? ' is-active' : ''}`}
+          role="tabpanel"
+          id={`${id}-panel-${i}`}
+          aria-labelledby={`${id}-tab-${i}`}
+          hidden={i !== 0}
+        >
+          <div class="tabs__media">
+            <img src={tab.img} alt="" loading="lazy" />
+          </div>
+          <div class="tabs__copy">
+            <span class="tabs__index">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{tab.title ?? tab.label}</h3>
+            <p>{tab.text}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

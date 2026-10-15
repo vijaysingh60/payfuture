@@ -1,0 +1,22 @@
+---
+interface Props {
+  items: { title: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<!-- The track fills as the section scrolls past, lighting each step in turn. -->
+<div class="steps" data-steps style={`--n:${items.length}`}>
+  <div class="steps__track" aria-hidden="true"><span class="steps__fill" data-steps-fill></span></div>
+  <ol class="steps__list">
+    {
+      items.map((step, i) => (
+        <li class="step" data-step>
+          <span class="step__num">{i + 1}</span>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+</div>

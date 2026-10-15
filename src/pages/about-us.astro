@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/page/PageHero.astro';
+import SectionHead from '../components/page/SectionHead.astro';
+import Team from '../components/page/Team.astro';
+import { hero, numbers, mission, vision, team } from '../data/about';
+---
+
+<Base
+  title="About Us | Payfuture"
+  description="Payfuture provides compliant fiat and stablecoin rails for money moving into and out of India, Pakistan, Nigeria, the Philippines and Egypt."
+  preload={hero.image.src}
+>
+  <PageHero
+    title={hero.title}
+    text={hero.text}
+    image={hero.image}
+    secondary={{ label: 'Meet the team', href: '#team' }}
+    chips={[{ icon: 'pin', title: 'Headquartered in London', sub: '4+ locations worldwide' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={numbers.title} />
+      <ul class="numbers">
+        {
+          numbers.items.map((n) => (
+            <li data-reveal data-tilt>
+              <span class="icon-tile">
+                <Icon name={n.icon} size={22} />
+              </span>
+              <strong>
+                <span data-count={n.value} data-decimals={n.decimals}>
+                  {n.value}
+                </span>
+                {n.suffix}
+              </strong>
+              <p>{n.label}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container mv" data-inview>
+      <article class="mv__card" data-reveal="left">
+        <svg class="mv__icon mv__icon--target" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="22"></circle>
+          <circle cx="32" cy="32" r="13"></circle>
+          <circle class="mv__bull" cx="32" cy="32" r="4.5"></circle>
+          <g class="mv__arrow">
+            <path d="M32 32 L54 10"></path>
+            <path d="M48 8 L56 8 L56 16"></path>
+          </g>
+        </svg>
+        <h2>{mission.title}</h2>
+        <p>{mission.text}</p>
+      </article>
+      <article class="mv__card mv__card--dark" data-reveal="right">
+        <svg class="mv__icon mv__icon--eye" viewBox="0 0 64 64" aria-hidden="true">
+          <g class="mv__lid">
+            <path d="M6 32 C 16 16, 48 16, 58 32 C 48 48, 16 48, 6 32 Z"></path>
+            <circle cx="32" cy="32" r="9"></circle>
+            <circle class="mv__pupil" cx="32" cy="32" r="3.5"></circle>
+          </g>
+        </svg>
+        <h2>{vision.title}</h2>
+        <p>{vision.text}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="team">
+    <div class="container">
+      <SectionHead title={team.title} text={team.text} />
+      <Team people={team.people} />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,97 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  paragraphs?: string[];
+  /** Bold closing line under the paragraphs. */
+  emphasis?: string;
+  list?: string[];
+  cta?: { label: string; href: string };
+  image: { src: string; alt: string };
+  badge?: { icon: string; title: string; sub: string };
+  reverse?: boolean;
+  soft?: boolean;
+  /** Bold the part of each list item before " — ". */
+  leadBold?: boolean;
+}
+const {
+  eyebrow,
+  title,
+  paragraphs = [],
+  emphasis,
+  list = [],
+  cta,
+  image,
+  badge,
+  reverse = false,
+  soft = false,
+  leadBold = false,
+} = Astro.props;
+
+// "Lead — detail" list items get their lead in bold.
+const listItems = list.map((li) => {
+  const [lead, ...rest] = li.split(' — ');
+  return leadBold && rest.length ? { lead, rest: rest.join(' — ') } : { lead: '', rest: li };
+});
+---
+
+<section class={`section split${reverse ? ' split--reverse' : ''}${soft ? ' section--soft' : ''}`}>
+  <div class="container split__inner">
+    <div class="split__media">
+      <div class="split__frame" data-clip>
+        <img src={image.src} alt={image.alt} loading="lazy" data-clip-img />
+      </div>
+      {
+        badge && (
+          <div class="chip split__badge" aria-hidden="true">
+            <span class="chip__icon">
+              <Icon name={badge.icon} size={18} />
+            </span>
+            <span>
+              <strong>{badge.title}</strong>
+              <small>{badge.sub}</small>
+            </span>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="split__copy">
+      {eyebrow && <span class="pill" data-reveal>{eyebrow}</span>}
+      <h2 class="display display--dark" data-split>{title}</h2>
+      {paragraphs.map((p) => <p data-reveal>{p}</p>)}
+      {emphasis && <p class="split__emphasis" data-reveal>{emphasis}</p>}
+      {
+        listItems.length > 0 && (
+          <ul class="ticklist" data-inview>
+            {listItems.map((li, i) => (
+              <li style={`--i:${i}`} data-reveal="right">
+                <span class="ticklist__mark">
+                  <Icon name="check" size={14} />
+                </span>
+                <span>
+                  {li.lead && <strong>{li.lead} — </strong>}
+                  {li.rest}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        cta && (
+          <div data-reveal>
+            <a class="btn" href={cta.href}>
+              {cta.label}
+              <span class="btn__arrow">
+                <Icon name="arrow" size={16} />
+              </span>
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

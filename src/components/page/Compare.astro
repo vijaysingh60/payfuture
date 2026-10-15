@@ -1,0 +1,46 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  without: { title: string; items: string[] };
+  with: { title: string; items: string[] };
+}
+const { without, with: withUs } = Astro.props;
+---
+
+<!-- On scroll-in, the "without" points are struck through and the Payfuture points tick in. -->
+<div class="compare" data-inview>
+  <div class="compare__col compare__col--without" data-reveal="left">
+    <h3>{without.title}</h3>
+    <ul>
+      {
+        without.items.map((item, i) => (
+          <li style={`--i:${i}`}>
+            <span class="compare__mark">
+              <Icon name="close" size={13} />
+            </span>
+            <span class="compare__text">{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <span class="compare__vs" aria-hidden="true">vs</span>
+
+  <div class="compare__col compare__col--with" data-reveal="right">
+    <h3>{withUs.title}</h3>
+    <ul>
+      {
+        withUs.items.map((item, i) => (
+          <li style={`--i:${i}`}>
+            <span class="compare__mark">
+              <Icon name="check" size={14} />
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

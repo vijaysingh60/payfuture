@@ -1,0 +1,51 @@
+---
+import '@fontsource-variable/montserrat';
+import 'lenis/dist/lenis.css';
+import '../styles/global.css';
+import '../styles/pages.css';
+
+import Header from '../components/Header.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Homepage only: branded loader and the headline intro. */
+  intro?: boolean;
+  /** Preload the hero image so it is ready when the intro reveals it. */
+  preload?: string;
+}
+const { title, description, intro = false, preload } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    {preload && <link rel="preload" as="image" href={preload} />}
+    <script is:inline>
+      // Hide intro elements until their animation runs; fall back to visible if the main script never loads.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('anim-ready');
+        setTimeout(function () {
+          if (!window.__pfReady) document.documentElement.classList.remove('anim-ready');
+        }, 3500);
+      }
+    </script>
+  </head>
+  <body>
+    <Header intro={intro} />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

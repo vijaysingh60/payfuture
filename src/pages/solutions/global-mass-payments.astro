@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import SplitMedia from '../../components/page/SplitMedia.astro';
+import Tabs from '../../components/page/Tabs.astro';
+import BatchRun from '../../components/page/BatchRun.astro';
+import Compare from '../../components/page/Compare.astro';
+import Steps from '../../components/page/Steps.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import Faq from '../../components/Faq.astro';
+import { meta, hero, what, who, challenges, support, why, steps, industries, faqs } from '../../data/massPayments';
+---
+
+<Base title={meta.title} description={meta.description} preload={hero.image.src}>
+  <PageHero title={hero.title} text={hero.text} cta={hero.cta} image={hero.image} chips={hero.chips} />
+
+  <section class="section">
+    <div class="container narrow">
+      <span class="pill" data-reveal>{what.eyebrow}</span>
+      <p class="statement statement--left" data-highlight>{what.text}</p>
+      <p class="lead muted" data-reveal>{what.more}</p>
+    </div>
+  </section>
+
+  <SplitMedia eyebrow={who.eyebrow} title={who.title} list={who.list} cta={who.cta} image={who.image} soft leadBold />
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={challenges.title} text={challenges.text} />
+      <Tabs id="mass-challenges" tabs={challenges.tabs} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={support.title} />
+      <BatchRun items={support.items} />
+      <div class="center" data-reveal>
+        <a class="btn" href={support.cta.href}>
+          {support.cta.label}
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={why.eyebrow} text={why.text} />
+      <Compare without={why.without} with={why.with} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={steps.title} />
+      <Steps items={steps.items} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={industries.title} />
+      <FeatureGrid items={industries.items} cols={3} />
+    </div>
+  </section>
+
+  <Faq title={faqs.title} items={faqs.items} />
+</Base>

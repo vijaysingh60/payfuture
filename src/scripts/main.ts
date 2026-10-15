@@ -1,6 +1,18 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import {
+  initBatch,
+  initClipReveals,
+  initCoinFlow,
+  initCorridorFinder,
+  initGlowAreas,
+  initInView,
+  initPageHero,
+  initSteps,
+  initTabs,
+  initTilt,
+} from './pages';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,6 +76,7 @@ function initPhotoPills() {
 function initStage() {
   const slides = $$('.stage__slide');
   const dots = $$('.stage__dot');
+  if (!slides.length) return;
   let current = 0;
   let z = 1;
   let autoplay: gsap.core.Tween | null = null;
@@ -131,7 +144,7 @@ function initStage() {
 }
 
 function initHeroIntro() {
-  if (reducedMotion) return;
+  if (reducedMotion || !$('[data-hero]')) return;
 
   const intro = gsap
     .timeline({ paused: true, defaults: { ease: 'power4.out' } })
@@ -240,11 +253,6 @@ function initReveals() {
         clearProps: 'transform,opacity',
       }),
   });
-
-  // CSS-driven visuals (typed code, bars) start when they come into view.
-  $$('[data-inview]').forEach((el) =>
-    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => el.classList.add('is-in') }),
-  );
 
   // Phones rise into their panels as the panel scrolls in.
   $$('[data-phone]').forEach((phone) => {
@@ -469,7 +477,17 @@ initHeader();
 initPhotoPills();
 initStage();
 initHeroIntro();
+initPageHero();
 initReveals();
+initInView();
+initClipReveals();
+initSteps();
+initTabs();
+initCorridorFinder();
+initCoinFlow();
+initBatch();
+initGlowAreas();
+initTilt();
 initCounters();
 initPointerEffects();
 initGlobalReach();

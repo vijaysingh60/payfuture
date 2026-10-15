@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import PropStrip from '../../components/page/PropStrip.astro';
+import SplitMedia from '../../components/page/SplitMedia.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import GlobalReach from '../../components/GlobalReach.astro';
+import Steps from '../../components/page/Steps.astro';
+import Tabs from '../../components/page/Tabs.astro';
+import Faq from '../../components/Faq.astro';
+import {
+  meta,
+  hero,
+  strip,
+  challenges,
+  seamless,
+  reach,
+  how,
+  smarter,
+  whyChoose,
+  industries,
+  faqs,
+} from '../../data/crossBorder';
+---
+
+<Base title={meta.title} description={meta.description} preload={hero.image.src}>
+  <PageHero title={hero.title} text={hero.text} cta={hero.cta} image={hero.image} chips={hero.chips} />
+
+  <PropStrip items={strip} />
+
+  <SplitMedia eyebrow={challenges.eyebrow} title={challenges.title} list={challenges.list} cta={challenges.cta} image={challenges.image} />
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={seamless.title} />
+      <FeatureGrid items={seamless.items} cols={3} />
+      <div class="center" data-reveal>
+        <a class="btn" href={seamless.cta.href}>
+          {seamless.cta.label}
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="reach-spacer">
+    <GlobalReach id="reach" title={reach.title} text={reach.text} markets={reach.markets} />
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={how.title} />
+      <Steps items={how.items} />
+    </div>
+  </section>
+
+  <SplitMedia title={smarter.title} paragraphs={smarter.paragraphs} cta={smarter.cta} image={smarter.image} reverse soft />
+
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead title={whyChoose.title} light />
+      <FeatureGrid items={whyChoose.items} cols={3} variant="glass" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={industries.title} />
+      <Tabs id="xb-industries" tabs={industries.tabs} />
+      <div class="center" data-reveal>
+        <a class="btn" href={industries.cta.href}>
+          {industries.cta.label}
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Faq title={faqs.title} items={faqs.items} />
+</Base>

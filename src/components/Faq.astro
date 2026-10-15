@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  /** Optional line under the title. */
+  text?: string;
+  /** An answer can be a paragraph, or an intro plus a bullet list. */
+  items: { q: string; a: string; list?: string[]; after?: string }[];
+}
+const { title = 'Frequently asked questions', text, items } = Astro.props;
+---
+
+<section class="section faq-section" id="faq">
+  <div class="container faq-section__inner">
+    <div class="faq-section__title">
+      <h2 class="display display--dark" data-split>{title}</h2>
+      {text && <p class="lead faq-section__text" data-reveal>{text}</p>}
+    </div>
+    <div class="faq" data-faq>
+      {
+        items.map((item, i) => (
+          <div class={`faq__item${i === 0 ? ' is-open' : ''}`} data-reveal>
+            <h3>
+              <button type="button" class="faq__q" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="faq__num">{String(i + 1).padStart(2, '0')}</span>
+                {item.q}
+                <span class="faq__icon">
+                  <Icon name="plus" size={16} />
+                </span>
+              </button>
+            </h3>
+            <div class="faq__panel">
+              <div>
+                <p>{item.a}</p>
+                {item.list && (
+                  <ul class="faq__list">
+                    {item.list.map((li) => (
+                      <li>{li}</li>
+                    ))}
+                  </ul>
+                )}
+                {item.after && <p>{item.after}</p>}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

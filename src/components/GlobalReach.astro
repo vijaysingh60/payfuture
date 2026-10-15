@@ -1,13 +1,27 @@
 ---
 import Icon from './Icon.astro';
-import { markets } from '../data/home';
+
+interface Market {
+  name: string;
+  flag: string;
+  currency?: string;
+  lon: number;
+  lat: number;
+}
+interface Props {
+  id?: string;
+  title: string;
+  text: string;
+  markets: Market[];
+}
+const { id = 'corridors', title, text, markets } = Astro.props;
 ---
 
-<section class="reach" id="global-reach">
+<section class="reach" id={id}>
   <div class="container reach__inner">
     <div class="reach__copy">
-      <h2 class="display" data-split>Explore our global reach</h2>
-      <p class="lead" data-reveal>Payfuture connects you to the most trusted payment methods across emerging markets</p>
+      <h2 class="display" data-split>{title}</h2>
+      <p class="lead" data-reveal>{text}</p>
 
       <label class="reach__search" data-reveal>
         <span class="sr-only">Search for a country</span>
@@ -19,9 +33,10 @@ import { markets } from '../data/home';
         {
           markets.map((m) => (
             <li data-reveal="scale">
-              <a class="market" href="#global-reach" data-market={m.name}>
+              <a class="market" href={`#${id}`} data-market={m.name}>
                 <img src={m.flag} alt="" width="26" height="26" loading="lazy" />
                 {m.name}
+                {m.currency && <span class="market__code">{m.currency}</span>}
               </a>
             </li>
           ))

@@ -1,0 +1,81 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  items: { title: string; text: string }[];
+}
+const { items } = Astro.props;
+
+// Illustrative batch for the animation; not real recipients or amounts.
+const rows = [
+  { flag: '/img/flags/india.svg', id: 'Recipient 0141', amount: 'INR 42,000', fx: 'from USD 504' },
+  { flag: '/img/flags/pakistan.svg', id: 'Recipient 0142', amount: 'PKR 85,500', fx: 'from USD 307' },
+  { flag: '/img/flags/nigeria.svg', id: 'Recipient 0143', amount: 'NGN 310,000', fx: 'from USD 202' },
+  { flag: '/img/flags/philippines.png', id: 'Recipient 0144', amount: 'PHP 26,400', fx: 'from USD 460' },
+  { flag: '/img/flags/egypt.svg', id: 'Recipient 0145', amount: 'EGP 15,750', fx: 'from USD 324' },
+  { flag: '/img/flags/india.svg', id: 'Recipient 0146', amount: 'INR 18,250', fx: 'from USD 219' },
+];
+const icons = ['layers', 'coins', 'shield', 'clock', 'route'];
+---
+
+<!--
+  Each capability on the left moves the batch on the right to a new stage:
+  0 rows queue up, 1 FX shows, 2 screening ticks, 3 statuses settle, 4 API call and webhook appear.
+-->
+<div class="batch" data-batch>
+  <ol class="batch__steps">
+    {
+      items.map((item, i) => (
+        <li class={`batch__step${i === 0 ? ' is-active' : ''}`} data-batch-step={i}>
+          <span class="icon-tile">
+            <Icon name={icons[i]} size={22} />
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="batch__sticky">
+    <div class="batch__panel" data-batch-panel data-stage="0" data-inview aria-hidden="true">
+      <div class="batch__head">
+        <span class="batch__title">
+          <strong>Payroll run</strong>
+          <small>6 recipients · 5 corridors</small>
+        </span>
+        <span class="batch__status" data-batch-label>Queued</span>
+      </div>
+
+      <div class="batch__progress"><i></i></div>
+
+      <ul class="batch__rows">
+        {
+          rows.map((r, i) => (
+            <li class="batch__row" style={`--i:${i}`}>
+              <img src={r.flag} alt="" />
+              <span class="batch__id">{r.id}</span>
+              <span class="batch__amount">
+                {r.amount}
+                <small>{r.fx}</small>
+              </span>
+              <span class="batch__screen">
+                <Icon name="shield" size={15} />
+              </span>
+              <span class={`batch__state${i === 4 ? ' batch__state--pending' : ''}`}>
+                <b>Queued</b>
+                <b>{i === 4 ? 'Pending' : 'Settled'}</b>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="batch__foot">
+        <span class="batch__tally"><b>5</b> settled · <b>1</b> pending · <b>0</b> failed</span>
+        <code class="batch__api">POST /v1/payouts/batch</code>
+        <code class="batch__hook">webhook · batch.settled</code>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  people: { name: string; role: string; img: string; linkedin?: string }[];
+}
+const { people } = Astro.props;
+---
+
+<ul class="team">
+  {
+    people.map((p, i) => (
+      <li class="person" data-reveal style={`--i:${i}`}>
+        <div class="person__photo" data-clip>
+          <img src={p.img} alt={`${p.name}, ${p.role}`} loading="lazy" data-clip-img />
+        </div>
+        <h3>{p.name}</h3>
+        <p>{p.role}</p>
+        <a class="person__link" href={p.linkedin ?? '#'} aria-label={`${p.name} on LinkedIn`}>
+          <Icon name="linkedin" size={18} />
+        </a>
+      </li>
+    ))
+  }
+</ul>

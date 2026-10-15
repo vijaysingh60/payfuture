@@ -1,0 +1,125 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import DotMap from '../../components/page/DotMap.astro';
+import SplitMedia from '../../components/page/SplitMedia.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import CtaBand from '../../components/page/CtaBand.astro';
+import { routes } from '../../data/site';
+import {
+  hero,
+  mapPins,
+  mapHub,
+  simpler,
+  pillars,
+  lastMile,
+  products,
+  statement,
+  massPayouts,
+  youCan,
+  closing,
+} from '../../data/solutions';
+---
+
+<Base
+  title="Solutions | Payfuture"
+  description="Compliant fiat and stablecoin rails for remittances, payroll and supplier payments across India, Pakistan, Nigeria, the Philippines and Egypt."
+>
+  <PageHero title={hero.title} text={hero.text} cta={hero.cta} secondary={{ label: 'See our corridors', href: routes.corridors }}>
+    <DotMap slot="visual" pins={mapPins} hub={mapHub} />
+  </PageHero>
+
+  <SplitMedia title={simpler.title} paragraphs={simpler.paragraphs} image={simpler.image} badge={{ icon: 'transfer', title: 'Fiat or stablecoin in', sub: 'Local currency out' }} />
+
+  <section class="section section--tight">
+    <div class="container">
+      <FeatureGrid items={pillars} cols={3} />
+    </div>
+  </section>
+
+  <section class="section section--soft lastmile">
+    <div class="container lastmile__inner">
+      <div>
+        <h2 class="display display--dark" data-split>{lastMile.title}</h2>
+        {lastMile.paragraphs.map((p) => <p class="lastmile__p" data-reveal>{p}</p>)}
+        <div data-reveal>
+          <a class="btn" href={lastMile.cta.href}>
+            {lastMile.cta.label}
+            <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+          </a>
+        </div>
+      </div>
+      <ul class="linklist" data-inview>
+        {
+          lastMile.links.map((l, i) => (
+            <li style={`--i:${i}`} data-reveal="right">
+              <a href={l.href}>
+                <span class="linklist__check">
+                  <Icon name="check" size={15} />
+                </span>
+                {l.label}
+                <span class="linklist__arrow">
+                  <Icon name="arrow" size={16} />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <FeatureGrid items={products} cols={3} />
+      <p class="statement" data-highlight>{statement}</p>
+      <div class="center" data-reveal>
+        <a class="btn btn--lg" href={routes.contact} data-magnetic>
+          Talk to sales
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark masspay">
+    <div class="container">
+      <SectionHead title={massPayouts.title} text={massPayouts.text} light />
+      <ul class="pillinks">
+        {
+          massPayouts.links.map((l) => (
+            <li data-reveal="scale">
+              <a href={l.href}>
+                {l.label}
+                <Icon name="arrow" size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container youcan" data-inview>
+      <span class="youcan__badge" data-reveal="left">{youCan.badge}</span>
+      <span class="youcan__wire" aria-hidden="true"></span>
+      <ul class="youcan__list">
+        {
+          youCan.items.map((item, i) => (
+            <li style={`--i:${i}`}>
+              <span class="ticklist__mark">
+                <Icon name="check" size={14} />
+              </span>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title={closing.title} text={closing.text} cta={closing.cta} />
+</Base>

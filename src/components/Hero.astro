@@ -1,10 +1,13 @@
 ---
 import Icon from './Icon.astro';
-import { heroSlides, trustLogos } from '../data/home';
+import { hero, heroSlides, trust } from '../data/home';
 
-// Each headline pill cycles through the hero photos, starting on a different one.
-const pillA = heroSlides;
-const pillB = [...heroSlides.slice(2), ...heroSlides.slice(0, 2)];
+// Each headline pill cycles through photos, starting on a different one.
+const pillA = [{ src: '/img/hero/street.webp' }, ...heroSlides.slice(1, 3)];
+const pillB = [heroSlides[0], heroSlides[3], { src: '/img/hero/street.webp' }];
+
+// Trust logos are repeated so each half of the marquee is wider than the screen.
+const logoSet = [...trust.logos, ...trust.logos];
 ---
 
 <section class="hero" id="top" data-hero>
@@ -24,42 +27,41 @@ const pillB = [...heroSlides.slice(2), ...heroSlides.slice(0, 2)];
   </svg>
 
   <div class="container hero__inner">
-    <a class="announce" href="#solutions" data-hero-fade>
+    <a class="announce" href="#corridors" data-hero-fade>
       <span class="announce__dot"></span>
-      Explore mass payouts to emerging markets <strong>here</strong>
+      {hero.eyebrow}
       <Icon name="arrow" size={15} />
     </a>
 
-    <h1 class="hero__title" aria-label="Reach billions in emerging markets">
+    <h1 class="hero__title" aria-label="Fiat or stablecoin in. Local currency out.">
       <span class="hero__line" aria-hidden="true">
-        <span class="mask"><span data-hero-word>Reach</span></span>
+        <span class="mask"><span data-hero-word>Fiat</span></span>
+        <span class="mask"><span data-hero-word>or</span></span>
         <span class="photo-pill" data-pill>
           {pillA.map((s) => <img src={s.src} alt="" />)}
         </span>
-        <span class="mask"><span class="accent" data-hero-word>billions</span></span>
-        <span class="mask"><span data-hero-word>in</span></span>
+        <span class="mask"><span data-hero-word>stablecoin</span></span>
+        <span class="mask"><span data-hero-word>in.</span></span>
       </span>
       <span class="hero__line" aria-hidden="true">
-        <span class="mask"><span data-hero-word>emerging</span></span>
+        <span class="mask"><span class="accent" data-hero-word>Local</span></span>
+        <span class="mask"><span class="accent" data-hero-word>currency</span></span>
         <span class="photo-pill" data-pill>
           {pillB.map((s) => <img src={s.src} alt="" />)}
         </span>
-        <span class="mask"><span data-hero-word>markets</span></span>
+        <span class="mask"><span class="accent" data-hero-word>out.</span></span>
       </span>
     </h1>
 
-    <p class="hero__text" data-hero-fade>
-      Payfuture provides business and enterprise payment solutions that help companies accept local payment methods,
-      manage online payments, and support international and cross-border transactions across high-growth markets.
-    </p>
+    <p class="hero__text" data-hero-fade>{hero.text}</p>
 
     <div class="hero__actions" data-hero-fade>
       <a class="btn btn--lg" href="#contact" data-magnetic>
         Get started
         <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
       </a>
-      <a class="link-arrow link-arrow--light" href="#global-reach">
-        Explore our global reach
+      <a class="link-arrow link-arrow--light" href="#corridors">
+        Explore our corridors
         <Icon name="arrow" size={16} />
       </a>
     </div>
@@ -79,19 +81,21 @@ const pillB = [...heroSlides.slice(2), ...heroSlides.slice(0, 2)];
       <div class="chip chip--approved" aria-hidden="true">
         <span class="chip__icon"><Icon name="check" size={18} /></span>
         <span>
-          <strong>Payment approved</strong>
-          <small>UPI · INR 3,246</small>
+          <strong>Paid in PKR</strong>
+          <small>Bank account</small>
         </span>
       </div>
       <div class="chip chip--methods" aria-hidden="true">
         <span class="chip__flags">
           <img src="/img/flags/india.svg" alt="" />
+          <img src="/img/flags/pakistan.svg" alt="" />
           <img src="/img/flags/nigeria.svg" alt="" />
+          <img src="/img/flags/philippines.png" alt="" />
           <img src="/img/flags/egypt.svg" alt="" />
         </span>
         <span>
-          <strong>Local payment methods</strong>
-          <small>One API integration</small>
+          <strong>Fiat or stablecoin in</strong>
+          <small>Local currency out</small>
         </span>
       </div>
 
@@ -113,16 +117,20 @@ const pillB = [...heroSlides.slice(2), ...heroSlides.slice(0, 2)];
 </section>
 
 <section class="trust">
-  <p class="trust__title" data-reveal>Trusted by businesses that move money at scale</p>
+  <p class="trust__title" data-reveal>{trust.title}</p>
   <div class="marquee" data-reveal>
     <div class="marquee__track">
       {
         [0, 1].map((set) =>
-          trustLogos.map((logo) => (
-            <div class="marquee__item" aria-hidden={set === 1 ? 'true' : undefined}>
-              <img src={logo.src} alt={set === 0 ? logo.name : ''} loading="lazy" />
-            </div>
-          )),
+          logoSet.map((logo, i) => {
+            // Only the first copy of each logo is announced to screen readers.
+            const first = set === 0 && i < trust.logos.length;
+            return (
+              <div class="marquee__item" aria-hidden={first ? undefined : 'true'}>
+                <img src={logo.src} alt={first ? logo.name : ''} loading="lazy" />
+              </div>
+            );
+          }),
         )
       }
     </div>

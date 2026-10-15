@@ -1,0 +1,30 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  items: { icon: string; title: string; sub?: string }[];
+}
+const { items } = Astro.props;
+// Enough copies that each half of the loop is wider than the screen.
+const copies = items.length < 4 ? 4 : 2;
+---
+
+<div class="strip" aria-label={items.map((i) => i.title).join(', ')}>
+  <div class="strip__track">
+    {
+      Array.from({ length: copies * 2 }).map((_, set) =>
+        items.map((item) => (
+          <div class="strip__item" aria-hidden="true">
+            <span class="icon-tile">
+              <Icon name={item.icon} size={22} />
+            </span>
+            <span>
+              <strong>{item.title}</strong>
+              {item.sub && <small>{item.sub}</small>}
+            </span>
+          </div>
+        )),
+      )
+    }
+  </div>
+</div>

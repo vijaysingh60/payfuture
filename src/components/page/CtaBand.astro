@@ -1,0 +1,33 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  title: string;
+  text?: string;
+  cta: { label: string; href: string };
+}
+const { title, text, cta } = Astro.props;
+---
+
+<section class="section cta-section">
+  <div class="container">
+    <div class="ctaband" data-reveal="scale" data-glow-area>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true" data-glow></div>
+      <svg class="hero__rails" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g class="rails-pulse">
+          <path pathLength="1000" d="M-40 420 C 260 300, 520 480, 1240 160"></path>
+          <path pathLength="1000" d="M-40 120 C 300 240, 700 40, 1240 260"></path>
+        </g>
+      </svg>
+      <h2 class="display" data-split>{title}</h2>
+      {text && <p class="lead lead--light" data-reveal>{text}</p>}
+      <div data-reveal>
+        <a class="btn btn--lg" href={cta.href} data-magnetic>
+          {cta.label}
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

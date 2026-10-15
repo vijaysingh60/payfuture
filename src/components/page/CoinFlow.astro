@@ -1,0 +1,31 @@
+---
+interface Props {
+  items: { title: string; text: string }[];
+  /** What the token reads as it leaves each stage. */
+  labels: string[];
+}
+const { items, labels } = Astro.props;
+---
+
+<!-- On wide screens the section pins while a token travels the four stages. -->
+<div class="coinflow" data-coinflow style={`--n:${items.length}`}>
+  <div class="coinflow__rail" aria-hidden="true">
+    <span class="coinflow__line"><i data-coinflow-fill></i></span>
+    {items.map((_, i) => <span class="coinflow__station" style={`--i:${i}`} data-coinflow-station />)}
+    <span class="coinflow__token" data-coinflow-token>
+      {labels.map((l, i) => <b class={i === 0 ? 'is-on' : undefined}>{l}</b>)}
+    </span>
+  </div>
+
+  <ol class="coinflow__cards">
+    {
+      items.map((item, i) => (
+        <li class="coinflow__card" data-coinflow-card>
+          <span class="coinflow__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+</div>

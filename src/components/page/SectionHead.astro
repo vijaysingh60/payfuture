@@ -1,0 +1,25 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text?: string | string[];
+  /** Light text for dark sections. */
+  light?: boolean;
+  align?: 'center' | 'left';
+}
+const { eyebrow, title, text, light = false, align = 'center' } = Astro.props;
+const paragraphs = text === undefined ? [] : Array.isArray(text) ? text : [text];
+---
+
+<header class={`section__head${align === 'left' ? ' section__head--start' : ''}`}>
+  {eyebrow && <span class="pill" data-reveal>{eyebrow}</span>}
+  <h2 class={`display${light ? '' : ' display--dark'}`} data-split>{title}</h2>
+  {
+    paragraphs.map((p) => (
+      <p class={`lead${light ? ' lead--light' : ''}`} data-reveal>
+        {p}
+      </p>
+    ))
+  }
+  <slot />
+</header>

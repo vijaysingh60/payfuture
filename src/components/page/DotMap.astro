@@ -1,0 +1,117 @@
+---
+import { geoContains } from 'd3-geo';
+import { feature } from 'topojson-client';
+import landTopo from 'world-atlas/land-110m.json';
+
+interface Pin {
+  name: string;
+  code: string;
+  lon: number;
+  lat: number;
+  side: 'left' | 'right';
+}
+interface Props {
+  pins: Pin[];
+  hub: { name: string; lon: number; lat: number };
+}
+const { pins, hub } = Astro.props;
+
+// Dots are worked out at build time, so the browser only draws SVG.
+// The view is cropped to Europe, Africa and Asia: the London hub and the five corridors.
+const LON_W = -24;
+const LON_E = 150;
+const LAT_N = 64;
+const LAT_S = -40;
+const W = 1000;
+const H = Math.round((W * (LAT_N - LAT_S)) / (LON_E - LON_W));
+const land = feature(landTopo as any, (landTopo as any).objects.land) as any;
+const k = W / (LON_E - LON_W);
+const project = (lon: number, lat: number) => [(lon - LON_W) * k, (LAT_N - lat) * k] as const;
+
+const STEP = 1.9;
+const dots: { x: number; y: number; o: number; d: number }[] = [];
+for (let lat = LAT_N - STEP / 2; lat > LAT_S; lat -= STEP) {
+  for (let lon = LON_W + STEP / 2; lon < LON_E; lon += STEP) {
+    if (!geoContains(land, [lon, lat])) continue;
+    const [x, y] = project(lon, lat);
+    // Deterministic shimmer so every build looks the same.
+    const r = Math.sin(lon * 12.9898 + lat * 78.233) * 43758.5453;
+    const o = 0.3 + (r - Math.floor(r)) * 0.4;
+    dots.push({ x: +x.toFixed(1), y: +y.toFixed(1), o: +o.toFixed(2), d: +((x / W) * 1.4).toFixed(2) });
+  }
+}
+
+const FONT = 19;
+const labelWidth = (p: { name: string; code: string }) => Math.round((p.name.length + p.code.length + 1) * FONT * 0.62 + 30);
+
+const [hx, hy] = project(hub.lon, hub.lat);
+const placed = pins.map((p, i) => {
+  const [x, y] = project(p.lon, p.lat);
+  // Arc control point lifted above the midpoint, higher for longer routes.
+  const mx = (hx + x) / 2;
+  const my = (hy + y) / 2 - Math.hypot(x - hx, y - hy) * 0.32;
+  const w = labelWidth(p);
+  return {
+    ...p,
+    x,
+    y,
+    w,
+    lx: p.side === 'right' ? 20 : -20 - w,
+    arc: `M${hx.toFixed(1)} ${hy.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`,
+    i,
+  };
+});
+const hubW = Math.round(hub.name.length * FONT * 0.62 + 30);
+---
+
+<div class="dotmap" data-inview aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H}`} role="presentation" style={`--font:${FONT}px`}>
+    <g class="dotmap__dots">
+      {dots.map((d) => <circle cx={d.x} cy={d.y} r="3.1" style={`--o:${d.o};--d:${d.d}s`} />)}
+    </g>
+
+    <g class="dotmap__arcs">
+      {
+        placed.map((p) => (
+          <>
+            <path id={`dotmap-arc-${p.i}`} d={p.arc} pathLength="1" style={`--i:${p.i}`} />
+            <circle class="dotmap__runner" r="5">
+              <animateMotion dur={`${2.6 + p.i * 0.35}s`} begin={`${1.6 + p.i * 0.3}s`} repeatCount="indefinite">
+                <mpath href={`#dotmap-arc-${p.i}`} />
+              </animateMotion>
+            </circle>
+          </>
+        ))
+      }
+    </g>
+
+    <g class="dotmap__hub" transform={`translate(${hx.toFixed(1)} ${hy.toFixed(1)})`}>
+      <circle class="dotmap__ring" r="14"></circle>
+      <circle class="dotmap__ring dotmap__ring--2" r="14"></circle>
+      <circle class="dotmap__core" r="8"></circle>
+      <g class="dotmap__label">
+        <rect x={-20 - hubW} y="-17" width={hubW} height="34" rx="17"></rect>
+        <text x={-20 - hubW / 2} y="7" text-anchor="middle">{hub.name}</text>
+      </g>
+    </g>
+
+    {
+      placed.map((p) => (
+        <g class="dotmap__pin" transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`} style={`--i:${p.i}`}>
+          <g class="dotmap__drop">
+            <circle class="dotmap__ring" r="11" />
+            <path d="M0 0 C -12 -15 -15 -21 -15 -28 a15 15 0 0 1 30 0 c0 7 -3 13 -15 28Z" />
+            <circle class="dotmap__pin-dot" cy="-28" r="5.6" />
+          </g>
+          <g class="dotmap__label">
+            <rect x={p.lx} y="-45" width={p.w} height="34" rx="17" />
+            <text x={p.lx + 15} y="-21">
+              {p.name}
+              <tspan dx="7">{p.code}</tspan>
+            </text>
+          </g>
+        </g>
+      ))
+    }
+  </svg>
+</div>

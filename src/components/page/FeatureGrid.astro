@@ -1,0 +1,47 @@
+---
+import Icon from '../Icon.astro';
+
+interface Item {
+  icon: string;
+  title: string;
+  text: string;
+  tag?: string;
+  href?: string;
+  linkLabel?: string;
+}
+interface Props {
+  items: Item[];
+  cols?: 2 | 3 | 4;
+  /** `glass` is for dark sections; `numbered` swaps icons for 01, 02… */
+  variant?: 'light' | 'glass' | 'numbered';
+}
+const { items, cols = 3, variant = 'light' } = Astro.props;
+---
+
+<div class={`fgrid fgrid--${cols}`}>
+  {
+    items.map((item, i) => {
+      const Tag = item.href ? 'a' : 'article';
+      return (
+        <Tag class={`fcard fcard--${variant}`} href={item.href} data-reveal data-tilt>
+          <span class="fcard__glow" aria-hidden="true" />
+          {variant === 'numbered' ? (
+            <span class="fcard__num">{String(i + 1).padStart(2, '0')}</span>
+          ) : (
+            <span class={`icon-tile${variant === 'glass' ? ' icon-tile--yellow' : ''}`}>
+              <Icon name={item.icon} size={22} />
+            </span>
+          )}
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          {item.tag && <span class="fcard__tag">{item.tag}</span>}
+          {item.href && (
+            <span class="link-arrow fcard__link">
+              {item.linkLabel ?? 'Learn more'} <Icon name="arrow" size={16} />
+            </span>
+          )}
+        </Tag>
+      );
+    })
+  }
+</div>

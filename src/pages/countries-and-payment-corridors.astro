@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/page/PageHero.astro';
+import PropStrip from '../components/page/PropStrip.astro';
+import GlobalReach from '../components/GlobalReach.astro';
+import SectionHead from '../components/page/SectionHead.astro';
+import FeatureGrid from '../components/page/FeatureGrid.astro';
+import Steps from '../components/page/Steps.astro';
+import CorridorFinder from '../components/page/CorridorFinder.astro';
+import CtaBand from '../components/page/CtaBand.astro';
+import { hero, strip, serve, whatWeDo, howItWorks, explore, stablecoin, why, closing } from '../data/corridors';
+import { corridors as five } from '../data/home';
+---
+
+<Base
+  title="Countries and payment corridors | Payfuture"
+  description="Payfuture moves money into and out of India, Pakistan, Nigeria, the Philippines and Egypt. Recipients get local currency."
+  preload={hero.image.src}
+>
+  <PageHero
+    title={hero.title}
+    text={hero.text}
+    image={hero.image}
+    secondary={{ label: 'Find your corridor', href: '#explore' }}
+    chips={[
+      { icon: 'check', title: 'Paid in local currency', sub: 'Bank account' },
+      { icon: 'route', title: 'Five corridors', sub: 'India · Pakistan · Nigeria · Philippines · Egypt' },
+    ]}
+  />
+
+  <PropStrip items={strip} />
+
+  <div class="reach-spacer">
+    <GlobalReach id="serve" title={serve.title} text={serve.text} markets={serve.markets} />
+  </div>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead eyebrow={whatWeDo.eyebrow} title={whatWeDo.title} text={whatWeDo.text} />
+      <FeatureGrid items={whatWeDo.items} cols={4} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow={howItWorks.eyebrow} title={howItWorks.title} />
+      <Steps items={howItWorks.items} />
+    </div>
+  </section>
+
+  <section class="section section--soft" id="explore">
+    <div class="container">
+      <SectionHead eyebrow={explore.eyebrow} title={explore.title} />
+      <CorridorFinder corridors={explore.corridors} regions={explore.regions} cta={explore.cta} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container rails-split">
+      <div>
+        <span class="pill" data-reveal>{stablecoin.eyebrow}</span>
+        <h2 class="display display--dark" data-split>{stablecoin.title}</h2>
+        {stablecoin.paragraphs.map((p) => <p class="rails-split__p" data-reveal>{p}</p>)}
+        <div data-reveal>
+          <a class="btn" href={stablecoin.cta.href}>
+            {stablecoin.cta.label}
+            <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+          </a>
+        </div>
+      </div>
+      <div class="rails-card" data-reveal="right" data-glow-area>
+        <div class="hero__glow" aria-hidden="true" data-glow></div>
+        <h3>{stablecoin.card.title}</h3>
+        <p>{stablecoin.card.text}</p>
+        <div class="rails-card__flow" aria-hidden="true">
+          <span class="rails-card__in">{stablecoin.card.from}</span>
+          <span class="rails-card__dots"><i></i><i></i><i></i><i></i></span>
+          <span class="rails-card__out">{stablecoin.card.to}</span>
+        </div>
+        <ul class="rails-card__flags" aria-hidden="true">
+          {five.map((m) => <li><img src={m.flag} alt="" /><b>{m.currency}</b></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead eyebrow={why.eyebrow} title={why.title} />
+      <FeatureGrid items={why.items} cols={4} />
+    </div>
+  </section>
+
+  <CtaBand title={closing.title} text={closing.text} cta={closing.cta} />
+</Base>

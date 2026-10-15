@@ -1,0 +1,86 @@
+---
+import Icon from '../Icon.astro';
+
+interface Corridor {
+  from: string;
+  to: string;
+  fromFlag: string;
+  toFlag: string;
+  codes: string;
+  region: string;
+  text: string;
+}
+interface Props {
+  corridors: Corridor[];
+  regions: { id: string; label: string }[];
+  cta: { label: string; href: string };
+}
+const { corridors, regions, cta } = Astro.props;
+---
+
+<div class="finder" data-finder>
+  <div class="finder__bar" data-reveal>
+    <label class="finder__search">
+      <span class="sr-only">Search a market</span>
+      <Icon name="search" size={18} />
+      <input type="search" placeholder="Search a market…" autocomplete="off" data-finder-search />
+    </label>
+    <div class="finder__filters" role="group" aria-label="Filter by region">
+      {
+        regions.map((r, i) => (
+          <button type="button" class={`finder__filter${i === 0 ? ' is-active' : ''}`} data-region={r.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {r.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="finder__label" data-reveal>Live corridors</p>
+
+  <ul class="finder__grid">
+    {
+      corridors.map((c) => (
+        <li
+          class="corridor"
+          data-reveal
+          data-corridor
+          data-region={c.region}
+          data-search={`${c.from} ${c.to} ${c.codes}`.toLowerCase()}
+        >
+          <div class="corridor__top">
+            <span class="corridor__flags">
+              <img src={c.fromFlag} alt="" />
+              <span class="corridor__flow" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+              <img src={c.toFlag} alt="" />
+            </span>
+            <span class="corridor__live">Live</span>
+          </div>
+          <h3>
+            {c.from} <span aria-label="to">→</span> {c.to}
+          </h3>
+          <small class="corridor__codes">{c.codes}</small>
+          <p>{c.text}</p>
+          <a class="link-arrow" href="#">
+            View corridor <Icon name="arrow" size={16} />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="finder__empty" data-finder-empty hidden>
+    No live corridors match yet. Tell us the market and we’ll map it with you.
+  </p>
+
+  <div class="finder__cta" data-reveal>
+    <a class="btn" href={cta.href}>
+      {cta.label}
+      <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+    </a>
+  </div>
+</div>

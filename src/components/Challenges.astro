@@ -1,20 +1,27 @@
 ---
 import Icon from './Icon.astro';
-import { challenges, solutionsLeft, solutionsRight } from '../data/home';
+import { moneyInOut, solutions } from '../data/home';
+
+const dirIcon: Record<string, string> = { In: 'arrowIn', Out: 'arrowOut', 'Both ways': 'swap' };
 ---
 
-<section class="section challenges">
+<section class="section challenges" id="money-in-out">
   <div class="container challenges__inner">
     <div class="challenges__intro">
-      <span class="pill" data-reveal>Why Payfuture</span>
-      <h2 class="display display--dark" data-split>Challenges in emerging markets</h2>
-      <p class="lead" data-reveal>
-        Payfuture operates only in emerging markets. We have the technology, experience and expertise to help
-        businesses thrive as they grow in these markets.
-      </p>
+      <h2 class="display display--dark" data-split>{moneyInOut.title}</h2>
+      <p class="lead" data-reveal>{moneyInOut.text}</p>
+      <div class="challenges__visual" data-reveal>
+        <img
+          src="/img/emerging-markets.webp"
+          alt="Payfuture checkout showing local payment methods"
+          width="1578"
+          height="1297"
+          loading="lazy"
+        />
+      </div>
       <div data-reveal>
-        <a class="btn" href="#global-reach">
-          Overcome challenges in emerging markets
+        <a class="btn" href="#corridors">
+          {moneyInOut.cta}
           <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
         </a>
       </div>
@@ -22,11 +29,16 @@ import { challenges, solutionsLeft, solutionsRight } from '../data/home';
 
     <ol class="challenge-list">
       {
-        challenges.map((c, i) => (
+        moneyInOut.items.map((item) => (
           <li data-reveal="right">
-            <span class="challenge-list__num">{String(i + 1).padStart(2, '0')}</span>
-            <p>{c}</p>
-            <span class="challenge-list__check"><Icon name="check" size={16} /></span>
+            <span class={`flow-badge flow-badge--${item.dir === 'Out' ? 'out' : item.dir === 'In' ? 'in' : 'both'}`}>
+              <Icon name={dirIcon[item.dir]} size={16} />
+              {item.dir}
+            </span>
+            <p>{item.text.charAt(0).toUpperCase() + item.text.slice(1)}</p>
+            <span class="challenge-list__check">
+              <Icon name="check" size={16} />
+            </span>
           </li>
         ))
       }
@@ -37,15 +49,17 @@ import { challenges, solutionsLeft, solutionsRight } from '../data/home';
 <section class="section solutions-section">
   <div class="container">
     <header class="section__head">
-      <h2 class="display" data-split>The Payfuture solutions</h2>
+      <h2 class="display" data-split>{solutions.title}</h2>
     </header>
 
     <div class="solutions">
       <div class="solutions__col">
         {
-          solutionsLeft.map((s) => (
-            <a class="glass" href="#solutions" data-reveal="left">
-              <span class="icon-tile icon-tile--yellow"><Icon name={s.icon} size={22} /></span>
+          solutions.left.map((s) => (
+            <a class="glass" href={s.href} data-reveal="left">
+              <span class="icon-tile icon-tile--yellow">
+                <Icon name={s.icon} size={22} />
+              </span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </a>
@@ -56,14 +70,47 @@ import { challenges, solutionsLeft, solutionsRight } from '../data/home';
       <div class="solutions__phone" data-reveal="scale">
         <span class="solutions__ring" aria-hidden="true"></span>
         <span class="solutions__ring solutions__ring--2" aria-hidden="true"></span>
-        <img src="/img/phone.svg" alt="Payfuture checkout on a phone, paying by UPI" loading="lazy" data-phone />
+
+        <div class="send" data-phone data-inview role="img" aria-label="Sending money from USD to a bank account in Pakistan, paid in PKR">
+          <div class="send__screen">
+            <div class="send__status"><span>9:41</span><i></i></div>
+            <strong class="send__title">Send money</strong>
+            <span class="send__sub">Pakistan · bank account</span>
+
+            <div class="send__field">
+              <small>You send</small>
+              <span class="send__amount">0.00</span>
+              <span class="send__ccy"><i>$</i>USD</span>
+            </div>
+            <span class="send__swap"><Icon name="swap" size={14} /></span>
+            <div class="send__field">
+              <small>Recipient gets</small>
+              <span class="send__amount">0.00</span>
+              <span class="send__ccy"><img src="/img/flags/pakistan.svg" alt="" />PKR</span>
+            </div>
+
+            <span class="send__button">Send money</span>
+            <span class="send__foot">Powered by Payfuture rails</span>
+          </div>
+        </div>
+
+        <span class="send-chip send-chip--a" aria-hidden="true">
+          <i><Icon name="arrow" size={12} /></i>
+          <span><b>USD to PKR</b><small>Remittance</small></span>
+        </span>
+        <span class="send-chip send-chip--b" aria-hidden="true">
+          <i><Icon name="arrow" size={12} /></i>
+          <span><b>Paid in PKR</b><small>Bank account</small></span>
+        </span>
       </div>
 
       <div class="solutions__col">
         {
-          solutionsRight.map((s) => (
-            <a class="glass" href="#solutions" data-reveal="right">
-              <span class="icon-tile icon-tile--yellow"><Icon name={s.icon} size={22} /></span>
+          solutions.right.map((s) => (
+            <a class="glass" href={s.href} data-reveal="right">
+              <span class="icon-tile icon-tile--yellow">
+                <Icon name={s.icon} size={22} />
+              </span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </a>

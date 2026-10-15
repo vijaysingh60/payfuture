@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import CoinFlow from '../../components/page/CoinFlow.astro';
+import Compare from '../../components/page/Compare.astro';
+import SplitMedia from '../../components/page/SplitMedia.astro';
+import Faq from '../../components/Faq.astro';
+import { meta, hero, cost, proof, steps, wrongPartner, why, faqs } from '../../data/stablecoin';
+---
+
+<Base title={meta.title} description={meta.description} preload={hero.image.src}>
+  <PageHero title={hero.title} text={hero.text} cta={hero.cta} image={hero.image} chips={hero.chips} />
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={cost.title} />
+      <FeatureGrid items={cost.items} cols={3} variant="numbered" />
+      <div class="center" data-reveal>
+        <a class="btn" href={cost.cta.href}>
+          {cost.cta.label}
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark proof">
+    <div class="container proof__inner">
+      <div>
+        <h2 class="display" data-split>{proof.title}</h2>
+      </div>
+      <div class="proof__copy">
+        {proof.paragraphs.map((p) => <p data-reveal>{p}</p>)}
+        <p class="proof__emphasis" data-reveal>{proof.emphasis}</p>
+      </div>
+    </div>
+    <div class="container">
+      <ul class="proof__stats">
+        {
+          proof.stats.map((s) => (
+            <li data-reveal data-tilt>
+              <span class="icon-tile icon-tile--yellow">
+                <Icon name={s.icon} size={22} />
+              </span>
+              <strong>
+                {s.count !== undefined ? (
+                  <>
+                    {s.prefix}
+                    <span data-count={s.count} data-decimals="0">
+                      {s.count}
+                    </span>
+                    {s.suffix}
+                  </>
+                ) : (
+                  s.value
+                )}
+              </strong>
+              <span>{s.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section coinflow-section">
+    <div class="container">
+      <SectionHead title={steps.title} text={steps.text} />
+      <CoinFlow items={steps.items} labels={steps.labels} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={wrongPartner.title} text={wrongPartner.text}>
+        <p class="section__emphasis" data-reveal>{wrongPartner.emphasis}</p>
+      </SectionHead>
+      <Compare without={wrongPartner.without} with={wrongPartner.with} />
+    </div>
+  </section>
+
+  <SplitMedia eyebrow={why.eyebrow} title={why.title} list={why.list} cta={why.cta} image={why.image} reverse />
+
+  <Faq title={faqs.title} text={faqs.text} items={faqs.items} />
+</Base>

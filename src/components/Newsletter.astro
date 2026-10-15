@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="newsletter-section" id="contact">
+  <div class="container">
+    <div class="newsletter" data-reveal="scale">
+      <div class="newsletter__copy">
+        <h2 class="display" data-split>Don’t miss a thing!</h2>
+        <p>
+          Stay ahead of the curve! Subscribe to our newsletter for the latest news, tips, and updates from Payfuture.
+        </p>
+      </div>
+
+      <div class="newsletter__phone">
+        <img src="/img/logo-phone.svg" alt="" loading="lazy" data-phone />
+      </div>
+
+      <form class="form" data-newsletter novalidate>
+        <div class="form__row">
+          <label>
+            <span class="sr-only">First name</span>
+            <input type="text" name="first" placeholder="First Name*" required autocomplete="given-name" />
+          </label>
+          <label>
+            <span class="sr-only">Last name</span>
+            <input type="text" name="last" placeholder="Last Name*" required autocomplete="family-name" />
+          </label>
+        </div>
+        <label>
+          <span class="sr-only">Email</span>
+          <input type="email" name="email" placeholder="Enter your Email*" required autocomplete="email" />
+        </label>
+        <p class="form__note">
+          By Submitting your information you confirm that you have read Payfuture’s <a href="#contact"
+            >Privacy Policy</a
+          > and agree to the use of your data in all Payfuture communications.
+        </p>
+        <button class="btn" type="submit">
+          Sign up now
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </button>
+        <p class="form__status" role="status" data-newsletter-status></p>
+      </form>
+    </div>
+  </div>
+</section>
