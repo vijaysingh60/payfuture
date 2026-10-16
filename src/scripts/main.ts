@@ -105,6 +105,22 @@ function initStage() {
       dot.setAttribute('aria-selected', String(i === next));
     });
     current = next;
+    swapChip(slide);
+  }
+
+  // The card over the photo follows the slide: it drops out, takes the new text, and rises back in.
+  function swapChip(slide: HTMLElement) {
+    const title = $('[data-chip-title]');
+    const sub = $('[data-chip-sub]');
+    const card = title?.closest<HTMLElement>('.chip');
+    if (!title || !sub || !card) return;
+    gsap.timeline()
+      .to(card, { yPercent: 25, opacity: 0, duration: 0.3, ease: 'power2.in' })
+      .add(() => {
+        title.textContent = slide.dataset.slideTitle ?? '';
+        sub.textContent = slide.dataset.slideSub ?? '';
+      })
+      .to(card, { yPercent: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' }, '+=0.45');
   }
 
   const queue = () => {

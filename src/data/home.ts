@@ -6,12 +6,46 @@ export const hero = {
   text: 'Global money transfer operators use Payfuture’s rails to move money into India, Pakistan, Nigeria, the Philippines and Egypt, from FX to the recipient’s account. Fund us in fiat or stablecoins, and we take it the rest of the way.',
 };
 
+// Business-to-business story: a sender funds in fiat or stablecoin, then businesses in each market are paid
+// in local currency. `chip` is the small card that rides over the photo and changes with each slide.
 export const heroSlides = [
-  { src: '/img/hero/4.webp', alt: 'Aerial view of a crowded city street' },
-  { src: '/img/hero/2.webp', alt: 'A market trader smiling at her stall' },
-  { src: '/img/hero/3.webp', alt: 'Shoppers walking through a busy market street' },
-  { src: '/img/hero/1.webp', alt: 'Everyday commerce in an emerging market' },
+  {
+    src: '/img/hero/dubai-treasury.webp',
+    alt: 'A trader at a treasury desk in Dubai at dusk, watching rates on several monitors',
+    chip: { title: 'Funds received', sub: 'Fiat or stablecoin' },
+  },
+  {
+    src: '/img/hero/mumbai-operations.webp',
+    alt: 'A team lead helps an analyst on a payments operations floor in Mumbai at night',
+    chip: { title: 'Paid in INR', sub: 'Local banking partner' },
+  },
+  {
+    src: '/img/hero/kenya-exporter.webp',
+    alt: 'A flower exporter and a logistics coordinator walk through a rose greenhouse near Lake Naivasha',
+    chip: { title: 'Exporter paid', sub: 'Supplier payment' },
+  },
+  {
+    src: '/img/hero/lahore-partner.webp',
+    alt: 'Three senior colleagues in discussion in a boardroom in Lahore',
+    chip: { title: 'Paid in PKR', sub: 'Partner bank' },
+  },
+  {
+    src: '/img/hero/cairo-fintech.webp',
+    alt: 'A compliance lead at a standing desk in an open-plan fintech office in Cairo',
+    chip: { title: 'Paid in EGP', sub: 'KYB and screening' },
+  },
+  {
+    src: '/img/hero/rosario-trade.webp',
+    alt: 'An exporter and a port agent walk past grain silos beside a river barge in Rosario at sunset',
+    chip: { title: 'Trade settled', sub: 'Importer to exporter' },
+  },
 ];
+
+// Tight 2:1 crops for the photo pills inside the headline.
+export const heroPills = {
+  a: ['/img/pills/london-treasury.webp', '/img/pills/compliance.webp', '/img/pills/kenya-flowers.webp'],
+  b: ['/img/pills/lahore-meeting.webp', '/img/pills/dubai-desk.webp', '/img/pills/mumbai-floor.webp'],
+};
 
 export const trust = {
   title: 'Trusted by international payment and remittance businesses',
