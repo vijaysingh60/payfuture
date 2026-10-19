@@ -1,0 +1,91 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleHero from '../../components/news/ArticleHero.astro';
+import PostCard from '../../components/news/PostCard.astro';
+import Share from '../../components/news/Share.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import CtaBand from '../../components/page/CtaBand.astro';
+import { getPosts, getPost, renderBody, sized, formatDate, readTime, categoryHref, postHref } from '../../lib/sanity';
+import { routes } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const [post, all] = await Promise.all([getPost(slug!), getPosts()]);
+if (!post) throw new Error(`Post not found: ${slug}`);
+
+const { html, headings } = renderBody(post.body);
+const cats = (post.categories ?? []).filter((c) => c.slug !== 'uncategorized');
+const primary = cats[0];
+// Related: same category first, topped up with the newest others.
+const related = [
+  ...all.filter((p) => p.slug !== post.slug && p.categories?.some((c) => primary && c.slug === primary.slug)),
+  ...all.filter((p) => p.slug !== post.slug),
+]
+  .filter((p, i, a) => a.findIndex((x) => x.slug === p.slug) === i)
+  .slice(0, 3);
+---
+
+<Base
+  title={post.seoTitle ?? `${post.title} | Payfuture`}
+  description={post.seoDescription ?? post.excerpt ?? post.title}
+  preload={sized(post.image, 1600, 800)}
+  image={sized(post.image, 1200, 630)}
+  type="article"
+>
+  <ArticleHero
+    title={post.title}
+    crumbs={[{ label: 'Newsroom', href: '/newsroom/' }, ...(primary ? [{ label: primary.title, href: categoryHref(primary.slug) }] : [])]}
+    meta={[formatDate(post.publishedAt), `${readTime(post.words)} min read`, ...(post.author ? [`By ${post.author}`] : [])]}
+  />
+
+  {
+    post.image && (
+      <section class="section--tight banner-section">
+        <div class="container">
+          <div class="banner banner--article" data-clip>
+            <img src={sized(post.image, 1600, 760)} alt={post.image.alt ?? ''} width="1600" height="760" data-clip-img />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section article">
+    <div class="container article__inner">
+      {
+        headings.length > 1 && (
+          <aside class="article__toc legal__toc" data-toc>
+            <p class="legal__meta">In this article</p>
+            <nav aria-label="In this article">
+              <ol>
+                {headings.map((h) => <li><a href={`#${h.id}`} data-toc-link>{h.text}</a></li>)}
+              </ol>
+            </nav>
+          </aside>
+        )
+      }
+      <article class={`article__body prose${headings.length > 1 ? '' : ' article__body--solo'}`} data-prose>
+        <Fragment set:html={html} />
+        <div class="article__foot">
+          <Share title={post.title} path={postHref(post.slug)} />
+          <a class="link-arrow" href="/newsroom/">Back to the newsroom</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title="Read next" />
+      <ul class="news__grid">
+        {related.map((p) => <PostCard post={p} />)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Ready to move money across emerging markets?" cta={{ label: 'Talk to our team', href: routes.contact }} />
+</Base>

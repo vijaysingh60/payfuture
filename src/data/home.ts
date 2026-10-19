@@ -133,7 +133,7 @@ export const who = {
     { name: 'Banks and fintechs', img: '/img/who/banks-fintechs.webp' },
     { name: 'Businesses paying people', img: '/img/who/businesses-paying-people.webp' },
     { name: 'Contractor payments', img: '/img/who/contractor-payments.webp' },
-    { name: 'Remittance Providers', img: '/img/who/remittance-providers.webp' },
+    { name: 'Remittance Providers', img: '/img/who/remittance-providers.webp', href: '/industries/remittance-providers/' },
     { name: 'Global payment networks and aggregators', img: '/img/who/payment-networks.webp' },
   ],
   partnersTitle: 'Partner with us. Refer a client, or bring us a corridor you need covered.',

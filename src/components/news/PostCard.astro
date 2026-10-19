@@ -1,0 +1,41 @@
+---
+import Icon from '../Icon.astro';
+import { sized, formatDate, postHref, readTime, type Post } from '../../lib/sanity';
+
+interface Props {
+  post: Post;
+  featured?: boolean;
+}
+const { post, featured = false } = Astro.props;
+const cats = (post.categories ?? []).filter((c) => c.slug !== 'uncategorized');
+const search = `${post.title} ${post.excerpt ?? ''} ${cats.map((c) => c.title).join(' ')}`.toLowerCase();
+---
+
+<li class={`pcard${featured ? ' pcard--featured' : ''}`} data-reveal data-news-card data-search={search}>
+  <a href={postHref(post.slug)}>
+    <span class="pcard__img">
+      {
+        post.image && (
+          <img
+            src={sized(post.image, featured ? 1400 : 800, featured ? 760 : 450)}
+            alt={post.image.alt ?? ''}
+            width={featured ? 1400 : 800}
+            height={featured ? 760 : 450}
+            loading={featured ? 'eager' : 'lazy'}
+            style={post.image.lqip ? `background-image:url(${post.image.lqip});background-size:cover` : undefined}
+          />
+        )
+      }
+    </span>
+    <span class="pcard__body">
+      <span class="pcard__meta">
+        {cats[0] && <span class="pcard__cat">{cats[0].title}</span>}
+        <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        <span>{readTime(post.words)} min read</span>
+      </span>
+      <h3>{post.title}</h3>
+      {post.excerpt && <p>{post.excerpt}</p>}
+      <span class="link-arrow">Read more <Icon name="arrow" size={16} /></span>
+    </span>
+  </a>
+</li>

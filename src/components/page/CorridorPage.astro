@@ -1,0 +1,140 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import PageHero from './PageHero.astro';
+import CorridorFlow from './CorridorFlow.astro';
+import SectionHead from './SectionHead.astro';
+import FeatureGrid from './FeatureGrid.astro';
+import Steps from './Steps.astro';
+import Faq from '../Faq.astro';
+import CtaBand from './CtaBand.astro';
+import { corridorPages, corridorHref, type CorridorPage } from '../../data/corridorPages';
+import { iconFor } from '../../lib/live';
+import { routes } from '../../data/site';
+
+interface Props {
+  page: CorridorPage;
+}
+const { page: c } = Astro.props;
+const withIcons = (items: { title: string; text: string }[]) => items.map((i) => ({ icon: iconFor(`${i.title} ${i.text}`, 'check'), ...i }));
+const other = corridorPages.find((p) => p.slug !== c.slug)!;
+const pair = `${c.from.code} → ${c.to.code}`;
+---
+
+<Base title={`${c.hero.title} | Payfuture`} description={c.hero.sub + ' ' + c.hero.text.slice(0, 120)}>
+  <PageHero
+    eyebrow={`Live corridor · ${pair}`}
+    title={c.hero.title}
+    text={`${c.hero.sub} ${c.hero.text}`}
+    cta={{ label: c.hero.cta, href: routes.contact }}
+    secondary={{ label: 'All corridors', href: routes.corridors }}
+  >
+    <CorridorFlow slot="visual" from={c.from} to={c.to} />
+  </PageHero>
+
+  <section class="section">
+    <div class="container cdetail">
+      <div>
+        {c.corridor.eyebrow && <span class="pill" data-reveal>{c.corridor.eyebrow}</span>}
+        <h2 class="display display--dark" data-split>{c.corridor.title}</h2>
+        {c.corridor.paras.map((p) => <p class="lead muted live__more" data-reveal>{p}</p>)}
+      </div>
+      <aside class="cdetail__card" data-reveal="right" data-glow-area>
+        <div class="hero__glow" aria-hidden="true" data-glow></div>
+        <span class="announce announce--static"><span class="announce__dot"></span>Live corridor</span>
+        <strong>{pair}</strong>
+        <p>{c.corridor.highlight}</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead title={c.destination.title} text={c.destination.text} light />
+      <FeatureGrid items={withIcons(c.destination.cards)} cols={3} variant="glass" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="The friction" title={c.friction.title} />
+      <FeatureGrid items={withIcons(c.friction.cards)} cols={3} variant="numbered" />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead eyebrow={c.solution.eyebrow} title={c.solution.title} />
+      <FeatureGrid items={withIcons(c.solution.cards)} cols={3} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="The process" title={c.process.title} />
+      <Steps items={c.process.steps} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container narrow">
+      {c.smarter.eyebrow && <span class="pill" data-reveal>{c.smarter.eyebrow}</span>}
+      <h2 class="display display--dark" data-split>{c.smarter.title}</h2>
+      <p class="statement statement--left statement--tight" data-highlight>{c.smarter.text}</p>
+      <ul class="checkgrid checkgrid--2" data-inview>
+        {
+          c.smarter.bullets.map((b, i) => (
+            <li style={`--i:${i}`} data-reveal>
+              <span class="ticklist__mark"><Icon name="check" size={14} /></span>
+              {b}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="stats-section cband">
+    <div class="container">
+      <SectionHead eyebrow={c.flow.eyebrow} title={c.flow.title} text={c.flow.text} />
+      <div class="cband__flow" data-reveal>
+        <span class="cband__end"><img src={c.from.flag} alt="" /><b>{c.from.code}</b><small>{c.from.label}</small></span>
+        <span class="cband__arrow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="cband__end"><img src={c.to.flag} alt="" /><b>{c.to.code}</b><small>{c.to.label}</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={c.why.title} />
+      <FeatureGrid items={withIcons(c.why.cards)} cols={3} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead eyebrow="Who uses it" title={c.industries.title} />
+      <FeatureGrid items={withIcons(c.industries.cards)} cols={3} />
+      <p class="statement statement--tight" data-highlight>{c.industries.closing.text}</p>
+      <div class="center" data-reveal>
+        <a class="btn" href={routes.contact}>
+          Speak to our team
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Faq title={c.faq.title} text={c.faq.text} items={c.faq.items} />
+
+  <section class="section section--tight">
+    <div class="container center">
+      <a class="link-arrow" href={corridorHref(other.slug)}>
+        Also see {other.from.name} to {other.to.name} <Icon name="arrow" size={16} />
+      </a>
+    </div>
+  </section>
+
+  <CtaBand title="Let’s map your next market" text="Tell us the corridor, the direction and the volumes, and we’ll map it with you." cta={{ label: 'Speak to our team', href: routes.contact }} />
+</Base>

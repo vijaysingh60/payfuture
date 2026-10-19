@@ -1,0 +1,86 @@
+{
+ "title": "Fraud and risk management",
+ "lead": [
+  "Secure your business with Payfuture’s fraud detection, compliance solutions, and real-time monitoring tools to navigate emerging markets with ease and confidence"
+ ],
+ "cta": "Learn more",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "In emerging markets, payment risks are complex and evolving.",
+   "text": [
+    "Payfuture’s Fraud Risk Management uses AI-driven technology and multi-layered security to monitor transactions, helping businesses operate confidently across diverse regions."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Advanced risk management tools for emerging markets",
+   "text": [],
+   "cards": [
+    {
+     "title": "Risk Management Solution (RMS)",
+     "text": "Real-time fraud detection with AML/CFT compliance built into our API to reduce risk and safeguard transactions."
+    },
+    {
+     "title": "Tailored fraud monitoring",
+     "text": "PayFuture’s adaptive system flags and analyses merchant risk profiles in real-time to detect unusual activity and emerging threats"
+    },
+    {
+     "title": "Smart transaction routing",
+     "text": "Failed transactions don’t have to mean lost revenue. Our system intelligently reattempts payments through optimised pathways to improve approval rates."
+    },
+    {
+     "title": "Risk evaluation",
+     "text": "We assess geopolitical and economic risk across emerging regions, factoring in currency volatility, regulation, and market conditions-to help you expand with confidence."
+    },
+    {
+     "title": "Geolocation and device fingerprinting",
+     "text": "Our technology detects suspicious user behaviour by monitoring device and location data, adding an extra layer of real-time security to every transaction."
+    },
+    {
+     "title": "Machine learning",
+     "text": "Our AI-powered Deep Learning system detects potential risks while also offering bespoke fraud screening profiles tailored to individual needs."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "How can Payfuture's risk management solution protect your business?",
+   "text": [
+    "Payfuture’s Risk Management Solution (RMS) offers real-time protection for e-commerce transactions, using built-in AML and CFT technology. Embedded within our API, it ensures every payment is secure, compliant and transparent."
+   ],
+   "cards": [
+    {
+     "title": "Real-time monitoring",
+     "text": "Our RMS tracks every transaction live, updating risk models continuously and flagging suspicious activity instantly."
+    },
+    {
+     "title": "Cost-effective Compliance",
+     "text": "Minimise manual checks and reduce costs while keeping your payment infrastructure secure and compliant."
+    },
+    {
+     "title": "Enhance operational efficiency",
+     "text": "We counter unreliable local internet and infrastructure by offering backup systems and stable payment alternatives."
+    },
+    {
+     "title": "Customer support at all times",
+     "text": "Our experts are on hand around the clock to help solve issues, maintain uptime, and keep your business running smoothly."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "fraud-and-risk-management",
+ "group": "solutions",
+ "wpTitle": "Fraud and risk management"
+}

@@ -29,9 +29,10 @@ const words = title.split(' ').map((raw) => {
   return word;
 });
 const plainTitle = title.replace(/\*/g, '');
+const hasMedia = Boolean(image) || Astro.slots.has('visual');
 ---
 
-<section class="ph" data-page-hero data-glow-area>
+<section class={`ph${hasMedia ? '' : ' ph--solo'}`} data-page-hero data-glow-area>
   <div class="hero__grid" aria-hidden="true"></div>
   <div class="hero__glow" aria-hidden="true" data-glow></div>
   <svg class="hero__rails" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -93,6 +94,7 @@ const plainTitle = title.replace(/\*/g, '');
       }
     </div>
 
+    {hasMedia && (
     <div class="ph__media" data-ph-media>
       {
         image ? (
@@ -117,5 +119,6 @@ const plainTitle = title.replace(/\*/g, '');
         ))
       }
     </div>
+    )}
   </div>
 </section>

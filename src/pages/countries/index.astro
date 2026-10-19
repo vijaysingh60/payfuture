@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import CountryGrid from '../../components/page/CountryGrid.astro';
+import CtaBand from '../../components/page/CtaBand.astro';
+import { routes } from '../../data/site';
+---
+
+<Base title="Countries | Payfuture" description="The markets Payfuture moves money into and out of, with local currency delivered to recipients.">
+  <PageHero
+    title="Countries we *serve*"
+    text="Choose the market you need to move money into or out of. Each corridor page sets out the payment methods and what you’ll need."
+    secondary={{ label: 'See the corridors overview', href: routes.corridors }}
+  />
+  <section class="section">
+    <div class="container"><CountryGrid /></div>
+  </section>
+  <CtaBand
+    title="Didn’t see your target market listed?"
+    text="Tell us where you’re looking to grow, we’ll help you get there."
+    cta={{ label: 'Contact Payfuture today', href: routes.contact }}
+  />
+</Base>

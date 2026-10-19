@@ -1,0 +1,58 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ArticleHero from '../../../components/news/ArticleHero.astro';
+import Share from '../../../components/news/Share.astro';
+import CtaBand from '../../../components/page/CtaBand.astro';
+import { getEvents, getEvent, renderBody, sized, formatDate, eventHref } from '../../../lib/sanity';
+import { routes } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const events = await getEvents();
+  return events.map((e) => ({ params: { slug: e.slug } }));
+}
+
+const { slug } = Astro.params;
+const event = await getEvent(slug!);
+if (!event) throw new Error(`Event not found: ${slug}`);
+const { html } = renderBody(event.body);
+const when = event.endDate && event.endDate !== event.startDate ? `${formatDate(event.startDate, { day: 'numeric', month: 'short' })} – ${formatDate(event.endDate)}` : formatDate(event.startDate);
+---
+
+<Base
+  title={event.seoTitle ?? `${event.title} | Events | Payfuture`}
+  description={event.seoDescription ?? event.excerpt ?? event.title}
+  preload={sized(event.image, 1200, 630)}
+  image={sized(event.image, 1200, 630)}
+>
+  <ArticleHero
+    title={event.title}
+    crumbs={[{ label: 'Newsroom', href: '/newsroom/' }, { label: 'Events', href: '/newsroom/events/' }]}
+    meta={[when, ...(event.location ? [event.location] : [])]}
+  />
+
+  {
+    event.image && (
+      <section class="section--tight banner-section">
+        <div class="container">
+          <div class="banner banner--article" data-clip>
+            <img src={sized(event.image, 1600, 760)} alt={event.image.alt ?? ''} width="1600" height="760" data-clip-img />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section article">
+    <div class="container article__inner">
+      <article class="article__body article__body--solo prose" data-prose>
+        <Fragment set:html={html} />
+        <div class="article__foot">
+          <Share title={event.title} path={eventHref(event.slug)} />
+          <a class="link-arrow" href="/newsroom/events/">All events</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <CtaBand title="Want to meet at this event?" text="Tell us you’re coming and we’ll find a time." cta={{ label: 'Contact our team', href: routes.contact }} />
+</Base>

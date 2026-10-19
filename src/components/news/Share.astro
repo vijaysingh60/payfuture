@@ -1,0 +1,24 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  title: string;
+  path: string;
+}
+const { title, path } = Astro.props;
+// The canonical site address is not known until launch, so the real origin is filled in by the script.
+---
+
+<div class="share" data-share data-title={title} data-path={path}>
+  <span>Share</span>
+  <a class="share__btn" data-share-linkedin aria-label="Share on LinkedIn" target="_blank" rel="noopener noreferrer" href="#">
+    <Icon name="linkedin" size={18} />
+  </a>
+  <a class="share__btn" data-share-x aria-label="Share on X" target="_blank" rel="noopener noreferrer" href="#">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 4l16 16M20 4 4 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+  </a>
+  <button class="share__btn share__btn--copy" type="button" data-share-copy aria-label="Copy link">
+    <Icon name="route" size={18} />
+    <em data-share-copied>Copied</em>
+  </button>
+</div>

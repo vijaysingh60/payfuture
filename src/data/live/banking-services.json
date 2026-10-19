@@ -1,0 +1,72 @@
+{
+ "title": "Banking tools that scale with your business",
+ "lead": [
+  "Flexible financial services tailored for businesses expanding into emerging markets"
+ ],
+ "cta": "Learn more",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Everything you need to bank like a local–globally",
+   "text": [
+    "Growing your online business in new markets comes with challenges-currency conversion, regulatory complexity, and settlement delays. Payfuture removes those roadblocks. With our integrated banking services, you can streamline fund flows, meet local requirements, and focus on reaching new customers."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "How it works?",
+   "text": [],
+   "cards": [
+    {
+     "title": "Multi-currency accounts",
+     "text": "Hold and transact in EUR, GBP, USD, and more using EU IBANs—no need for multiple international bank accounts."
+    },
+    {
+     "title": "Flexible pay-ins and payouts",
+     "text": "Accept and send payments faster using SEPA, SWIFT, open banking, or blockchain-based rails."
+    },
+    {
+     "title": "Compliance and regulation",
+     "text": "Operate with confidence using the Payfuture tools."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "The financial infrastructure to power global expansion",
+   "text": [
+    "Tailored for emerging markets All-in-one API integration We scale with you Customisation without complexity"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "One financial platform. Every emerging market you need",
+   "text": [
+    "Many businesses struggle with low approval rates due to inefficient routing and limited access to localised payment options. Payfuture’s Smart Routing and Cascading adapts to each market, ensuring"
+   ],
+   "cards": [],
+   "bullets": [
+    "Multi-currency IBAN accounts for global access",
+    "Fast, secure pay-ins and payouts",
+    "Regulatory compliance tools embedded"
+   ],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "banking-services",
+ "group": "solutions",
+ "wpTitle": "Banking services"
+}

@@ -1,0 +1,29 @@
+---
+import { screening } from '../../data/security';
+---
+
+<div class="screen" aria-hidden="true">
+  <div class="screen__head">
+    <span>{screening.title}</span>
+    <span class="screen__live">Monitoring</span>
+  </div>
+  <div class="screen__rows">
+    {
+      screening.rows.map((r) => (
+        <div class="screen__row">
+          <span class="screen__flags">
+            <img src={`/img/flags/${r.to}.${r.to === 'philippines' ? 'png' : 'svg'}`} alt="" />
+          </span>
+          <span class="screen__route">{r.route}</span>
+          <span class="screen__amt">{r.amt}</span>
+          <span class={`screen__status${r.kind ? ` screen__status--${r.kind}` : ''}`}>{r.status}</span>
+        </div>
+      ))
+    }
+    <span class="screen__line"></span>
+  </div>
+  <div class="screen__foot">
+    <span>Illustrative screening run</span>
+    <span>KYB + sanctions + device checks</span>
+  </div>
+</div>

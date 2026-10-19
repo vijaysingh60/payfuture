@@ -1,0 +1,73 @@
+{
+ "title": "Get paid globally, price locally",
+ "lead": [
+  "No matter where your customers are, Payfuture enables them to pay in their local currency-while you receive funds in yours, seamlessly and securely."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Expand globally without currency complexity",
+   "text": [
+    "Payfuture’s solution empowers businesses to operate effortlessly across borders. By offering multi-currency processing, real-time FX conversion, and automated reconciliation, we help you enhance customer experience, mitigate currency risks, and streamline operations in emerging markets."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Simplifying currency complexity at scale",
+   "text": [],
+   "cards": [
+    {
+     "title": "Real-time currency conversion",
+     "text": "Instantly convert incoming payments to your preferred currency using fair, real-time exchange rates. No surprises-for you or your customers."
+    },
+    {
+     "title": "FX risk management",
+     "text": "Lock in favorable rates and reduce the impact of market shifts with built-in tools that help you keep your margins steady."
+    },
+    {
+     "title": "Regulatory compliance",
+     "text": "Process multi-currency transactions confidently with automated checks for AML, KYC, and regional compliance requirements."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Make every currency feel local",
+   "text": [
+    "Expanding into new markets shouldn’t mean navigating currency complexity alone. Payfuture’s currency management tools help you accept local currencies, convert at competitive rates in real time, and stay compliant-without added overhead. By reducing friction at checkout and protecting your margins from FX volatility, we help you drive higher conversions, deliver better customer experiences, and scale into new regions with confidence.",
+    "Facilitate market expansion Mitigate financial risk Drive revenue growth Enhance customer experience"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Your currency toolkit, all in one place",
+   "text": [
+    "Give your customers the payment experience they expect, and your business the tools it needs to grow globally."
+   ],
+   "cards": [],
+   "bullets": [
+    "Built-in compliance with global and local regulations",
+    "Real-time conversion at fair market rates",
+    "Tools to protect you against FX volatility"
+   ],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "currency-management",
+ "group": "solutions",
+ "wpTitle": "Currency management"
+}

@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/page/PageHero.astro';
+import SectionHead from '../components/page/SectionHead.astro';
+import SplitMedia from '../components/page/SplitMedia.astro';
+import ValueRail from '../components/page/ValueRail.astro';
+import Steps from '../components/page/Steps.astro';
+import FeatureGrid from '../components/page/FeatureGrid.astro';
+import RoleList from '../components/page/RoleList.astro';
+import OfficeCards from '../components/page/OfficeCards.astro';
+import PhotoReel from '../components/page/PhotoReel.astro';
+import CtaBand from '../components/page/CtaBand.astro';
+import { hero, banner, reel, life, culture, hiring, payfuturist, roles, locations, pitch } from '../data/careers';
+---
+
+<Base title="Careers | Payfuture" description="Join Payfuture. Work on compliant fiat and stablecoin rails for money moving into and out of emerging markets.">
+  <PageHero title={hero.title} text={hero.text} cta={hero.cta} />
+
+  <section class="section--tight banner-section">
+    <div class="container">
+      <div class="banner" data-clip>
+        <img src={banner.image.src} alt={banner.image.alt} data-clip-img />
+        <ul class="banner__stats">
+          {
+            banner.stats.map((s) => (
+              <li>
+                <strong>
+                  <span data-count={s.value} data-decimals="0">{s.value}</span>{s.suffix}
+                </strong>
+                <span>{s.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <SplitMedia title={life.title} paragraphs={life.paragraphs} image={life.image} reverse />
+
+  <section class="section"><PhotoReel photos={reel} /></section>
+
+  <section class="section section--dark culture">
+    <div class="container">
+      <SectionHead title={culture.title} text={culture.text} light />
+      <ValueRail items={culture.values} />
+      <p class="statement statement--light" data-highlight>{culture.closing}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={hiring.title} text={hiring.text} />
+      <Steps items={hiring.steps} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={payfuturist.title} text={payfuturist.text} />
+      <FeatureGrid items={payfuturist.items} cols={4} />
+    </div>
+  </section>
+
+  <section class="section" id="roles">
+    <div class="container">
+      <SectionHead title={roles.title} />
+      <RoleList roles={roles.items} />
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title={locations.title} />
+      <OfficeCards offices={locations.items} />
+    </div>
+  </section>
+
+  <CtaBand title={pitch.title} text={pitch.text} cta={pitch.cta} />
+</Base>

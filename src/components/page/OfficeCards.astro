@@ -1,0 +1,22 @@
+---
+interface Props {
+  offices: { city: string; country: string; tz: string; note?: string; photo: string }[];
+}
+const { offices } = Astro.props;
+---
+
+<ul class="ocards">
+  {
+    offices.map((o) => (
+      <li class="ocard" data-office data-tz={o.tz} data-reveal data-tilt>
+        <span class="ocard__photo"><img src={o.photo} alt="" loading="lazy" /></span>
+        <h3>{o.city}</h3>
+        <p>{o.country}</p>
+        <span class="ocard__time">
+          <b data-office-time>--:--</b>
+          <small data-office-day>&nbsp;</small>
+        </span>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,21 @@
+---
+interface Props {
+  items: { title: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<!-- Five panels share the row; the one under the pointer (or focused) opens up to show its text. -->
+<ul class="values" data-values>
+  {
+    items.map((v, i) => (
+      <li class={`value${i === 0 ? ' is-open' : ''}`} data-reveal>
+        <button class="value__btn" type="button" aria-expanded={i === 0 ? 'true' : 'false'}>
+          <span class="value__num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="value__title">{v.title}</span>
+          <span class="value__text">{v.text}</span>
+        </button>
+      </li>
+    ))
+  }
+</ul>

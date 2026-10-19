@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import LegalDoc from '../components/page/LegalDoc.astro';
+import { Content, frontmatter, getHeadings } from '../legal/privacy-policy.md';
+---
+
+<Base title={`${frontmatter.title} | Payfuture`} description={frontmatter.description}>
+  <LegalDoc title={frontmatter.title} updated={frontmatter.updated} headings={getHeadings()} intro={frontmatter.description}>
+    <Content />
+  </LegalDoc>
+</Base>

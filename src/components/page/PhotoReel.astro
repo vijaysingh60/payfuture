@@ -1,0 +1,20 @@
+---
+interface Props {
+  photos: { src: string; alt: string }[];
+}
+const { photos } = Astro.props;
+---
+
+<div class="reel" data-reveal>
+  <div class="reel__track">
+    {
+      [0, 1].map((set) =>
+        photos.map((p) => (
+          <figure class="reel__item" aria-hidden={set === 1 ? 'true' : undefined}>
+            <img src={p.src} alt={set === 0 ? p.alt : ''} loading="lazy" />
+          </figure>
+        )),
+      )
+    }
+  </div>
+</div>

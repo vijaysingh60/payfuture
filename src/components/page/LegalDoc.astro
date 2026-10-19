@@ -1,0 +1,60 @@
+---
+import Icon from '../Icon.astro';
+import PageHero from './PageHero.astro';
+import { legal } from '../../data/site';
+
+interface Props {
+  title: string;
+  updated?: string;
+  /** Section headings from the Markdown file (depth 2 only are listed). */
+  headings: { depth: number; slug: string; text: string }[];
+  intro?: string;
+}
+const { title, updated, headings, intro } = Astro.props;
+const toc = headings.filter((h) => h.depth === 2);
+const path = Astro.url.pathname;
+---
+
+<PageHero title={title} text={intro ?? 'The details of how this applies to payfuture.net.'} />
+
+<section class="section legal">
+  <div class="container legal__inner">
+    <aside class="legal__toc" data-toc>
+      <p class="legal__meta" data-reveal>
+        {updated ? <>Valid from <strong>{updated}</strong></> : <>Payfuture legal</>}
+      </p>
+      <nav aria-label="On this page">
+        <ol>
+          {
+            toc.map((h) => (
+              <li>
+                <a href={`#${h.slug}`} data-toc-link>{h.text}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <div class="legal__others">
+        <p>Other documents</p>
+        <ul>
+          {
+            legal
+              .filter((l) => l.href !== path)
+              .map((l) => (
+                <li>
+                  <a href={l.href}>
+                    {l.label}
+                    <Icon name="arrow" size={15} />
+                  </a>
+                </li>
+              ))
+          }
+        </ul>
+      </div>
+    </aside>
+
+    <article class="legal__body prose" data-legal data-reveal>
+      <slot />
+    </article>
+  </div>
+</section>

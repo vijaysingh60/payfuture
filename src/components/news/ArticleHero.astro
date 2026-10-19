@@ -1,0 +1,33 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  title: string;
+  crumbs: { label: string; href?: string }[];
+  meta: string[];
+}
+const { title, crumbs, meta } = Astro.props;
+---
+
+<section class="ph ph--solo ph--article" data-page-hero data-glow-area>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true" data-glow></div>
+  <div class="container ph__inner">
+    <div class="ph__copy">
+      <nav class="crumbs" aria-label="Breadcrumb" data-ph-fade>
+        {
+          crumbs.map((c, i) => (
+            <>
+              {i > 0 && <Icon name="arrow" size={14} />}
+              {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            </>
+          ))
+        }
+      </nav>
+      <h1 class="ph__title ph__title--article">{title}</h1>
+      <ul class="ph__meta" data-ph-fade>
+        {meta.map((m) => <li>{m}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

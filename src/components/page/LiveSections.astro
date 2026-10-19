@@ -1,0 +1,74 @@
+---
+import Icon from '../Icon.astro';
+import SectionHead from './SectionHead.astro';
+import FeatureGrid from './FeatureGrid.astro';
+import { iconFor, type LiveSection } from '../../lib/live';
+import { routes } from '../../data/site';
+
+interface Props {
+  sections: LiveSection[];
+}
+const { sections } = Astro.props;
+// The first card section goes dark for rhythm; the rest alternate white and soft.
+const firstCards = sections.findIndex((s) => s.cards.length >= 2);
+---
+
+{
+  sections.map((s, i) => {
+    const hasCards = s.cards.length >= 2;
+    const dark = hasCards && i === firstCards;
+    const soft = !dark && i % 2 === 1;
+    const checks = [...s.bullets, ...s.tiles];
+    const [first, ...rest] = s.text;
+    const cols = s.cards.length === 2 ? 2 : s.cards.length === 4 ? 4 : 3;
+    // Normal section titles are headings; statement-style pages put the first paragraph in a highlight line.
+    const statementOnly = !hasCards && checks.length === 0;
+    if (!s.title && !hasCards && !s.text.length && !checks.length) return null;
+    return (
+      <section class={`section${dark ? ' section--dark' : soft ? ' section--soft' : ''}`}>
+        <div class={`container${statementOnly ? ' narrow' : ''}`}>
+          {hasCards ? (
+            <>
+              <SectionHead eyebrow={s.eyebrow ?? undefined} title={s.title ?? ''} text={first} light={dark} />
+              <FeatureGrid
+                items={s.cards.map((c) => ({ icon: iconFor(`${c.title} ${c.text}`), title: c.title, text: c.text }))}
+                cols={cols as 2 | 3 | 4}
+                variant={dark ? 'glass' : 'light'}
+              />
+              {rest.length > 0 && rest.map((p) => <p class="lead muted live__more" data-reveal>{p}</p>)}
+            </>
+          ) : statementOnly ? (
+            <>
+              {s.eyebrow && <span class="pill" data-reveal>{s.eyebrow}</span>}
+              {s.title && <h2 class="display display--dark" data-split>{s.title}</h2>}
+              {first && <p class="statement statement--left statement--tight" data-highlight>{first}</p>}
+              {rest.map((p) => <p class="lead muted live__more" data-reveal>{p}</p>)}
+            </>
+          ) : (
+            <>
+              <SectionHead eyebrow={s.eyebrow ?? undefined} title={s.title ?? ''} text={s.text} />
+            </>
+          )}
+          {checks.length > 0 && (
+            <ul class={`checkgrid${checks.length > 3 ? ' checkgrid--2' : ''}`} data-inview>
+              {checks.map((c, k) => (
+                <li style={`--i:${k}`} data-reveal>
+                  <span class="ticklist__mark"><Icon name="check" size={14} /></span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.cta && (
+            <div class="center" data-reveal>
+              <a class="btn" href={routes.contact}>
+                {s.cta.replace(/\s*→\s*$/, '')}
+                <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })
+}

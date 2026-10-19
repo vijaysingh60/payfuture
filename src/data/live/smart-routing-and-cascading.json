@@ -1,0 +1,129 @@
+{
+ "title": "Smart Routing & Cascading for Global Payments",
+ "lead": [
+  "Increase approval rates, reduce failed payments, and improve customer experience with automated routing logic across multiple processors.",
+  "Smart routing is a payment optimisation method that automatically chooses the best-performing processor for each transaction based on region, payment method, currency, and live performance data.",
+  "Cascading provides backup logic: when a transaction fails or times out at the first processor, it is automatically retried with alternative processors to prevent declines and recover revenue."
+ ],
+ "cta": "Talk to the solutions team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "How smart routing works",
+   "text": [],
+   "cards": [
+    {
+     "title": "Analyse and route",
+     "text": "Every transaction enters the routing layer, where key data points such as MID, payment type, base currency and destination currency are analysed in real time. The system then routes the payment to the processor with the highest approval probability."
+    },
+    {
+     "title": "Cascade if needed",
+     "text": "If the first attempt declines or times out, cascading automatically reroutes the transaction to a backup processor. This helps prevent unnecessary failures caused by outages, latency or processor issues."
+    },
+    {
+     "title": "Complete without disruption",
+     "text": "The transaction is completed seamlessly, with no visible disruption to the customer. That means fewer failed payments, lower checkout abandonment and less lost revenue."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "How cascading improves approval rates",
+   "text": [],
+   "cards": [
+    {
+     "title": "Dynamic routing",
+     "text": "Optimised per transaction, not fixed."
+    },
+    {
+     "title": "Cascading retries",
+     "text": "Failures don’t stop the payment."
+    },
+    {
+     "title": "Regional optimisation",
+     "text": "Approval logic tailored by market."
+    },
+    {
+     "title": "Global scalability",
+     "text": "Lower decline risk when expanding."
+    }
+   ],
+   "bullets": [],
+   "tiles": [
+    "Why Payfuture"
+   ],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Built for businesses like yours",
+   "text": [],
+   "cards": [],
+   "bullets": [
+    "High-volume global eCommerce merchants",
+    "Marketplaces operating across multiple regions",
+    "Businesses scaling into emerging markets",
+    "Merchants experiencing false declines or inconsistent approval rates"
+   ],
+   "tiles": [
+    "Talk to the team"
+   ],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Proven in high-growth markets",
+   "text": [],
+   "cards": [],
+   "bullets": [
+    "India, LATAM, MENA, Africa, Southeast Asia",
+    "Regions with varied issuer and PSP performance",
+    "Markets where a single processor creates dependency risk"
+   ],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "FAQ",
+   "text": [],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [
+  {
+   "q": "What is smart routing in payments?",
+   "a": "Smart routing selects the optimal payment processor for each transaction based on base currency, Payment type, MID, destination currency and performance data to maximise approval rates."
+  },
+  {
+   "q": "What is cascading in payments?",
+   "a": "Cascading is a fallback mechanism that automatically retries a failed transaction with alternative processors."
+  },
+  {
+   "q": "Does cascading charge a customer multiple times?",
+   "a": "No. The routing logic selects alternative processors for authorisation without duplicating charges."
+  },
+  {
+   "q": "Can this be used globally?",
+   "a": "Yes. It is effective worldwide and particularly valuable in emerging markets where approval rates vary by processor."
+  },
+  {
+   "q": "Does this reduce payment failures?",
+   "a": "Yes. It helps avoid unnecessary declines, network outages, and processor-specific performance drops."
+  },
+  {
+   "q": "Why is routing important for emerging markets?",
+   "a": "In markets like India, LATAM, MENA, Africa, and Southeast Asia, issuer behavior and processor performance can vary a lot, so routing logic helps improve consistency."
+  }
+ ],
+ "faqTitle": "FAQ",
+ "slug": "smart-routing-and-cascading",
+ "group": "solutions",
+ "wpTitle": "Smart routing and cascading"
+}

@@ -14,7 +14,7 @@ import { who, growth } from '../data/home';
       {
         who.items.map((item, i) => (
           <li data-reveal>
-            <a class="row" href="#who-we-work-with" data-row={item.img}>
+            <a class="row" href={item.href ?? '#who-we-work-with'} data-row={item.img}>
               <span class="row__num">{String(i + 1).padStart(2, '0')}</span>
               <span class="row__name">{item.name}</span>
               <img class="row__thumb" src={item.img} alt="" loading="lazy" />

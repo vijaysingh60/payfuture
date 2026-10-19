@@ -1,0 +1,39 @@
+{
+ "title": "Maximise revenue, minimise losses",
+ "lead": [
+  "Every lost transaction is a missed opportunity. Payfuture’s conversion recovery solution re-engages customers in real-time, offering alternative payment options and personalised support to reduce cart abandonment and maximise revenue."
+ ],
+ "cta": "Learn more",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Key features of Payfuture’s conversion recovery",
+   "text": [],
+   "cards": [
+    {
+     "title": "Approval optimisation",
+     "text": "Using AI-driven routing, Payfuture’s platform intelligently rerouts transactions through optimised pathways, increasing the chances of approval."
+    },
+    {
+     "title": "Re-engages customers before they leave",
+     "text": "Our conversion recovery solution uses real-time tools like chatbots and support teams to engage customers at risk of abandoning their cart, increasing conversions and reducing drop-offs."
+    },
+    {
+     "title": "Localised checkout page",
+     "text": "Each checkout experience is tailored to the local market, increasing trust and reducing friction by displaying familiar payment options in the user’s language and currency."
+    },
+    {
+     "title": "Propietary A/B testing mechanism",
+     "text": "Our built-in A/B testing tool helps you understand what drives conversions—testing variations in design, layout, and button styles to optimise your checkout for revenue performance."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "recovery",
+ "group": "solutions",
+ "wpTitle": "Recovery"
+}

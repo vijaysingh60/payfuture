@@ -1,0 +1,15 @@
+---
+import { countries, type Country } from '../../data/countries';
+
+interface Props {
+  country: Country;
+}
+const { country: c } = Astro.props;
+// Every corridor marker, so nearby markets and arcs show around the focused country.
+const markers = countries.map((x) => ({ name: x.name, lon: x.lon, lat: x.lat }));
+---
+
+<div class="cglobe" aria-hidden="true">
+  <div class="reach__halo"></div>
+  <canvas data-globe data-focus={c.name} data-markets={JSON.stringify(markers)}></canvas>
+</div>

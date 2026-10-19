@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { routes } from '../data/site';
+
+const suggestions = [
+  { label: 'Solutions', href: routes.solutions, text: 'How money moves in and out of five corridors' },
+  { label: 'Countries and corridors', href: routes.corridors, text: 'Where Payfuture delivers local currency' },
+  { label: 'Newsroom', href: routes.newsroom, text: 'Announcements, partnerships and insight' },
+  { label: 'Contact', href: routes.contact, text: 'Tell us the corridor and the direction' },
+];
+---
+
+<Base title="Page not found | Payfuture" description="This page doesn’t exist, but your money’s route probably does.">
+  <section class="ph ph--solo ph--404" data-page-hero data-glow-area>
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__glow" aria-hidden="true" data-glow></div>
+    <div class="container ph__inner">
+      <div class="ph__copy">
+        <span class="announce announce--static" data-ph-fade><span class="announce__dot"></span>Error 404</span>
+        <p class="e404" aria-hidden="true" data-ph-fade>4<span>0</span>4</p>
+        <h1 class="ph__title" aria-label="This route doesn’t exist.">
+          <span class="mask"><span data-ph-word>This</span></span>
+          <span class="mask"><span data-ph-word>route</span></span>
+          <span class="mask"><span class="accent" data-ph-word>doesn’t</span></span>
+          <span class="mask"><span class="accent" data-ph-word>exist.</span></span>
+        </h1>
+        <p class="ph__text" data-ph-fade>The page you’re looking for has moved or never existed. Try one of these instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="cgrid__list cgrid__list--4">
+        {
+          suggestions.map((s) => (
+            <li data-reveal>
+              <a class="ccard" href={s.href}>
+                <h3>{s.label}</h3>
+                <p>{s.text}</p>
+                <span class="link-arrow">Go <Icon name="arrow" size={16} /></span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

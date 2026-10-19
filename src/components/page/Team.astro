@@ -16,9 +16,11 @@ const { people } = Astro.props;
         </div>
         <h3>{p.name}</h3>
         <p>{p.role}</p>
-        <a class="person__link" href={p.linkedin ?? '#'} aria-label={`${p.name} on LinkedIn`}>
-          <Icon name="linkedin" size={18} />
-        </a>
+        {p.linkedin && (
+          <a class="person__link" href={p.linkedin} aria-label={`${p.name} on LinkedIn`} target="_blank" rel="noopener noreferrer">
+            <Icon name="linkedin" size={18} />
+          </a>
+        )}
       </li>
     ))
   }

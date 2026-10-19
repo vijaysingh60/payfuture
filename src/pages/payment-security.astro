@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/page/PageHero.astro';
+import SectionHead from '../components/page/SectionHead.astro';
+import FeatureGrid from '../components/page/FeatureGrid.astro';
+import ScreeningPanel from '../components/page/ScreeningPanel.astro';
+import CtaBand from '../components/page/CtaBand.astro';
+import { hero, tools, mitigate, closing } from '../data/security';
+---
+
+<Base title="Payment security | Payfuture" description="Smart fraud detection and risk management across emerging markets.">
+  <PageHero eyebrow={hero.eyebrow} title={hero.title} text={hero.text} cta={hero.cta}>
+    <ScreeningPanel slot="visual" />
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={tools.title} />
+      <FeatureGrid items={tools.items} cols={4} />
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead title={mitigate.title} light />
+      <FeatureGrid items={mitigate.items} cols={3} variant="glass" />
+    </div>
+  </section>
+
+  <CtaBand title={closing.title} cta={closing.cta} />
+</Base>

@@ -1,0 +1,32 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  icons: string[];
+  /** Small label under the centre mark. */
+  label?: string;
+}
+const { icons, label = 'One integration' } = Astro.props;
+const ring = icons.slice(0, 6);
+---
+
+<div class="orbit2" aria-hidden="true">
+  <span class="orbit2__core">
+    <img src="/img/favicon.png" alt="" />
+    <small>{label}</small>
+  </span>
+  <span class="orbit2__ring orbit2__ring--a"></span>
+  <span class="orbit2__ring orbit2__ring--b"></span>
+  <div class="orbit2__spin">
+    {
+      ring.map((name, i) => (
+        <span class="orbit2__node" style={`--a:${(360 / ring.length) * i}deg`}>
+          <span class="orbit2__tile">
+            <Icon name={name} size={24} />
+          </span>
+        </span>
+      ))
+    }
+  </div>
+  <span class="orbit2__pulse"></span>
+</div>

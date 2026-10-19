@@ -1,0 +1,57 @@
+---
+import Icon from '../Icon.astro';
+import PostCard from './PostCard.astro';
+import { categoryHref, type Cat, type Post } from '../../lib/sanity';
+
+interface Props {
+  posts: Post[];
+  categories: Cat[];
+  active?: string;
+  /** Show the newest post as a large card above the grid. */
+  featureFirst?: boolean;
+}
+const { posts, categories, active, featureFirst = false } = Astro.props;
+const shown = categories.filter((c) => c.slug !== 'uncategorized');
+const [first, ...rest] = posts;
+const list = featureFirst && first ? rest : posts;
+---
+
+<div class="news" data-news>
+  {
+    featureFirst && first && (
+      <ul class="news__featured">
+        <PostCard post={first} featured />
+      </ul>
+    )
+  }
+
+  <div class="news__bar" data-reveal>
+    <nav class="news__cats" aria-label="Categories">
+      <a class={`news__cat${!active ? ' is-active' : ''}`} href="/newsroom/">All</a>
+      {
+        shown.map((c) => (
+          <a class={`news__cat${active === c.slug ? ' is-active' : ''}`} href={categoryHref(c.slug)}>
+            {c.title} <small>{c.count}</small>
+          </a>
+        ))
+      }
+    </nav>
+    <label class="finder__search news__search">
+      <span class="sr-only">Search news</span>
+      <Icon name="search" size={18} />
+      <input type="search" placeholder="Search news…" autocomplete="off" data-news-search />
+    </label>
+  </div>
+
+  <ul class="news__grid" data-news-list>
+    {list.map((p) => <PostCard post={p} />)}
+  </ul>
+
+  <p class="news__empty" data-news-empty hidden>No stories match that search.</p>
+  <div class="center" data-news-more-wrap>
+    <button class="btn" type="button" data-news-more>
+      Load more
+      <span class="btn__arrow"><Icon name="plus" size={16} /></span>
+    </button>
+  </div>
+</div>

@@ -344,3 +344,221 @@ export function initBatch() {
     });
   });
 }
+
+/* Contact: each office card shows its local time, ticking once a second. */
+export function initOfficeClocks() {
+  const offices = $$('[data-office]');
+  if (!offices.length) return;
+  const tick = () => {
+    const now = new Date();
+    offices.forEach((o) => {
+      const tz = o.dataset.tz!;
+      const time = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+      const day = new Intl.DateTimeFormat('en-GB', { timeZone: tz, weekday: 'short', day: 'numeric', month: 'short' }).format(now);
+      const hour = Number(time.slice(0, 2));
+      // Daylight cards are bright, night cards dim, so the four offices read as a sweep around the world.
+      o.classList.toggle('is-night', hour < 7 || hour >= 20);
+      const t = $('[data-office-time]', o)!;
+      const d = $('[data-office-day]', o)!;
+      if (t.textContent !== time) t.textContent = time;
+      if (d.textContent !== day) d.textContent = day;
+    });
+  };
+  tick();
+  window.setInterval(tick, 1000);
+}
+
+/* Contact form: validate in place, then swap to an animated confirmation. Nothing is sent yet. */
+export function initContactForm() {
+  const form = $<HTMLFormElement>('[data-contact-form]');
+  const done = $('[data-contact-done]');
+  if (!form || !done) return;
+
+  const fields = $$<HTMLInputElement>('input[required]', form);
+  const invalid = (input: HTMLInputElement) => !input.checkValidity() || !input.value.trim();
+  const mark = (input: HTMLInputElement) => input.closest('.field')?.classList.toggle('is-invalid', invalid(input));
+
+  fields.forEach((input) => {
+    input.addEventListener('blur', () => mark(input));
+    input.addEventListener('input', () => input.closest('.field')?.classList.contains('is-invalid') && mark(input));
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const bad = fields.filter((i) => invalid(i));
+    fields.forEach(mark);
+    if (bad.length) {
+      bad[0].focus();
+      if (!reducedMotion) gsap.fromTo(form, { x: -8 }, { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.35)' });
+      return;
+    }
+
+    // Replace this block with the real submission (HubSpot form or API) when the backend is chosen.
+    form.hidden = true;
+    done.hidden = false;
+    const ring = $('circle', done);
+    const tick = $('path', done);
+    if (reducedMotion) return;
+    gsap.fromTo(done, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+    gsap.fromTo(ring, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut' });
+    gsap.fromTo(tick, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, delay: 0.55, ease: 'power2.out' });
+  });
+
+  $('[data-contact-again]', done)?.addEventListener('click', () => {
+    form.reset();
+    fields.forEach((i) => i.closest('.field')?.classList.remove('is-invalid'));
+    done.hidden = true;
+    form.hidden = false;
+  });
+}
+
+/* Contents list that highlights the section being read. Shared by legal documents and articles. */
+function bindToc() {
+  const links = $$<HTMLAnchorElement>('[data-toc-link]');
+  const heads = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean) as HTMLElement[];
+  if (!heads.length) return;
+  const update = () => {
+    const y = window.scrollY + window.innerHeight * 0.28;
+    let current = 0;
+    heads.forEach((h, i) => {
+      if (h.getBoundingClientRect().top + window.scrollY <= y) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('is-active', i === current));
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+
+const wrapTables = (root: HTMLElement) =>
+  $$('table', root).forEach((t) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    t.replaceWith(wrap);
+    wrap.append(t);
+  });
+
+/* Legal documents: numbered clauses get a hanging number, tables scroll sideways, the contents list follows the reader. */
+export function initLegal() {
+  const body = $('[data-legal]');
+  if (!body) return;
+
+  // "2.2.1. Text" -> number in its own column. Depth follows the number of dots.
+  $$('p', body).forEach((p) => {
+    const m = p.innerHTML.match(/^\s*(\d+(?:\.\d+)+)\.?\s+([\s\S]+)$/);
+    if (!m) return;
+    const depth = Math.min(3, m[1].split('.').length - 1);
+    p.classList.add('clause', `clause--${depth}`);
+    p.style.setProperty('--cw', `${m[1].length * 9 + 22}px`);
+    p.innerHTML = `<span class="clause__n">${m[1]}.</span><span>${m[2]}</span>`;
+  });
+  wrapTables(body);
+  bindToc();
+}
+
+/* News articles and events: scrolling tables, contents list, share buttons. */
+export function initProse() {
+  const body = $('[data-prose]');
+  if (!body) return;
+  wrapTables(body);
+  bindToc();
+
+  // Datawrapper charts announce their natural height; resize the matching frame so nothing is cut off or padded.
+  window.addEventListener('message', (e) => {
+    const h = e.data?.['datawrapper-height'];
+    if (!h || typeof h !== 'object') return;
+    $$<HTMLIFrameElement>('.embed--chart iframe', body).forEach((f) => {
+      if (f.contentWindow !== e.source) return;
+      const next = Object.values(h as Record<string, number>)[0];
+      if (next) f.style.height = `${next}px`;
+    });
+  });
+
+  const share = $('[data-share]');
+  if (!share) return;
+  const url = location.origin + share.dataset.path!;
+  const title = share.dataset.title!;
+  $<HTMLAnchorElement>('[data-share-linkedin]', share)!.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+  $<HTMLAnchorElement>('[data-share-x]', share)!.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+  $('[data-share-copy]', share)!.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      return;
+    }
+    share.classList.add('is-copied');
+    window.setTimeout(() => share.classList.remove('is-copied'), 1600);
+  });
+}
+
+/* Newsroom list: live search plus "load more" in pages of nine. */
+export function initNewsList() {
+  const root = $('[data-news]');
+  if (!root) return;
+  const cards = $$('[data-news-card]', $('[data-news-list]', root)!);
+  const input = $<HTMLInputElement>('[data-news-search]', root);
+  const more = $<HTMLButtonElement>('[data-news-more]', root);
+  const moreWrap = $('[data-news-more-wrap]', root);
+  const empty = $('[data-news-empty]', root);
+  const PAGE = 9;
+  let limit = PAGE;
+
+  const render = () => {
+    const q = (input?.value ?? '').trim().toLowerCase();
+    const matches = cards.filter((c) => !q || c.dataset.search!.includes(q));
+    cards.forEach((c) => (c.hidden = true));
+    matches.slice(0, limit).forEach((c) => (c.hidden = false));
+    if (moreWrap) moreWrap.hidden = matches.length <= limit;
+    if (empty) empty.hidden = matches.length > 0;
+  };
+  input?.addEventListener('input', () => {
+    limit = PAGE;
+    render();
+  });
+  more?.addEventListener('click', () => {
+    const before = limit;
+    limit += PAGE;
+    render();
+    if (!reducedMotion) {
+      const fresh = cards.filter((c) => !c.hidden).slice(before);
+      gsap.fromTo(fresh, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: 'power3.out', clearProps: 'transform,opacity' });
+    }
+  });
+  render();
+}
+
+/* Events: upcoming events float to the top under their own heading; the rest follow as "Past events". */
+export function initEvents() {
+  const list = $('[data-events]');
+  if (!list) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const items = $$('[data-event]', list);
+  const upcoming = items.filter((e) => e.dataset.end! >= today).sort((a, b) => a.dataset.start!.localeCompare(b.dataset.start!));
+  const past = items.filter((e) => e.dataset.end! < today);
+  const label = (text: string) => {
+    const li = document.createElement('li');
+    li.className = 'events__label';
+    li.textContent = text;
+    return li;
+  };
+  upcoming.forEach((e) => ($('[data-event-badge]', e)!.hidden = false));
+  list.replaceChildren(...(upcoming.length ? [label('Upcoming'), ...upcoming] : []), ...(past.length ? [label('Past events'), ...past] : []));
+}
+
+/* Culture panels: hover, focus or tap opens one. */
+export function initValues() {
+  $$('[data-values]').forEach((root) => {
+    const items = $$('.value', root);
+    const open = (index: number) =>
+      items.forEach((li, i) => {
+        li.classList.toggle('is-open', i === index);
+        $('button', li)!.setAttribute('aria-expanded', String(i === index));
+      });
+    items.forEach((li, i) => {
+      const btn = $('button', li)!;
+      if (canHover) li.addEventListener('pointerenter', () => open(i));
+      btn.addEventListener('focus', () => open(i));
+      btn.addEventListener('click', () => open(i));
+    });
+  });
+}

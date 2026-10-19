@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import NewsBrowser from '../../components/news/NewsBrowser.astro';
+import { getPosts, getCategories } from '../../lib/sanity';
+
+const [posts, categories] = await Promise.all([getPosts(), getCategories()]);
+---
+
+<Base title="Newsroom | Payfuture" description="News, press releases and insights from Payfuture on cross-border and stablecoin payments in emerging markets.">
+  <PageHero title="The *newsroom*" text="Announcements, partnerships and insight on moving money in and out of emerging markets." secondary={{ label: 'Upcoming events', href: '/newsroom/events/' }} />
+  <section class="section news-section">
+    <div class="container">
+      <NewsBrowser posts={posts} categories={categories} featureFirst />
+    </div>
+  </section>
+</Base>

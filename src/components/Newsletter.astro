@@ -1,15 +1,25 @@
 ---
 import Icon from './Icon.astro';
+import { routes } from '../data/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+  id?: string;
+}
+const {
+  title = 'Don’t miss a thing!',
+  text = 'Stay ahead of the curve! Subscribe to our newsletter for the latest news, tips, and updates from Payfuture.',
+  id = 'newsletter',
+} = Astro.props;
 ---
 
-<section class="newsletter-section" id="contact">
+<section class="newsletter-section" {id}>
   <div class="container">
     <div class="newsletter" data-reveal="scale">
       <div class="newsletter__copy">
-        <h2 class="display" data-split>Don’t miss a thing!</h2>
-        <p>
-          Stay ahead of the curve! Subscribe to our newsletter for the latest news, tips, and updates from Payfuture.
-        </p>
+        <h2 class="display" data-split>{title}</h2>
+        <p>{text}</p>
       </div>
 
       <div class="newsletter__phone">
@@ -32,7 +42,7 @@ import Icon from './Icon.astro';
           <input type="email" name="email" placeholder="Enter your Email*" required autocomplete="email" />
         </label>
         <p class="form__note">
-          By Submitting your information you confirm that you have read Payfuture’s <a href="#contact"
+          By Submitting your information you confirm that you have read Payfuture’s <a href={routes.privacy}
             >Privacy Policy</a
           > and agree to the use of your data in all Payfuture communications.
         </p>

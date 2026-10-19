@@ -7,6 +7,13 @@ import {
   initCoinFlow,
   initCorridorFinder,
   initGlowAreas,
+  initLegal,
+  initProse,
+  initNewsList,
+  initEvents,
+  initValues,
+  initOfficeClocks,
+  initContactForm,
   initInView,
   initPageHero,
   initSteps,
@@ -399,12 +406,14 @@ function initGlobalReach() {
         io.disconnect();
         const { initGlobe } = await import('./globe');
         globe = initGlobe(canvas, JSON.parse(canvas.dataset.markets || '[]'), reducedMotion);
+        // Country pages open with the globe already turned to their market.
+        if (canvas.dataset.focus) globe.focus(canvas.dataset.focus);
       },
       { rootMargin: '600px' },
     );
     io.observe(canvas);
 
-    if (!reducedMotion) {
+    if (!reducedMotion && $('.reach')) {
       gsap.from('.reach__visual', {
         scale: 0.8,
         rotate: -12,
@@ -512,6 +521,13 @@ initTabs();
 initCorridorFinder();
 initCoinFlow();
 initBatch();
+initOfficeClocks();
+initContactForm();
+initLegal();
+initProse();
+initNewsList();
+initEvents();
+initValues();
 initGlowAreas();
 initTilt();
 initCounters();

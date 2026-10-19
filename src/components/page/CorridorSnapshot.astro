@@ -1,0 +1,47 @@
+---
+import Icon from '../Icon.astro';
+import { snapshotTbc, type Country } from '../../data/countries';
+
+interface Props {
+  country: Country;
+}
+const { country: c } = Astro.props;
+
+const rows: { label: string; value?: string }[] = [
+  { label: 'Local currency', value: c.code },
+  { label: 'Direction', value: 'Money in, money out or both' },
+  { label: 'Rails', value: 'Fiat, or stablecoins where your jurisdiction allows' },
+  { label: 'Payout methods', value: c.methods.length ? c.methods.map((m) => m.name).join(' · ') : undefined },
+  ...snapshotTbc.map((label) => ({ label })),
+];
+---
+
+<div class="snap" data-inview>
+  <div class="snap__head">
+    <img src={c.flag} alt="" />
+    <span>
+      <strong>{c.name}</strong>
+      <small>Corridor snapshot</small>
+    </span>
+    <span class="snap__code">{c.code}</span>
+  </div>
+  <dl class="snap__rows">
+    {
+      rows.map((r, i) => (
+        <div class="snap__row" style={`--i:${i}`}>
+          <dt>{r.label}</dt>
+          <dd>
+            {r.value ? (
+              r.value
+            ) : (
+              <span class="tbc" title="Awaiting confirmation from Payfuture">
+                <Icon name="clock" size={14} />
+                To be confirmed
+              </span>
+            )}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>

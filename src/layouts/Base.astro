@@ -14,8 +14,17 @@ interface Props {
   intro?: boolean;
   /** Preload the hero image so it is ready when the intro reveals it. */
   preload?: string;
+  /** Social share image, as a site path or absolute URL. Defaults to a hero photo. */
+  image?: string;
+  /** Marks article pages for social cards. */
+  type?: 'website' | 'article';
 }
-const { title, description, intro = false, preload } = Astro.props;
+const { title, description, intro = false, preload, image = '/img/hero/dubai-treasury.webp', type = 'website' } = Astro.props;
+
+// The demo is hidden from search engines. Set PUBLIC_INDEXABLE=true when the site goes live.
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -25,7 +34,18 @@ const { title, description, intro = false, preload } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="robots" content={indexable ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content="Payfuture" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
     {preload && <link rel="preload" as="image" href={preload} />}
     <script is:inline>

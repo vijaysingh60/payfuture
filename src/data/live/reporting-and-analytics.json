@@ -1,0 +1,58 @@
+{
+ "title": "Smarter payment decisions with real-time insights",
+ "lead": [
+  "Get full visibility into your payment performance with real-time analytics and reporting-designed to help you act faster, reduce costs, and drive profitability."
+ ],
+ "cta": "Learn more",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "24/7 transaction monitoring for uninterrupted payment flow",
+   "text": [
+    "Payfuture’s expert monitoring team tracks transaction traffic in real time, 24/7, 365 days a year, to ensure seamless processing and rapid response to any issues. Even during peak periods, we optimise payment flows to reduce declines, prevent drop-offs, and maximise conversion."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Stay informed with real-time insights",
+   "text": [],
+   "cards": [
+    {
+     "title": "Advanced reporting tools",
+     "text": "Access powerful reporting tools to analyse individual transactions, spot trends across merchants and processors, and uncover real-time insights that drive smarter, data-led decisions."
+    },
+    {
+     "title": "Instant access to payments data",
+     "text": "Get instant access to detailed transaction, payout, reconciliation, and settlement data in an intuitive interface designed to streamline decision-making."
+    },
+    {
+     "title": "Seamless payment management",
+     "text": "Manage multiple payment methods with ease. Automate load balancing, prioritise processors, and boost productivity from a single dashboard."
+    },
+    {
+     "title": "Real-time alerts",
+     "text": "Get notified via WhatsApp, Slack, or Telegram for key issues like no transactions, high decline rates, or approval delays, helping to prevent downtime and maximise productivity."
+    },
+    {
+     "title": "Mobile-optimised dashboard",
+     "text": "Monitor approval ratios, transaction statuses, and performance metrics—anytime, anywhere—with a fully mobile-optimised dashboard."
+    },
+    {
+     "title": "Gateway technology analytics",
+     "text": "Visualise KPIs through dashboards, charts, and exportable reports—essential tools for tracking payment performance and optimising outcomes."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "reporting-and-analytics",
+ "group": "solutions",
+ "wpTitle": "Reporting and analytics"
+}

@@ -1,0 +1,22 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/page/PageHero.astro';
+import EventCard from '../../../components/news/EventCard.astro';
+import CtaBand from '../../../components/page/CtaBand.astro';
+import { getEvents } from '../../../lib/sanity';
+import { routes } from '../../../data/site';
+
+const events = await getEvents();
+---
+
+<Base title="Events | Payfuture" description="Where to meet the Payfuture team: conferences and industry events around the world.">
+  <PageHero title="Meet us at *events*" text="Our team is on the ground at payments, fintech and gaming events around the world." secondary={{ label: 'Back to the newsroom', href: '/newsroom/' }} />
+  <section class="section">
+    <div class="container">
+      <ul class="events" data-events>
+        {events.map((e) => <EventCard event={e} />)}
+      </ul>
+    </div>
+  </section>
+  <CtaBand title="Want to meet at an event?" text="Tell us which one and we’ll find a time." cta={{ label: 'Contact our team', href: routes.contact }} />
+</Base>

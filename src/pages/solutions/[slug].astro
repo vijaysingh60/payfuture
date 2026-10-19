@@ -1,0 +1,16 @@
+---
+import LivePage from '../../components/page/LivePage.astro';
+import { livePages } from '../../lib/live';
+
+export function getStaticPaths() {
+  return livePages('solutions').map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+
+<LivePage
+  page={page}
+  base="/solutions/"
+  groupLabel="Solutions"
+  closing={{ title: 'Ready to move money across emerging markets?', text: 'Tell us the corridor and the direction, and we’ll map it with you.' }}
+/>

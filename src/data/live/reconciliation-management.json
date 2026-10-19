@@ -1,0 +1,58 @@
+{
+ "title": "Keep every transaction accounted for",
+ "lead": [
+  "Reconciliation made simple. Track, verify, and align your cross-border payments in real time-with full accuracy and transparency."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Reliable reconciliation across emerging markets",
+   "text": [
+    "Without accurate reconciliation, errors go unnoticed, funds go missing, and compliance becomes harder to prove. For businesses operating in emerging markets, reconciling payments across local acquirers, varied settlement cycles, and multiple currencies is critical to ensuring operational accuracy and protecting margins."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "What makes our reconciliation solution stand out?",
+   "text": [],
+   "cards": [
+    {
+     "title": "Multi-currency support",
+     "text": "Reconcile across different currencies, factoring in FX rates, fees, and local settlement timelines."
+    },
+    {
+     "title": "Automated transaction matching",
+     "text": "Match payments with invoices, bank statements, and gateway data using configurable rules to reduce manual effort."
+    },
+    {
+     "title": "Real-time visibility",
+     "text": "Monitor reconciliation status through intuitive dashboards, enabling proactive decision-making across your team."
+    },
+    {
+     "title": "Risk and fraud mitigation",
+     "text": "Identify discrepancies and unauthorised activity by aligning real-time gateway data with internal systems."
+    },
+    {
+     "title": "Identify discrepancies and authorised activity",
+     "text": "Easily connect with a single integration for real-time data synchronisation."
+    },
+    {
+     "title": "Scalability",
+     "text": "Support higher transaction volumes across markets without adding operational complexity."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "reconciliation-management",
+ "group": "solutions",
+ "wpTitle": "Reconciliation management"
+}

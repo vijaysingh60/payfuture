@@ -1,0 +1,29 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  roles: { team: string; title: string; location: string; href: string }[];
+}
+const { roles } = Astro.props;
+---
+
+<ul class="roles">
+  {
+    roles.map((r) => (
+      <li data-reveal>
+        <a class="role" href={r.href} target="_blank" rel="noopener noreferrer">
+          <span class="role__team">{r.team}</span>
+          <span class="role__title">{r.title}</span>
+          <span class="role__loc">
+            <Icon name="pin" size={16} />
+            {r.location}
+          </span>
+          <span class="role__apply">
+            Apply now
+            <span class="role__arrow"><Icon name="arrow" size={18} /></span>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

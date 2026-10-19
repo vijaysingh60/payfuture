@@ -1,0 +1,43 @@
+{
+ "title": "Streamlined payment solutions for remittance providers",
+ "lead": [
+  "Power your remittance business with Payfuture’s seamless, cost-effective, and secure payment solutions. Increase transfer speeds, lower fees, and expand into new markets with one API integration."
+ ],
+ "cta": null,
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Accelerate your remittance business with Payfuture’s secure and scalable solutions",
+   "text": [
+    "Power your remittance business with Payfuture’s seamless, cost-effective, and secure payment solutions. Increase transfer speeds, lower fees, and expand into new markets with one API integration."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Why leading remittance providers choose Payfuture",
+   "text": [
+    "The remittance industry depends on trust and speed, but payment delays and limited payout options in emerging markets can slow growth.",
+    "At PayFuture, we empower remittance providers with secure, localised, and real-time payment solutions, ensuring faster transfers, higher transaction approval rates, and a seamless experience for senders and recipients alike.",
+    "Support for multiple currencies and cross-border transactions"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [
+    "Access 40+ emerging markets with a single integration",
+    "Localised payment solutions for pay-ins and payouts",
+    "Trusted by 250+ global merchants",
+    "AI-powered fraud prevention and risk management",
+    "24/7 merchant support and dedicated account management"
+   ],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "remittance-providers",
+ "group": "industries",
+ "wpTitle": "Remittance providers"
+}

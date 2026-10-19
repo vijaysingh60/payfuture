@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import PageHero from './PageHero.astro';
+import OrbitVisual from './OrbitVisual.astro';
+import LiveSections from './LiveSections.astro';
+import Faq from '../Faq.astro';
+import CtaBand from './CtaBand.astro';
+import { iconFor, shortName, livePages, type LivePage } from '../../lib/live';
+import { routes } from '../../data/site';
+
+interface Props {
+  page: LivePage;
+  /** Where sibling pages live, e.g. /solutions/ */
+  base: string;
+  groupLabel: string;
+  closing: { title: string; text?: string };
+}
+const { page, base, groupLabel, closing } = Astro.props;
+
+const cardTexts = page.sections.flatMap((s) => s.cards.map((c) => `${c.title} ${c.text}`));
+const icons = [...new Set([...cardTexts.map((t) => iconFor(t, 'globe')), 'globe', 'wallet', 'shield', 'route', 'chart', 'clock'])].slice(0, 6);
+const siblings = livePages(page.group).filter((p) => p.slug !== page.slug);
+const title = page.title;
+const text = page.lead.join(' ');
+---
+
+<Base title={`${shortName[page.slug] ?? title} | ${groupLabel} | Payfuture`} description={page.lead[0] ?? title}>
+  <PageHero
+    eyebrow={groupLabel}
+    title={title}
+    text={text}
+    cta={{ label: 'Talk to our team', href: routes.contact }}
+    secondary={{ label: `All ${groupLabel.toLowerCase()}`, href: base }}
+  >
+    <OrbitVisual slot="visual" icons={icons} />
+  </PageHero>
+
+  <LiveSections sections={page.sections} />
+
+  {page.faq.length > 0 && <Faq title="Frequently asked questions" items={page.faq} />}
+
+  <section class="section section--soft">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="display display--dark" data-split>Explore more {groupLabel.toLowerCase()}</h2>
+      </header>
+      <ul class="others others--cards">
+        {
+          siblings.map((p) => (
+            <li data-reveal="scale">
+              <a class="market market--light" href={`${base}${p.slug}/`}>
+                <span class="market__name">{shortName[p.slug] ?? p.title}</span>
+                <Icon name="arrow" size={16} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title={closing.title} text={closing.text} cta={{ label: 'Talk to our team', href: routes.contact }} />
+</Base>

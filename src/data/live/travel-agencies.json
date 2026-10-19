@@ -1,0 +1,41 @@
+{
+ "title": "Localised payments for travel companies",
+ "lead": [
+  "Optimise your customer's booking experience with the most popular local payment methods. Reduce failed transactions, increase bookings and expand into emerging markets with a single integration."
+ ],
+ "cta": null,
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Optimising travel payments with fast, secure, and localised solutions",
+   "text": [
+    "We solve the challenges in the travel industry by providing fast, secure, and localised payment solutions, ensuring higher conversions, lower decline rates, and seamless transactions—especially in emerging markets where global expansion is critical."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Why travel companies choose Payfuture",
+   "text": [
+    "Support for multiple currencies and cross-border transactions"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [
+    "Access 40+ emerging markets with a single integration",
+    "Localised payment solutions for pay-ins and payouts",
+    "Trusted by 250+ global merchants",
+    "AI-powered fraud prevention and risk management",
+    "24/7 merchant support and dedicated account management"
+   ],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "travel-agencies",
+ "group": "industries",
+ "wpTitle": "Travel agencies"
+}

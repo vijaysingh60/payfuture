@@ -1,0 +1,74 @@
+{
+ "title": "Faster payments across emerging markets",
+ "lead": [
+  "Payfuture connects businesses to real-time payment networks in emerging markets, ensuring funds move quickly, securely, and without disruption."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Real-time Payments Matter for Emerging Markets",
+   "text": [
+    "In fast-moving markets, payment delays cost more than time. Real-time payments help you stay competitive by delivering value immediately — improving partner trust, cash flow, and customer satisfaction.",
+    "Whether you're disbursing payouts, settling cross-border transactions, or supporting time-sensitive services, our infrastructure delivers instant, frictionless transfers that drive customer satisfaction and operational agility."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "The infrastructure your business needs for real-time growth",
+   "text": [],
+   "cards": [
+    {
+     "title": "A single API",
+     "text": "Access real-time payout capabilities with one secure API."
+    },
+    {
+     "title": "Built for emerging markets",
+     "text": "Our platforms supports the payment rails that matter the most in high growth regions."
+    },
+    {
+     "title": "Real visibility of transaction data",
+     "text": "Gain real-time visibility into each transaction for easier reporting and reconciliation."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Why businesses choose Payfuture",
+   "text": [
+    "For businesses operating in emerging markets, real-time capabilities are essential for building long-term trust. Timely payments improves cash flow, and reduces operational risk. Our real-time capabilities empower merchants to process transactions quickly and securely, building consumer confidence while improving cash flow. By combining localised checkout experiences with intelligent payment routing, we help maximise approval rates while reducing drop-offs. With faster onboarding, built-in compliance, and a deep understanding of each market’s regulatory and technical environment, we’re able to eliminate the friction that typically slows down expansion. Whether you’re launching in one country or scaling across multiple regions, Payfuture equips your business with the tools to operate efficiently and grow confidently.",
+    "Built-In compliance One integration Connect across borders Operational efficiency"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Real-time payments, real business results",
+   "text": [
+    "Deliver payments the moment they’re needed. Payfuture gives your business the speed, flexibility, and infrastructure to thrive in real-time."
+   ],
+   "cards": [],
+   "bullets": [
+    "Full compliance with regional regulations",
+    "Supports both domestic and cross-border flows",
+    "Local payout methods connected to real-time systems"
+   ],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "real-time-payments",
+ "group": "solutions",
+ "wpTitle": "Real-time payments"
+}

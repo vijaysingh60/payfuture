@@ -9,6 +9,7 @@ interface Corridor {
   codes: string;
   region: string;
   text: string;
+  href?: string;
 }
 interface Props {
   corridors: Corridor[];
@@ -65,9 +66,11 @@ const { corridors, regions, cta } = Astro.props;
           </h3>
           <small class="corridor__codes">{c.codes}</small>
           <p>{c.text}</p>
-          <a class="link-arrow" href="#">
-            View corridor <Icon name="arrow" size={16} />
-          </a>
+          {c.href && (
+            <a class="link-arrow" href={c.href}>
+              View corridor <Icon name="arrow" size={16} />
+            </a>
+          )}
         </li>
       ))
     }

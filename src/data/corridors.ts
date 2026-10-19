@@ -87,6 +87,7 @@ export const explore = {
       codes: 'CNY → INR',
       region: 'asia',
       text: 'Supplier settlements, treasury transfers and B2B payments across the China-India corridor.',
+      href: '/corridors-china-to-india-cross-border-payments/',
     },
     {
       from: 'USA',
@@ -96,6 +97,7 @@ export const explore = {
       codes: 'USD → INR',
       region: 'asia',
       text: 'Vendor, supplier and treasury payments across the USA–India corridor.',
+      href: '/corridors-usa-to-india-cross-border-payments/',
     },
   ],
   cta: { label: 'Don’t see your corridor? Talk to us', href: routes.contact },

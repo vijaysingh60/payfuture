@@ -1,0 +1,30 @@
+---
+interface Props {
+  from: { name: string; flag: string; code: string; label: string };
+  to: { name: string; flag: string; code: string; label: string };
+}
+const { from, to } = Astro.props;
+---
+
+<!-- Funds leave one flag, convert in the middle, and land at the other: the whole page in one picture. -->
+<div class="cflow" aria-hidden="true" data-inview>
+  <div class="cflow__node cflow__node--from">
+    <img src={from.flag} alt="" />
+    <strong>{from.code}</strong>
+    <small>{from.label}</small>
+  </div>
+
+  <div class="cflow__track">
+    <span class="cflow__line"></span>
+    <span class="cflow__fx"><b>FX</b><small>Payfuture rails</small></span>
+    <span class="cflow__coin cflow__coin--1">{from.code}</span>
+    <span class="cflow__coin cflow__coin--2">{from.code}</span>
+    <span class="cflow__coin cflow__coin--3">{to.code}</span>
+  </div>
+
+  <div class="cflow__node cflow__node--to">
+    <img src={to.flag} alt="" />
+    <strong>{to.code}</strong>
+    <small>{to.label}</small>
+  </div>
+</div>

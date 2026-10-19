@@ -1,0 +1,140 @@
+{
+ "title": "Accept payments globally with local payment methods",
+ "lead": [
+  "Accept payments online across emerging markets using trusted local payment methods. Improve approval rates and deliver seamless checkout experiences with Payfuture’s payment processing infrastructure."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Built for businesses expanding into emerging markets",
+   "text": [
+    "Reaching customers in emerging markets means going beyond cards. Payfuture connects you to 2.5bn+ potential shoppers through the most local payment methods—helping you offer trusted, region-specific checkout experiences that drive conversions, reduce drop-offs, and increase approval rates."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Grow globally with local payment experiences",
+   "text": [],
+   "cards": [
+    {
+     "title": "Localised payment methods",
+     "text": "Let customers pay with the methods they use every day – no matter the region."
+    },
+    {
+     "title": "Multi-currency acceptance",
+     "text": "Accept local currencies and settle in your preferred currency."
+    },
+    {
+     "title": "EMI-licensed compliance",
+     "text": "Trust a platform built to meet regulatory standards across the markets you operate in."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Why Businesses Choose Payfuture for Pay-ins",
+   "text": [
+    "Expanding into new markets shouldn’t come with unnecessary complexity. With Payfuture, you gain a reliable partner built for scale, speed, and local relevance. Our platform is designed to remove payment friction so you can focus on growth while we handle the behind-the-scenes orchestration that powers it.",
+    "Higher Approval Rates Faster Expansion Local Checkout Pages Operational Efficiency"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "One Integration. Global Reach",
+   "text": [
+    "Start accepting local payments in the markets that matter. Let Payfuture simplify your pay-ins so you can focus on growth."
+   ],
+   "cards": [],
+   "bullets": [
+    "Fast onboarding and responsive support all through a single API",
+    "70+ local payment methods across emerging markets",
+    "Protect transactions with built-in fraud prevention"
+   ],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "FAQ",
+   "text": [],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [
+  {
+   "q": "What is payment processing?",
+   "a": "Payment processing refers to the infrastructure that enables businesses to accept payments online from customers. It involves securely capturing payment details, authorising the transaction, and confirming that funds have been successfully received through cards, bank transfers, or local payment methods."
+  },
+  {
+   "q": "What does it mean to accept payments globally?",
+   "a": "Accepting payments globally means enabling customers in different countries to pay using their preferred local payment methods and currencies. This includes supporting region-specific options such as bank transfers, digital wallets, and alternative payment methods, while maintaining a consistent checkout experience."
+  },
+  {
+   "q": "What are local payment methods?",
+   "a": "Local payment methods are country-specific ways customers prefer to pay, beyond international cards. These can include bank transfers, mobile wallets, real-time payment systems, and cash-based solutions. Offering local payment methods helps improve trust, increase approval rates, and reduce checkout friction."
+  },
+  {
+   "q": "Why are local payment methods important for businesses?",
+   "a": "Local payment methods are critical for expanding into emerging markets. In many regions, card usage is limited, and customers rely on alternative payment methods. Supporting these options helps businesses increase conversions, reduce drop-offs, and deliver more relevant checkout experiences."
+  },
+  {
+   "q": "How can businesses accept payments in emerging markets?",
+   "a": "Businesses can accept payments in emerging markets by integrating with a payment processing platform that supports local payment methods, multi-currency acceptance, and region-specific payment flows. This allows businesses to reach customers in markets where traditional card payments may not be dominant."
+  },
+  {
+   "q": "What is multi-currency payment processing?",
+   "a": "Multi-currency payment processing allows businesses to accept payments in different local currencies while settling funds in a preferred currency. This simplifies global operations and helps deliver a localised experience for customers without increasing operational complexity."
+  },
+  {
+   "q": "How do payment approval rates impact revenue?",
+   "a": "Payment approval rates determine how many transactions are successfully completed. Low approval rates can lead to lost revenue due to failed or declined payments. Optimising payment processing with local methods and better routing can help improve approval rates and overall conversion."
+  },
+  {
+   "q": "What is the difference between payment processing and cross-border payments?",
+   "a": "Payment processing focuses on accepting payments from customers (pay-ins), while cross-border payments typically refer to moving funds between countries (payouts or settlement). A complete infrastructure may include both, but they serve different stages of the payment flow."
+  },
+  {
+   "q": "What industries benefit most from global payment processing?",
+   "a": "Industries that benefit most include e-commerce, gaming, forex, travel, digital services, and marketplaces. These businesses often operate across multiple regions and require reliable payment processing to serve customers in different markets."
+  },
+  {
+   "q": "How long does it take to start accepting payments?",
+   "a": "The time required depends on the integration process, compliance checks, and market coverage. With the right provider, businesses can typically start accepting payments within a short onboarding period, depending on their specific requirements and regions."
+  },
+  {
+   "q": "How do businesses ensure secure payment processing?",
+   "a": "Secure payment processing involves encryption, fraud prevention systems, transaction monitoring, and compliance with regulatory standards. Businesses should work with providers that embed these controls directly into their payment infrastructure."
+  },
+  {
+   "q": "What is a payment gateway?",
+   "a": "A payment gateway is the technology that captures and transmits payment information from the customer to the payment processor. It acts as the interface between the customer, the business, and the financial systems involved in completing the transaction."
+  },
+  {
+   "q": "Can businesses accept payments without cards?",
+   "a": "Yes, businesses can accept payments without cards by offering local payment methods such as bank transfers, wallets, and real-time payment systems. In many emerging markets, these methods are more widely used than cards."
+  },
+  {
+   "q": "What should businesses look for in a payment processing platform?",
+   "a": "Businesses should look for: Support for local payment methods, Multi-currency capabilities, Reliable approval rates, Compliance and regulatory coverage, Clear visibility across transactions."
+  }
+ ],
+ "faqTitle": "FAQ",
+ "slug": "pay-ins",
+ "group": "solutions",
+ "wpTitle": "Pay-ins"
+}

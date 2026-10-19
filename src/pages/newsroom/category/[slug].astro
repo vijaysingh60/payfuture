@@ -1,0 +1,24 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/page/PageHero.astro';
+import NewsBrowser from '../../../components/news/NewsBrowser.astro';
+import { getPosts, getCategories } from '../../../lib/sanity';
+
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  return categories.map((c) => ({ params: { slug: c.slug }, props: { category: c } }));
+}
+
+const { category } = Astro.props;
+const [all, categories] = await Promise.all([getPosts(), getCategories()]);
+const posts = all.filter((p) => p.categories?.some((c) => c.slug === category.slug));
+---
+
+<Base title={`${category.title} | Newsroom | Payfuture`} description={`Payfuture news and insight about ${category.title.toLowerCase()}.`}>
+  <PageHero title={`${category.title}`} text={`${posts.length} ${posts.length === 1 ? 'story' : 'stories'} in this category.`} secondary={{ label: 'All news', href: '/newsroom/' }} />
+  <section class="section news-section">
+    <div class="container">
+      <NewsBrowser posts={posts} categories={categories} active={category.slug} />
+    </div>
+  </section>
+</Base>

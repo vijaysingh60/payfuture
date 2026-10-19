@@ -1,15 +1,14 @@
 ---
 import Icon from './Icon.astro';
-import { footer } from '../data/site';
+import { footer, legal, routes } from '../data/site';
 ---
 
 <footer class="footer">
   <div class="container">
-    <!-- Subpages have no newsletter, so this block is their #contact target. -->
     <div class="footer__cta" id="get-started">
       <h2 data-split>Ready to <em>grow</em> in emerging markets?</h2>
       <div data-reveal>
-        <a class="btn btn--lg" href="mailto:contact@payfuture.net" data-magnetic>
+        <a class="btn btn--lg" href={routes.contact} data-magnetic>
           Get started
           <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
         </a>
@@ -36,7 +35,7 @@ import { footer } from '../data/site';
           {
             footer.socials.map((s) => (
               <li>
-                <a href="#" aria-label={s.name}>
+                <a href={s.href} aria-label={s.name} target="_blank" rel="noopener noreferrer">
                   <img src={s.icon} alt="" width="40" height="40" loading="lazy" />
                 </a>
               </li>
@@ -54,9 +53,7 @@ import { footer } from '../data/site';
   <div class="footer__bottom">
     <div class="container">
       <ul>
-        <li><a href="#">Privacy</a></li>
-        <li><a href="#">Cookies</a></li>
-        <li><a href="#">Terms and conditions</a></li>
+        {legal.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
       <p>© 2026 Payfuture Technologies LLC. All rights reserved.</p>
     </div>

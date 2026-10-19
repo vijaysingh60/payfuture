@@ -1,0 +1,171 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import SectionHead from '../../components/page/SectionHead.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import Steps from '../../components/page/Steps.astro';
+import StatCards from '../../components/page/StatCards.astro';
+import CorridorSnapshot from '../../components/page/CorridorSnapshot.astro';
+import CountryGlobe from '../../components/page/CountryGlobe.astro';
+import CtaBand from '../../components/page/CtaBand.astro';
+import { countries, crossBorder, steps, type Country } from '../../data/countries';
+import { routes } from '../../data/site';
+
+export function getStaticPaths() {
+  return countries.map((country) => ({ params: { slug: country.slug }, props: { country } }));
+}
+
+const { country: c } = Astro.props as { country: Country };
+const others = countries.filter((x) => x.slug !== c.slug);
+// "the Philippines" in running text, "India" elsewhere.
+const place = c.the ? `the ${c.name}` : c.name;
+
+// Pick an icon from the method's name.
+const iconFor = (name: string) => {
+  const n = name.toLowerCase();
+  if (/bank|net banking|attijari|cih/.test(n)) return 'building';
+  if (/card/.test(n)) return 'coins';
+  if (/voucher/.test(n)) return 'receipt';
+  if (/hub|spei|pix/.test(n)) return 'transfer';
+  return 'wallet';
+};
+---
+
+<Base
+  title={`${c.name} payments and corridor | Payfuture`}
+  description={`Money into and out of ${place} in ${c.code} on compliant fiat and stablecoin rails.`}
+>
+  <PageHero
+    eyebrow={`${c.name} · ${c.code}`}
+    title={`Money in and out of *${place}*`}
+    text={c.intro}
+    cta={{ label: 'Start in this corridor', href: routes.contact }}
+    secondary={{ label: 'All corridors', href: '/countries/' }}
+    chips={[{ icon: 'check', title: `Paid in ${c.code}`, sub: c.methods[0]?.name ?? 'Local currency' }]}
+  >
+    <CountryGlobe slot="visual" country={c} />
+  </PageHero>
+
+  <section class="section section--soft">
+    <div class="container snap-layout">
+      <div>
+        <h2 class="display display--dark" data-split>Corridor snapshot</h2>
+        <p class="lead muted" data-reveal>
+          What we can say about moving money in and out of {place} today. Anything marked “To be confirmed” is being
+          verified with Payfuture’s local partners.
+        </p>
+      </div>
+      <CorridorSnapshot country={c} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead title={`Payment methods in ${place}`} text={`The local methods Payfuture supports in ${place}.`} />
+      {
+        c.methods.length ? (
+          <FeatureGrid items={c.methods.map((m) => ({ icon: iconFor(m.name), title: m.name, text: m.detail }))} cols={c.methods.length === 1 ? 2 : 3} />
+        ) : (
+          <div class="tbc-panel" data-reveal>
+            <span class="tbc"><Icon name="clock" size={14} /> To be confirmed</span>
+            <p>The payment methods Payfuture supports in {place} will be listed here once confirmed.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead title="Key factors driving growth" />
+      {
+        c.facts.length ? (
+          <StatCards items={c.facts} />
+        ) : (
+          <div class="tbc-panel" data-reveal>
+            <span class="tbc"><Icon name="clock" size={14} /> To be confirmed</span>
+            <p>Market data for {place} will be added once confirmed.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    (c.momentum.length > 0 || c.context.length > 0) && (
+      <section class="section section--dark">
+        <div class="container">
+          <SectionHead title={`${c.name}’s digital payments momentum`} light />
+          {c.momentum.length > 0 && <StatCards items={c.momentum} dark big />}
+          <div class="momentum__text">
+            {c.context.map((p) => <p data-reveal>{p}</p>)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    (c.note || c.proof) && (
+      <section class="section">
+        <div class="container callouts">
+          {c.note && (
+            <article class="callout" data-reveal="left">
+              <span class="icon-tile"><Icon name="shield" size={22} /></span>
+              <h3>{c.note.title}</h3>
+              <p>{c.note.text}</p>
+            </article>
+          )}
+          {c.proof && (
+            <a class="callout callout--link" href={c.proof.href} data-reveal="right">
+              <span class="icon-tile icon-tile--yellow"><Icon name="check" size={22} /></span>
+              <h3>{c.proof.title}</h3>
+              <p>{c.proof.text}</p>
+              <span class="link-arrow">Read the announcement <Icon name="arrow" size={16} /></span>
+            </a>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead eyebrow="How it works" title={`From your funds to their account in ${place}`} />
+      <Steps items={steps} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2 class="display display--dark" data-split>Cross-border fund movement in {place}</h2>
+      <p class="statement statement--left statement--tight" data-highlight>{crossBorder(place)}</p>
+    </div>
+  </section>
+
+  <section class="section section--tight section--soft">
+    <div class="container">
+      <SectionHead title="Explore other corridors" />
+      <ul class="others">
+        {
+          others.map((o) => (
+            <li data-reveal="scale">
+              <a class="market market--light" href={routes.country(o.slug)}>
+                <img src={o.flag} alt="" width="26" height="26" loading="lazy" />
+                <span class="market__name">{o.name}</span>
+                <span class="market__code">{o.code}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Didn’t see your target market listed?"
+    text="Tell us where you’re looking to grow, we’ll help you get there."
+    cta={{ label: 'Contact Payfuture today', href: routes.contact }}
+  />
+</Base>

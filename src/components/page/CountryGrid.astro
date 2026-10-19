@@ -1,0 +1,46 @@
+---
+import Icon from '../Icon.astro';
+import { countries, regions } from '../../data/countries';
+import { routes } from '../../data/site';
+---
+
+<div class="cgrid" data-finder>
+  <div class="finder__bar" data-reveal>
+    <label class="finder__search">
+      <span class="sr-only">Search a country</span>
+      <Icon name="search" size={18} />
+      <input type="search" placeholder="Search a country…" autocomplete="off" data-finder-search />
+    </label>
+    <div class="finder__filters" role="group" aria-label="Filter by region">
+      {
+        regions.map((r, i) => (
+          <button type="button" class={`finder__filter${i === 0 ? ' is-active' : ''}`} data-region={r.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {r.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <ul class="cgrid__list">
+    {
+      countries.map((c) => (
+        <li data-reveal data-corridor data-region={c.region} data-search={`${c.name} ${c.code}`.toLowerCase()}>
+          <a class="ccard" href={routes.country(c.slug)}>
+            <span class="ccard__top">
+              <img src={c.flag} alt="" width="44" height="44" />
+              {c.core && <span class="ccard__core">Core corridor</span>}
+            </span>
+            <h3>{c.name}</h3>
+            <small>{c.code}</small>
+            <p>{c.methods.length ? c.methods.map((m) => m.name).join(' · ') : 'Details to be confirmed'}</p>
+            <span class="link-arrow">
+              View corridor <Icon name="arrow" size={16} />
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="finder__empty" data-finder-empty hidden>No country matches that search yet. Tell us where you’d like to grow.</p>
+</div>

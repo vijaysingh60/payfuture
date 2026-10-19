@@ -1,0 +1,58 @@
+{
+ "title": "Effortless global payouts for your business",
+ "lead": [
+  "Fast, secure, and localised payouts designed specifically for businesses operating in emerging markets."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Payouts made for emerging markets",
+   "text": [
+    "Payfuture simplifies the complexity of global disbursements. Our solution ensures fast, reliable payouts, enabling you to strengthen relationships with your customers and expand your business faster."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Built for secure, scalable, and seamless payouts",
+   "text": [],
+   "cards": [
+    {
+     "title": "Support for localised payout options",
+     "text": "Leverage the most popular local payment methods like mobile wallets and bank transfers, ensuring convenience and higher acceptance in emerging markets."
+    },
+    {
+     "title": "Fraud prevention",
+     "text": "Maintain transaction security and regulatory compliance through KYC procedures and advance fraud monitoring.."
+    },
+    {
+     "title": "Flexible settlement options",
+     "text": "Easily handle payouts in multiple local currencies while settling internationally in USD or other major currencies."
+    },
+    {
+     "title": "Fast and reliable fund transfers",
+     "text": "Disburse funds directly to beneficiaries’ cards, wallets or bank accounts, ensuring timely payments."
+    },
+    {
+     "title": "Easy-to-use reconciliation dashboard",
+     "text": "Track and manage your payouts across multiple regions using customisable dashboards and detailed reporting tools."
+    },
+    {
+     "title": "We grow with you",
+     "text": "With our payout solution you can scale your business, providing flexibility to adapt as you enter new markets."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "payouts",
+ "group": "solutions",
+ "wpTitle": "Payouts"
+}

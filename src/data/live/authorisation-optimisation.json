@@ -1,0 +1,73 @@
+{
+ "title": "Optimise every transaction for higher approvals",
+ "lead": [
+  "Boost approval rates and reduce lost revenue with data-driven authorisation strategies designed for emerging markets."
+ ],
+ "cta": "Talk to our team",
+ "sections": [
+  {
+   "eyebrow": null,
+   "title": "Turn more payment attempts into revenue",
+   "text": [
+    "Authorisation failures are a key source of revenue leakage. Payfuture’s authorisation optimisation solution combines intelligent routing, smart retry logic, adaptive authentication, and real-time monitoring to help businesses operating in emerging markets recover more transactions — and convert more customers."
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Strategies that power higher approval rates",
+   "text": [],
+   "cards": [
+    {
+     "title": "Smart payment routing",
+     "text": "Dynamically route transactions to the processors or banks with the highest likelihood of approval based on card type, issuer, and region."
+    },
+    {
+     "title": "Smart recovery tools",
+     "text": "Recover lost sales with real-time support tools that re-engage customers before they abandon checkout."
+    },
+    {
+     "title": "Fraud detection tools",
+     "text": "Prevent false declines with advanced fraud models that preserve approval rates while keeping risk low."
+    }
+   ],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Optimisations built for emerging markets",
+   "text": [
+    "In markets where card infrastructure can vary, a single failed transaction can lead to lost business. Payfuture’s authorisation optimisation strategies help you maintain continuity, reduce abandonment, and grow revenue — without increasing risk or complexity. Our tailored strategies help ensure more transactions succeed the first time. By dynamically routing payments, adapting to local payment behaviours, and monitoring approval patterns in real-time, we help businesses improve continuity, minimise cart abandonment, and drive long-term revenue.",
+    "Merchant-specific optimisation Single api integration Data-driven insights Reduce payment failures"
+   ],
+   "cards": [],
+   "bullets": [],
+   "tiles": [],
+   "cta": null
+  },
+  {
+   "eyebrow": null,
+   "title": "Reduce declines. Recover revenue. Build trust.",
+   "text": [
+    "Payfuture helps you turn declines into approvals with an optimisation engine designed for the complexity of emerging markets."
+   ],
+   "cards": [],
+   "bullets": [
+    "Improved approval rates through intelligent routing",
+    "Real-time monitoring to stay ahead of failure patterns",
+    "Market-specific checkout pages"
+   ],
+   "tiles": [],
+   "cta": null
+  }
+ ],
+ "faq": [],
+ "slug": "authorisation-optimisation",
+ "group": "solutions",
+ "wpTitle": "Authorisation optimisation"
+}

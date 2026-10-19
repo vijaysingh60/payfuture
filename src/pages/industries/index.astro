@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import CtaBand from '../../components/page/CtaBand.astro';
+import { livePages, shortName, iconFor } from '../../lib/live';
+import { routes } from '../../data/site';
+
+const pages = livePages('industries');
+---
+
+<Base title="Industries | Payfuture" description="The industries Payfuture supports with payments in emerging markets.">
+  <PageHero title="Industries we *support*" text="From remittance providers to streaming and gaming platforms, Payfuture supports businesses that need reliable payments in emerging markets." secondary={{ label: 'Our solutions', href: routes.solutions }} />
+  <section class="section">
+    <div class="container">
+      <ul class="cgrid__list">
+        {
+          pages.map((p) => (
+            <li data-reveal>
+              <a class="ccard" href={`/industries/${p.slug}/`}>
+                <span class="icon-tile"><Icon name={iconFor(p.title, 'store')} size={22} /></span>
+                <h3>{shortName[p.slug] ?? p.title}</h3>
+                <p>{p.lead[0]}</p>
+                <span class="link-arrow">Learn more <Icon name="arrow" size={16} /></span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+  <CtaBand title="Ready to grow in emerging markets?" text="Tell us where you’re looking to grow, we’ll help you get there." cta={{ label: 'Talk to our team', href: routes.contact }} />
+</Base>

@@ -1,0 +1,133 @@
+---
+import Icon from '../Icon.astro';
+import { info, offices, form } from '../../data/contact';
+---
+
+<section class="section contact">
+  <div class="container contact__inner">
+    <aside class="contact__info" data-reveal="left" data-glow-area>
+      <div class="hero__glow" aria-hidden="true" data-glow></div>
+      <h2>{info.title}</h2>
+      <p class="contact__lead">{info.text}</p>
+
+      <a class="contact__mail" href={`mailto:${info.email}`}>
+        <span class="icon-tile icon-tile--yellow"><Icon name="mail" size={22} /></span>
+        <span>
+          <small>Email address</small>
+          <strong>{info.email}</strong>
+        </span>
+        <Icon name="arrow" size={18} />
+      </a>
+
+      <h3 class="contact__sub">Our offices</h3>
+      <ul class="offices">
+        {
+          offices.map((o) => (
+            <li class="office" data-office data-tz={o.tz}>
+              <span class="office__city">
+                <strong>{o.city}</strong>
+                <small>{o.note ?? o.country}</small>
+              </span>
+              <span class="office__time" aria-label={`Local time in ${o.city}`}>
+                <b data-office-time>--:--</b>
+                <small data-office-day>&nbsp;</small>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3 class="contact__sub">Follow us</h3>
+      <ul class="contact__socials">
+        {
+          info.socials.map((s) => (
+            <li>
+              <a href={s.href} aria-label={s.name} target="_blank" rel="noopener noreferrer">
+                <img src={s.icon} alt="" width="40" height="40" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+
+    <div class="cform-wrap" data-reveal="right">
+      <form class="cform" data-contact-form novalidate>
+        <h2>{form.title}</h2>
+
+        <div class="cform__row">
+          <label class="field">
+            <span>Full name*</span>
+            <input type="text" name="name" required autocomplete="name" />
+            <em class="field__error" aria-live="polite">Please tell us your name.</em>
+          </label>
+          <label class="field">
+            <span>Work email*</span>
+            <input type="email" name="email" required autocomplete="email" />
+            <em class="field__error" aria-live="polite">Please enter a valid work email.</em>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Company*</span>
+          <input type="text" name="company" required autocomplete="organization" />
+          <em class="field__error" aria-live="polite">Please tell us your company.</em>
+        </label>
+
+        <fieldset class="chips">
+          <legend>{form.corridorsLabel}</legend>
+          <div class="chips__row">
+            {
+              form.corridors.map((c) => (
+                <label class="chip-input">
+                  <input type="checkbox" name="corridors" value={c} />
+                  <span>{c}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="chips">
+          <legend>{form.directionLabel}</legend>
+          <div class="chips__row">
+            {
+              form.directions.map((d, i) => (
+                <label class="chip-input">
+                  <input type="radio" name="direction" value={d} checked={i === 2} />
+                  <span>{d}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span>How can we help?</span>
+          <textarea name="message" rows="4"></textarea>
+        </label>
+
+        <p class="cform__note">
+          By submitting this form you agree to Payfuture’s <a href="/privacy-policy/">Privacy Policy</a>.
+        </p>
+
+        <button class="btn btn--lg" type="submit">
+          Send message
+          <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
+        </button>
+      </form>
+
+      <div class="cform-done" data-contact-done hidden role="status">
+        <svg viewBox="0 0 80 80" aria-hidden="true">
+          <circle cx="40" cy="40" r="34" pathLength="1"></circle>
+          <path d="M25 41 L36 52 L56 28" pathLength="1"></path>
+        </svg>
+        <h2>Thanks, we’ve got it.</h2>
+        <p>This demo form isn’t connected yet. In the live site, our team replies within one working day.</p>
+        <button class="link-arrow" type="button" data-contact-again>
+          Send another message <Icon name="arrow" size={16} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

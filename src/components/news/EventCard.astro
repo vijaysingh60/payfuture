@@ -1,0 +1,33 @@
+---
+import Icon from '../Icon.astro';
+import { eventHref, formatDate, sized, type EventItem } from '../../lib/sanity';
+
+interface Props {
+  event: EventItem;
+}
+const { event: e } = Astro.props;
+const start = new Date(e.startDate + 'T00:00:00Z');
+const range = e.endDate && e.endDate !== e.startDate
+  ? `${formatDate(e.startDate, { day: 'numeric' })}–${formatDate(e.endDate, { day: 'numeric', month: 'short', year: 'numeric' })}`
+  : formatDate(e.startDate);
+---
+
+<li class="ecard" data-reveal data-event data-start={e.startDate} data-end={e.endDate ?? e.startDate}>
+  <a href={eventHref(e.slug)}>
+    <span class="ecard__date">
+      <b>{formatDate(e.startDate, { day: 'numeric' })}</b>
+      <small>{formatDate(e.startDate, { month: 'short', year: 'numeric' })}</small>
+    </span>
+    <span class="ecard__body">
+      <span class="ecard__badge" data-event-badge hidden>Upcoming</span>
+      <h3>{e.title}</h3>
+      <span class="ecard__meta">
+        <span>{range}</span>
+        {e.location && <span><Icon name="pin" size={15} /> {e.location}</span>}
+      </span>
+      {e.excerpt && <p>{e.excerpt}</p>}
+    </span>
+    {e.image && <span class="ecard__img"><img src={sized(e.image, 480, 320)} alt="" loading="lazy" width="480" height="320" /></span>}
+    <span class="ecard__arrow"><Icon name="arrow" size={20} /></span>
+  </a>
+</li>

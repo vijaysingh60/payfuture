@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { hero, heroPills, heroSlides, trust } from '../data/home';
+import { routes } from '../data/site';
 
 // Each headline pill cycles through its own crops, starting on a different one.
 const first = heroSlides[0];
@@ -55,7 +56,7 @@ const logoSet = [...trust.logos, ...trust.logos];
     <p class="hero__text" data-hero-fade>{hero.text}</p>
 
     <div class="hero__actions" data-hero-fade>
-      <a class="btn btn--lg" href="#contact" data-magnetic>
+      <a class="btn btn--lg" href={routes.contact} data-magnetic>
         Get started
         <span class="btn__arrow"><Icon name="arrow" size={16} /></span>
       </a>
